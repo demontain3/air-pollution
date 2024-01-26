@@ -1,0 +1,41 @@
+import { INestApplication, Module, OnApplicationBootstrap } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { UsersModule } from './users/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SharedModule } from './modules/shared/shared.module';
+import { SettingService } from './modules/shared/services/setting.service';
+
+@Module({
+  imports: [
+    UsersModule,
+    TypeOrmModule.forRootAsync({
+      imports: [SharedModule],
+      inject: [SettingService],
+      useFactory: (settingService: SettingService) =>
+        settingService.typeOrmUseFactory,
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [AuthService],
+})
+export class AuthModule implements OnApplicationBootstrap {
+  constructor(private readonly app: INestApplication) {}
+
+  onApplicationBootstrap() {
+    this.setupSwagger();
+  }
+
+  private setupSwagger() {
+    const config = new DocumentBuilder()
+      .setTitle('Auth API')
+      .setDescription('API for authentication')
+      .setVersion('1.0')
+      .addTag('auth')
+      .build();
+
+    const document = SwaggerModule.createDocument(this.app, config);
+    SwaggerModule.setup('api/auth', this.app, document);
+  }
+}
