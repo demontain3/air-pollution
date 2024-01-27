@@ -1,0 +1,108 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+package auth;
+
+service UserService {
+    rpc CreateUser(CreateUserDto) returns (User) {}
+    rpc FindAllUsers(Empty) returns (Users) {}
+    rpc FindOneUser(FindOneUserDto) returns (User) {}
+    rpc UpdateUser(UpdateUserDto) returns (User) {}
+    rpc RemoveUser(FindOneUserDto) returns (User) {}
+    rpc UserProfileEdit(UserProfileEditDto) returns (User) {}
+    rpc UpdateProfilePicture(UpdateProfilePictureDto) returns (User) {}
+    rpc Logout(Empty) returns (Empty) {}
+    rpc VerifyOTP(VerifyOTPDto) returns (Empty) {}
+    rpc ForgotPassword(ForgotPasswordDto) returns (Empty) {}
+    rpc ResetPassword(ResetPasswordDto) returns (Empty) {}
+    rpc QueryManyUsers(QueryManyUsersDto) returns (PaginatedUsers) {}
+}
+
+message CreateUserDto {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+    string category = 4;
+}
+
+message UpdateUserDto {
+    string id = 1;
+    string email = 2;
+    string username = 3;
+    // Admin can update these fields
+    string role = 4;
+    string status = 5;
+}
+
+message UserProfileEditDto {
+    string id = 1;
+    string email = 2;
+    string username = 3;
+}
+
+message UpdateProfilePictureDto {
+    string id = 1;
+    bytes profile_picture = 2;
+}
+
+message VerifyOTPDto {
+    string id = 1;
+    string otp = 2;
+}
+
+message ForgotPasswordDto {
+    string email = 1;
+}
+
+message ResetPasswordDto {
+    string id = 1;
+    string new_password = 2;
+}
+
+message FindOneUserDto {
+    string id = 1;
+}
+
+message User {
+    string id = 1;
+    string username = 2;
+    string password = 3;
+    string email = 4;
+    string category = 5;
+    // Additional fields like role and status
+    string role = 6;
+    string status = 7;
+    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
+}
+
+message Otp{
+    string id=1;
+    string code=2;
+    google.protobuf.Timestamp expires = 3;
+    bool used = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+}
+
+message Empty {}
+
+message Users {
+    repeated User users = 1;
+}
+
+message QueryManyUsersDto {
+    int32 page_number = 1;
+    int32 page_size = 2;
+    string sort_by = 3;
+    bool ascending = 4;
+    string filter_by = 5;
+    string filter_value = 6;
+}
+
+message PaginatedUsers {
+    repeated User users = 1;
+    int32 total_users = 2;
+}
+
+
