@@ -1,6 +1,33 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserDto } from './create-user.dto';
+import { Column } from "typeorm";
+import  {UpdateProfilePictureRequest, UserProfileEditRequest, VerifyOTPRequest }  from "../../auth";
+import {  IsOptional } from "class-validator";
+export class UpdateUserDto implements UserProfileEditRequest{
+    @Column()
+    @IsOptional()
+    email: string;
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
-  id: number;
+    @Column()
+    @IsOptional()
+    username: string;
+
+    @Column()
+    @IsOptional()
+    category: string;
 }
+
+export class UpdateProfilePictureDto implements UpdateProfilePictureRequest{
+    @Column()
+    @IsOptional()
+    profilePicture: string;
+}
+
+export class UpdateUserDtoAdmin extends UpdateUserDto{
+    @Column()
+    @IsOptional()
+    role: string;
+
+    @Column()
+    @IsOptional()
+    status: string;
+}
+
