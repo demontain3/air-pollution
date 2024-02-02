@@ -29,7 +29,6 @@ export class SettingService {
 
   private getString(key: string): string {
     const value = this.get(key);
-
     return value.replace(/\\n/g, '\n');
   }
 
@@ -57,10 +56,10 @@ export class SettingService {
       database: this.getString('POSTGRES_DATABASE'),
       entities: [User],
       synchronize: true,
-      extra: {
-        ssl: true,
-        sslmode: 'require',
-      },
+      // extra: {
+      //   ssl: false,
+      //   sslmode: 'require',
+      // },
       autoLoadEntities: true,
       logging: false, // if you want to see the query log, change it to true
       // timezone: '+09:00', // if you want to use timezone, change it to your timezone

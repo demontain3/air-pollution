@@ -1,5 +1,5 @@
 import { Column } from "typeorm";
-import  {CreateUserRequest }  from "../../auth";
+import  {CreateUserRequest }  from "@app/common/index";
 import { IsNotEmpty, IsOptional } from "class-validator";
 export class CreateUserDto implements CreateUserRequest{
     @Column()

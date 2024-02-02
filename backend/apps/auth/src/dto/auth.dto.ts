@@ -1,5 +1,5 @@
 import { Column } from "typeorm";
-import { LoginRequest } from "../auth";
+import { LoginRequest } from "@app/common/index";
 import { IsEmail } from "class-validator";
 
 export class LoginDto implements LoginRequest{

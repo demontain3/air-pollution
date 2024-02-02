@@ -1,5 +1,5 @@
 import { Column } from "typeorm";
-import  {UpdateProfilePictureRequest, UserProfileEditRequest, VerifyOTPRequest }  from "../../auth";
+import  {UpdateProfilePictureRequest, UserProfileEditRequest, VerifyOTPRequest }  from "@app/common/index";
 import {  IsOptional } from "class-validator";
 export class UpdateUserDto implements UserProfileEditRequest{
     @Column()
