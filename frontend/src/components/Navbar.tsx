@@ -37,7 +37,7 @@ export function Navbar() {
   };
 
   return (
-    <div className="sticky w-full bg-green-500 bg-opacity-1 ">
+    <div className="sticky w-full bg-slate-200 drop-shadow-lg bg-opacity-1 ">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <span>
