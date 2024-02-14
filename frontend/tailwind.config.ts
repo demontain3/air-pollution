@@ -17,6 +17,14 @@ const config = {
         "2xl": "1400px",
       },
     },
+    "compilerOptions": {
+      // ...
+      "paths": {
+        "@/*": ["./src/*"],
+        // "@/*: ["./*"] <<< if not using the src/ directory
+      }
+      // ...
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",

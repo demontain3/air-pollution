@@ -1,10 +1,13 @@
-"use client";
+"use client"
 
-import React from "react";
-import { Menu, X, ChevronDown, ChevronRight, Ghost } from "lucide-react";
-import { Button } from "./ui/button";
-import logo from "@/../public/The Wind.svg";
-import Logo from "./icons/logo";
+import React from "react"
+import Link from "next/link"
+import logo from "@/../public/The Wind.svg"
+import { motion, useAnimation } from "framer-motion"
+import { Menu, X } from "lucide-react"
+
+import Logo from "./icons/logo"
+import { Button } from "./ui/button"
 
 const menuItems = [
   {
@@ -27,34 +30,73 @@ const menuItems = [
     name: "FAQs",
     href: "#",
   },
-];
+]
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const menuAnimationControls = useAnimation()
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+    setIsMenuOpen(!isMenuOpen)
+    menuAnimationControls.start(isMenuOpen ? "closed" : "open")
+  }
+
+  const menuVariants = {
+    open: {
+      opacity: 1,
+      height: "auto",
+      transition: { duration: 0.3 },
+    },
+    closed: {
+      opacity: 0,
+      height: 0,
+      transition: { duration: 0.3 },
+    },
+  }
 
   return (
-    <div className="sticky w-full bg-slate-200 drop-shadow-lg bg-opacity-1 ">
+    <motion.div
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ type: "spring", stiffness: 120 }}
+      className="bg-opacity-1 sticky top-0 z-10 w-full bg-slate-200 drop-shadow-lg"
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
-        <div className="inline-flex items-center space-x-2">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="inline-flex items-center space-x-2"
+        >
           <span>
-            <Logo />
+            <Logo height={60} width={90} />
           </span>
-        </div>
+        </motion.div>
         <div className="hidden grow items-start lg:flex">
           <ul className="ml-12 inline-flex space-x-8">
             {menuItems.map((item) => (
-              <li key={item.name} className="font-semibold">
+              <motion.li
+                key={item.name}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="font-semibold"
+              >
                 <a
                   href={item.href}
-                  className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900"
+                  className="group relative inline-flex items-center text-sm font-semibold text-gray-800"
                 >
                   {item.name}
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileHover={{
+                      width: "100%",
+                      transition: { duration: 0.3 },
+                    }}
+                    className="absolute bottom-0 left-0 h-1 w-full origin-bottom scale-x-0 transform bg-black group-hover:scale-x-100"
+                  />
                 </a>
-              </li>
+              </motion.li>
             ))}
           </ul>
         </div>
@@ -62,14 +104,14 @@ export function Navbar() {
           <Button
             type="button"
             variant="outline"
-            className="rounded-2xl text-green-500 px-6  hover:bg-green-500/10 hover:border-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            className="rounded-2xl bg-green-500 px-6 text-white hover:border-green-500 hover:bg-green-500/10 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
             Sign In
           </Button>
           <Button
             variant="ghost"
             type="button"
-            className="rounded-2xl  px-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            className="bottom-2 rounded-2xl border-2  border-primary bg-white px-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
             Log In
           </Button>
@@ -78,13 +120,18 @@ export function Navbar() {
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
         </div>
         {isMenuOpen && (
-          <div className="absolute bg-green-500 inset-x-0 top-0 z-50 origin-top-right transform p-2 transition lg:hidden">
-            <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-              <div className="px-5 pb-6 pt-5">
+          <motion.div
+            initial="closed"
+            animate="open"
+            variants={menuVariants}
+            className="absolute inset-x-0 top-0 z-50 origin-top-right transform bg-white transition lg:hidden"
+          >
+            <div className="divide-y-2 divide-gray-50 rounded-lg bg-slate-200 pt-2 shadow-lg ring-1 ring-black ring-opacity-20">
+              <div className="px-5 pb-6">
                 <div className="flex items-center justify-between">
                   <div className="inline-flex items-center space-x-2">
                     <span>
-                      <Logo />
+                      <Logo height={60} width={90} />
                     </span>
                   </div>
                   <div className="-mr-2">
@@ -98,18 +145,32 @@ export function Navbar() {
                     </button>
                   </div>
                 </div>
-                <div className="mt-6">
+
+                <div className="mt-4">
                   <nav className="grid gap-y-4">
                     {menuItems.map((item) => (
-                      <a
+                      <motion.li
                         key={item.name}
-                        href={item.href}
-                        className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold hover:bg-gray-50"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.2 }}
+                        className="relative flex list-none items-center justify-center font-semibold text-gray-800 hover:text-gray-900"
                       >
-                        <span className="ml-3 text-base font-medium text-center text-gray-900">
+                        <Link
+                          href={item.href}
+                          className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900"
+                        >
                           {item.name}
-                        </span>
-                      </a>
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileHover={{
+                              width: "100%",
+                              transition: { duration: 0.4 },
+                            }}
+                            className="absolute bottom-0 left-0 h-2 w-full bg-black"
+                          />
+                        </Link>
+                      </motion.li>
                     ))}
                   </nav>
                 </div>
@@ -122,7 +183,6 @@ export function Navbar() {
                   </Button>
                   <Button
                     variant="default"
-
                     className="w-full rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                   >
                     Log In
@@ -130,9 +190,9 @@ export function Navbar() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
-    </div>
-  );
+    </motion.div>
+  )
 }
