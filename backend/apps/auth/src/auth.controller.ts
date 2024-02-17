@@ -6,7 +6,7 @@ import { CurrentUser, User } from '@app/common';
 import { Response } from 'express';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
-@Controller()
+@Controller('api')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

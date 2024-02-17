@@ -5,16 +5,16 @@ import { CurrentUser } from '@app/common';
 import { User } from '@app/common';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
-@Controller('users')
+@Controller('api')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('signup')
   async createUser(@Body() createUser: CreateUserDto) {
     return await this.usersService.create(createUser);
   }
 
-  @Get('me')
+  @Get('user-profile')
   @UseGuards(JwtAuthGuard)
   async getUser(@CurrentUser() user: User) {
     return user;
