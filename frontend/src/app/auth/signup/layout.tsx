@@ -5,11 +5,11 @@ import "@/app/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SignIn - Air Quality Info System",
+  title: "Signup - Air Quality Info System",
   description: "Vayu is the IOT based platform for the company to monitor the air quality of the environment.",
 };
 
-export default function LoginLayout({
+export default function SigninLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

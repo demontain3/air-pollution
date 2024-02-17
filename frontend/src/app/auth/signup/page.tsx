@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import BlogWrapper from '@/components/BlogWrapper';
-import { SignIn } from '@/components/signin/page';
+import { SignUp } from '@/components/SignUp';
 import React from 'react';
 
 const page = () => {
@@ -27,7 +27,7 @@ const page = () => {
           variants={animationVariants}
           transition={animationTransition}
         >
-          <SignIn />
+          <SignUp />
         </motion.div>
       </BlogWrapper>
     </>
