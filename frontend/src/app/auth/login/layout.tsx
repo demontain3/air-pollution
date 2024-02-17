@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { Inter,  } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vayu - Air Quality Info System",
+  title: "Login - Air Quality Info System",
   description: "Vayu is the IOT based platform for the company to monitor the air quality of the environment.",
 };
 
-export default function RootLayout({
+export default function LoginLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

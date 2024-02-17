@@ -101,6 +101,7 @@ export function Navbar() {
           </ul>
         </div>
         <div className="hidden space-x-2 lg:block">
+          <Link href="/auth/signin">
           <Button
             type="button"
             variant="outline"
@@ -108,6 +109,8 @@ export function Navbar() {
           >
             Sign In
           </Button>
+          </Link>
+          <Link href="/auth/login">
           <Button
             variant="ghost"
             type="button"
@@ -115,6 +118,7 @@ export function Navbar() {
           >
             Log In
           </Button>
+          </Link>
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />

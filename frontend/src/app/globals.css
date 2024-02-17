@@ -6,6 +6,9 @@ html{
   scroll-behavior: smooth;
 }
  
+div{
+  scroll-behavior: smooth;
+}
 
 
 @layer base {
