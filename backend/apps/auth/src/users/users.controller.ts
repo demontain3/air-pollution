@@ -1,22 +1,57 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { CurrentUser } from '@app/common';
+import { CurrentUser, Roles } from '@app/common';
 import { User } from '@app/common';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { UpdateUserDto, UpdateUserDtoAdmin } from './dto/update-user.dto';
 
-@Controller('api')
+@Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('signup')
-  async createUser(@Body() createUser: CreateUserDto) {
-    return await this.usersService.create(createUser);
+  async signUp(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.create(createUserDto);
   }
 
-  @Get('user-profile')
+  @Get('me')
   @UseGuards(JwtAuthGuard)
-  async getUser(@CurrentUser() user: User) {
+  async getMe(@CurrentUser() user: User) {
     return user;
+  }
+
+  @Patch('me')
+  @UseGuards(JwtAuthGuard)
+  async updateMe(@CurrentUser() user: User, @Body() updateUserDto: UpdateUserDto) {
+    return await this.usersService.updateUser(user.id, updateUserDto);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @Roles('Admin')
+  async deleteUser(@Param('id') id: number) {
+    return await this.usersService.deleteUser(id);
+  }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @Roles('Admin')
+  async getUser(@Param('id') id: number) {
+    return await this.usersService.getUser({ id });
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @Roles('Admin')
+  async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDtoAdmin) {
+    return await this.usersService.updateUser(id, updateUserDto);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  @Roles('Admin')
+  async getAllUsers(@Query() query: any): Promise<User[]> {
+    return this.usersService.findAll(query);
   }
 }

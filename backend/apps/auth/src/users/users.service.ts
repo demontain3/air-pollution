@@ -7,8 +7,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 import * as bcrypt from 'bcryptjs';
 import { GetUserDto } from './dto/get-user.dto';
-import { Role, User } from '@app/common';
+import { ExtendedFindOptions, Role, User } from '@app/common';
 import { Status } from '@app/common';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { Between } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
@@ -47,4 +49,17 @@ export class UsersService {
   async getUser(getUserDto: GetUserDto) {
     return this.usersRepository.findOne(getUserDto);
   }
+
+  async updateUser(id: number, updateUserDto: UpdateUserDto) {
+    return this.usersRepository.findOneAndUpdate({id}, updateUserDto);
+  }
+
+  async deleteUser(id: number) {
+    return this.usersRepository.findOneAndDelete({id});
+  }
+
+  async findAll(options: ExtendedFindOptions<User>): Promise<User[]> {
+    return this.usersRepository.findAll(options);
+  }
+
 }

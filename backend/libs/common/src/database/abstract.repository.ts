@@ -1,7 +1,22 @@
 import { Logger, NotFoundException } from '@nestjs/common';
 import { AbstractEntity } from './abstract.entity';
-import { EntityManager, FindOptionsWhere, Repository } from 'typeorm';
+import {
+  EntityManager,
+  FindOptionsWhere,
+  Repository,
+} from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { FindManyOptions, Between } from 'typeorm';
+
+interface RangeCondition {
+  property: string;
+  lower: string;
+  upper: string;
+}
+export interface ExtendedFindOptions<T> extends FindManyOptions<T> {
+  range?: RangeCondition[];
+  query?: any;
+}
 
 export abstract class AbstractRepository<T extends AbstractEntity<T>> {
   protected abstract readonly logger: Logger;
@@ -14,8 +29,66 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
     return this.entityManager.save(entity);
   }
 
-  async findAll(where: FindOptionsWhere<T>): Promise<T[]> {
-    return this.entityRepository.findBy(where);
+  async findAll(options: ExtendedFindOptions<T>): Promise<T[]> {
+    // Define a list of valid properties
+    const validProperties = this.entityRepository.metadata.columns.map(column => column.propertyName);
+
+    // Construct the where clause
+    const where = Object.keys(options).reduce((conditions, key) => {
+      if (validProperties.includes(key) && key !== 'range' && key !== 'order') {
+        conditions[key] = options[key];
+      }
+      return conditions;
+    }, {} as FindOptionsWhere<T>);
+
+    if (options.range) {
+      let range = options.range;
+      if (typeof options.range === 'string') {
+        try {
+          range = JSON.parse(options.range);
+        } catch (err) {
+          throw new Error('Invalid range parameter');
+        }
+      }
+
+      if (!Array.isArray(range)) {
+        throw new Error('Range must be an array');
+      }
+
+      range.forEach((rangeCondition) => {
+        if (validProperties.includes(rangeCondition.property)) {
+         
+          where[rangeCondition.property] = Between(
+            rangeCondition.lower,
+            rangeCondition.upper,
+          );
+        }
+      });
+    }
+
+    // Extract pagination options
+    const { skip, take } = options;
+    console.log('validoptions',validProperties)
+    console.log(options)
+    
+    let orderOption = {};
+    if (options.order) {
+      console.log(Object.entries(options.order));
+      for (const [key, value] of Object.entries(options.order)) { // Changed this line
+        console.log(key, value, typeof value);
+        if (validProperties.includes(key) && typeof value === 'string') {
+          orderOption[key] = value.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+        }
+      }
+    }
+
+    // Call the find method with the constructed where clause, pagination options, and order options
+    return this.entityRepository.find({
+      where,
+      skip,
+      take,
+      order: orderOption,
+    });
   }
 
   async findOne(where: FindOptionsWhere<T>): Promise<T> {

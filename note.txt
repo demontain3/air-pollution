@@ -1,0 +1,7 @@
+for ordering                        -->localhost:8000/api/users?order[id]=DESC
+                                    -->localhost:8000/api/users?order[id]=ASC
+for range based selection           -->localhost:8000/api/users?range=[{"property":"id","lower":11,"upper":12}]&order[id]=DESC
+for multiple range based selection  -->localhost:8000/api/users?range=[{"property":"id","lower":11,"upper":12},{"property":"name","lower":"j","upper":"k"}]
+for pagination                      -->localhost:8000/api/users?skip=1&take=1
+                                        skip = no of items to skip and take = no of items to take after skip 
+for where                           -->localhost:8000/api/users?name=Amrit
