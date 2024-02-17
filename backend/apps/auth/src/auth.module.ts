@@ -4,7 +4,10 @@ import { AuthService } from './auth.service';
 import { DatabaseModule, LoggerModule } from '@app/common';
 import { UsersModule } from './users/users.module';
 import { User } from '@app/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './strategies/jwt-strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -16,8 +19,15 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: 'apps/auth/.env',
     }),
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => ({ // Make this function async
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: {expiresIn: `${configService.get('JWT_EXPIRATION')}s`}, // Corrected signOptions
+      }),
+      inject: [ConfigService], // Add this line
+    }),
 ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy, LocalStrategy],
 })
 export class AuthModule {}
