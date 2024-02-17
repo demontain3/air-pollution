@@ -110,7 +110,7 @@ export function Navbar() {
             Sign In
           </Button>
           </Link>
-          <Link href="/auth/login">
+          <Link href="/auth/signup">
           <Button
             variant="ghost"
             type="button"

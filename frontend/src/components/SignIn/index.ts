@@ -1,2 +1,1 @@
-import { SignIn } from './page';
-export default SignIn;
+export { default as SignIn } from "@/components/Signin/page";

@@ -2,8 +2,8 @@
 
 import { motion } from 'framer-motion';
 import BlogWrapper from '@/components/BlogWrapper';
-import { SignIn } from '@/components/signin/page';
 import React from 'react';
+import { SignIn } from '@/components/Signin';
 
 const page = () => {
   const animationVariants = {

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import BlogWrapper from '@/components/BlogWrapper';
-import { SignUp } from '@/components/SignUp';
+import SignUp from '@/components/Signup';
 import React from 'react';
 
 const page = () => {
