@@ -20,13 +20,14 @@ import { JwtModule } from '@nestjs/jwt';
       envFilePath: 'apps/auth/.env',
     }),
     JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => ({ // Make this function async
+      useFactory: (configService: ConfigService) => ({
+        // Make this function async
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: {expiresIn: `${configService.get('JWT_EXPIRATION')}s`}, // Corrected signOptions
+        signOptions: { expiresIn: `${configService.get('JWT_EXPIRATION')}s` }, // Corrected signOptions
       }),
       inject: [ConfigService], // Add this line
     }),
-],
+  ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, LocalStrategy],
 })

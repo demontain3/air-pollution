@@ -5,12 +5,9 @@ import { DatabaseModule, Role, User } from '@app/common';
 import { UsersRepository } from './users.repository';
 
 @Module({
-  imports:[
-    DatabaseModule,
-    DatabaseModule.forFeature([User, Role])
-  ],
+  imports: [DatabaseModule, DatabaseModule.forFeature([User, Role])],
   controllers: [UsersController],
   providers: [UsersService, UsersRepository],
-  exports:[UsersService]
+  exports: [UsersService],
 })
 export class UsersModule {}
