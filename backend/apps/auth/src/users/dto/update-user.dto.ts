@@ -1,11 +1,10 @@
 import {
   IsArray,
   IsEmail,
-  IsEnum,
   IsOptional,
   IsString,
   IsStrongPassword,
-  isEnum,
+
 } from 'class-validator';
 import { RoleDto } from './role.dto';
 import { IsStatus, Status } from '@app/common';
