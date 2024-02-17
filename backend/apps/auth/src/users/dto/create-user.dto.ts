@@ -7,7 +7,7 @@ import {
     IsStrongPassword,
   } from 'class-validator';
   
-  export class CreateUser {
+  export class CreateUserDto {
     @IsEmail()
     email: string;
   
@@ -20,4 +20,4 @@ import {
     @IsNotEmpty({ each: true })
     roles?: string[];
   }
-  
+   
