@@ -12,5 +12,5 @@ export class User extends AbstractEntity<User>{
 
     @ManyToMany(()=>Role, {cascade:true})
     @JoinTable()
-    roles?: Role;
+    roles?: Role[];
 }

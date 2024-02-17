@@ -9,18 +9,21 @@ import { TokenPayload } from '../interfaces/token-payload.interface';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly configService: ConfigService,
-    private readonly userService: UsersService,
+    private readonly usersService: UsersService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: any) => request?.cookies?.Authentication || request?.Authentication, //if req is from microservice it will come with req not cookie
+        (request: any) => 
+        request?.cookies?.Authentication || 
+        request?.headers.Authentication || 
+        request?.Authentication  //if req is from microservice it will come with req not cookie
       ]),
       secretOrKey: configService.get('JWT_SECRET'),
     });
   }
 
   async validate({ userId }: TokenPayload) {
-    return this.userService.getUser({ _id: userId });
+    return this.usersService.getUser({ id: userId });
   }
 
 }
