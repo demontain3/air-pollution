@@ -1,10 +1,6 @@
 import { Logger, NotFoundException } from '@nestjs/common';
 import { AbstractEntity } from './abstract.entity';
-import {
-  EntityManager,
-  FindOptionsWhere,
-  Repository,
-} from 'typeorm';
+import { EntityManager, FindOptionsWhere, Repository } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { FindManyOptions, Between } from 'typeorm';
 
@@ -31,7 +27,9 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
 
   async findAll(options: ExtendedFindOptions<T>): Promise<T[]> {
     // Define a list of valid properties
-    const validProperties = this.entityRepository.metadata.columns.map(column => column.propertyName);
+    const validProperties = this.entityRepository.metadata.columns.map(
+      (column) => column.propertyName,
+    );
 
     // Construct the where clause
     const where = Object.keys(options).reduce((conditions, key) => {
@@ -57,7 +55,6 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
 
       range.forEach((rangeCondition) => {
         if (validProperties.includes(rangeCondition.property)) {
-         
           where[rangeCondition.property] = Between(
             rangeCondition.lower,
             rangeCondition.upper,
@@ -68,13 +65,12 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
 
     // Extract pagination options
     const { skip, take } = options;
-    console.log('validoptions',validProperties)
-    console.log(options)
-    
+
     let orderOption = {};
     if (options.order) {
       console.log(Object.entries(options.order));
-      for (const [key, value] of Object.entries(options.order)) { // Changed this line
+      for (const [key, value] of Object.entries(options.order)) {
+        // Changed this line
         console.log(key, value, typeof value);
         if (validProperties.includes(key) && typeof value === 'string') {
           orderOption[key] = value.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';

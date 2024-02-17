@@ -20,11 +20,9 @@ export class UsersService {
     const user = new User({
       ...createUserDto,
       password: await bcrypt.hash(createUserDto.password, 10),
-      roles: createUserDto.roles?.map(
-        (roleDto) => new Role(roleDto),
-      ),
+      roles: createUserDto.roles?.map((roleDto) => new Role(roleDto)),
     });
-    user.status = Status.Live
+    user.status = Status.Live;
     return this.usersRepository.create(user);
   }
 
@@ -51,15 +49,14 @@ export class UsersService {
   }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
-    return this.usersRepository.findOneAndUpdate({id}, updateUserDto);
+    return this.usersRepository.findOneAndUpdate({ id }, updateUserDto);
   }
 
   async deleteUser(id: number) {
-    return this.usersRepository.findOneAndDelete({id});
+    return this.usersRepository.findOneAndDelete({ id });
   }
 
   async findAll(options: ExtendedFindOptions<User>): Promise<User[]> {
     return this.usersRepository.findAll(options);
   }
-
 }

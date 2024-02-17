@@ -1,35 +1,35 @@
 import {
-    IsArray,
-    IsEmail,
-    IsEnum,
-    IsOptional,
-    IsString,
-    IsStrongPassword,
-    isEnum,
-  } from 'class-validator';
+  IsArray,
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsStrongPassword,
+  isEnum,
+} from 'class-validator';
 import { RoleDto } from './role.dto';
 import { IsStatus, Status } from '@app/common';
-  
+
 export class UpdateUserDto {
-    @IsOptional()
-    @IsEmail()
-    email?: string;
-  
-    @IsOptional()
-    @IsStrongPassword()
-    password?: string;
-  
-    @IsOptional()
-    @IsString()
-    name?: string;
+  @IsOptional()
+  @IsEmail()
+  email?: string;
+
+  @IsOptional()
+  @IsStrongPassword()
+  password?: string;
+
+  @IsOptional()
+  @IsString()
+  name?: string;
 }
 
-export class UpdateUserDtoAdmin extends UpdateUserDto{
-    @IsOptional()
-    @IsArray()
-    roles?: RoleDto[];
+export class UpdateUserDtoAdmin extends UpdateUserDto {
+  @IsOptional()
+  @IsArray()
+  roles?: RoleDto[];
 
-    @IsOptional()
-    @IsStatus()
-    status?: Status;
+  @IsOptional()
+  @IsStatus()
+  status?: Status;
 }
