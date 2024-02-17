@@ -44,15 +44,15 @@ export class UsersService {
     return user;
   }
 
-  async getUser(getUserDto: GetUserDto) {
+  async getOne(getUserDto: GetUserDto) {
     return this.usersRepository.findOne(getUserDto);
   }
 
-  async updateUser(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     return this.usersRepository.findOneAndUpdate({ id }, updateUserDto);
   }
 
-  async deleteUser(id: number) {
+  async delete(id: number) {
     return this.usersRepository.findOneAndDelete({ id });
   }
 

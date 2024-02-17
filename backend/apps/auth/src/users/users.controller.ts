@@ -37,21 +37,21 @@ export class UsersController {
     @CurrentUser() user: User,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return await this.usersService.updateUser(user.id, updateUserDto);
+    return await this.usersService.update(user.id, updateUserDto);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @Roles('Admin')
   async deleteUser(@Param('id') id: number) {
-    return await this.usersService.deleteUser(id);
+    return await this.usersService.delete(id);
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @Roles('Admin')
   async getUser(@Param('id') id: number) {
-    return await this.usersService.getUser({ id });
+    return await this.usersService.getOne({ id });
   }
 
   @Patch(':id')
@@ -61,7 +61,7 @@ export class UsersController {
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDtoAdmin,
   ) {
-    return await this.usersService.updateUser(id, updateUserDto);
+    return await this.usersService.update(id, updateUserDto);
   }
 
   @Get()
