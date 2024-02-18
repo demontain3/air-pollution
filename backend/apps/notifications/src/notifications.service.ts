@@ -60,14 +60,15 @@ export class NotificationsService {
   }
 
   async sendOtpVerifyEmail(
-    { email, otp }: otpEmailDto,
+    data: otpEmailDto,
     id: number,
   ): Promise<Notification | boolean> {
     const notification = await this.notificationsRepository.findOne({ id: id });
     if (!notification) return false;
-    notification.message = notification.message.replace('temporary', otp);
+    console.log(data);
+    notification.message = notification.message.replace('temporary', data.otpCode);
     console.log(notification);
-    await this.sendEmail(notification, email);
+    await this.sendEmail(notification, data.email);
   }
 
   async sendResetPasswordEmail(

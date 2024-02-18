@@ -20,6 +20,9 @@ export class User extends AbstractEntity<User> {
   @Column({ type: 'enum', enum: Status, default: Status.Pending })
   status: Status;
 
+  @Column({ default: false })
+  is_verified: boolean;
+
   @ManyToMany(() => Role, { cascade: true, onDelete: 'CASCADE', eager: true })
   @JoinTable()
   roles?: Role[];

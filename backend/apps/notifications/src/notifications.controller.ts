@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards} from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { createNotificationsDto } from './dto/create-notification.dto';
 import { JwtAuthGuard, Roles } from '@app/common';
@@ -42,7 +42,6 @@ export class NotificationsController {
     return this.notificationsService.getOne(id);
   }
 
-  @UsePipes(new ValidationPipe())
   @EventPattern('send_otp')
   async handleSendOtpVerifyEmail(
     @Payload() data: otpEmailDto,
@@ -50,7 +49,6 @@ export class NotificationsController {
     this.notificationsService.sendOtpVerifyEmail(data, 1);
   }
 
-  @UsePipes(new ValidationPipe())
   @EventPattern('send_reset_password')
   async handleSendResetPasswordEmail(
     @Payload() data: resetPasswordEmailDto,

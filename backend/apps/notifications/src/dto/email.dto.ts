@@ -5,7 +5,7 @@ export class otpEmailDto {
     email: string;
 
     @IsString()
-    otp: string;
+    otpCode: string;
 }
 
 export class resetPasswordEmailDto {

@@ -1,4 +1,4 @@
-import { Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -6,7 +6,7 @@ import { CurrentUser, User } from '@app/common';
 import { Response } from 'express';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
-@Controller('api')
+@Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -18,6 +18,26 @@ export class AuthController {
   ) {
     const jwt = await this.authService.login(user, response);
     response.send(jwt);
+  }
+
+  @Post('request-otp')
+  async requestOtpVerify(@Body('email') email: string): Promise<boolean> {
+    return this.authService.requestOtpVerify(email);
+  }
+
+  @Post('verify-otp')
+  async verifyOtp(@Body('otpCode') otpCode: string, @Body('user') user: User): Promise<boolean> {
+    return this.authService.verifyOtp(otpCode, user);
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body('email') email: string): Promise<boolean> {
+    return this.authService.forgotPassword(email);
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body('token') token: string, @Body('password') password: string): Promise<boolean> {
+    return this.authService.resetPassword(token, password);
   }
 
   @UseGuards(JwtAuthGuard)
