@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { DatabaseModule, LoggerModule, NOTIFICATIONS_SERVICE } from '@app/common';
+import {
+  DatabaseModule,
+  LoggerModule,
+  NOTIFICATIONS_SERVICE,
+} from '@app/common';
 import { UsersModule } from './users/users.module';
 import { User } from '@app/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -31,18 +35,18 @@ import { OtpModule } from './otp/otp.module';
     }),
     ClientsModule.registerAsync([
       {
-        name:NOTIFICATIONS_SERVICE,
-        useFactory: (configService : ConfigService) => ({
+        name: NOTIFICATIONS_SERVICE,
+        useFactory: (configService: ConfigService) => ({
           transport: Transport.TCP,
-          options:{
+          options: {
             host: configService.get('NOTIFICATIONS_HOST'),
-            port: configService.get('NOTIFICATIONS_PORT')
-          }
+            port: configService.get('NOTIFICATIONS_PORT'),
+          },
         }),
-        inject: [ConfigService]
-      }
+        inject: [ConfigService],
+      },
     ]),
-    OtpModule
+    OtpModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, LocalStrategy],

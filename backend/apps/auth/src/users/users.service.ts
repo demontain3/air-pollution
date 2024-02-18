@@ -10,7 +10,7 @@ import { GetUserDto } from './dto/get-user.dto';
 import { ExtendedFindOptions, Role, User } from '@app/common';
 import { Status } from '@app/common';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Between } from 'typeorm';
+
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
@@ -37,9 +37,12 @@ export class UsersService {
 
   async verifyUser(email: string, password: string) {
     const user = await this.usersRepository.findOne({ email });
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
     const passwordIsValid = await bcrypt.compare(password, user.password);
-    if (!passwordIsValid) {
-      return new UnauthorizedException('Invalid credentials');
+    if (passwordIsValid === false) {
+      throw new UnauthorizedException('Invalid credentials');
     }
     return user;
   }

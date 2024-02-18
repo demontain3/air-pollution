@@ -26,8 +26,11 @@ export class AuthController {
   }
 
   @Post('verify-otp')
-  async verifyOtp(@Body('otpCode') otpCode: string, @Body('user') user: User): Promise<boolean> {
-    return this.authService.verifyOtp(otpCode, user);
+  async verifyOtp(
+    @Body('otpCode') otpCode: string,
+    @Body('email') email: string,
+  ): Promise<boolean> {
+    return this.authService.verifyOtp(otpCode, email);
   }
 
   @Post('forgot-password')
@@ -36,7 +39,10 @@ export class AuthController {
   }
 
   @Post('reset-password')
-  async resetPassword(@Body('token') token: string, @Body('password') password: string): Promise<boolean> {
+  async resetPassword(
+    @Body('token') token: string,
+    @Body('password') password: string,
+  ): Promise<boolean> {
     return this.authService.resetPassword(token, password);
   }
 

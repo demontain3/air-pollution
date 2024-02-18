@@ -15,31 +15,31 @@ import { NotificationsRepository } from './notifications.repository';
       isGlobal: true,
       envFilePath: 'apps/notifications/.env',
       validationSchema: Joi.object({
-          HTTP_PORT : Joi.number().required(),
-          TCP_PORT : Joi.number().required(),
-          SMTP_USER: Joi.string().required(),
-          GOOGLE_OAUTH_CLIENT_ID: Joi.string().required(),
-          GOOGLE_OAUTH_CLIENT_SECRET: Joi.string().required(),
-          GOOGLE_OAUTH_REFRESH_TOKEN: Joi.string().required(),
-      })
+        HTTP_PORT: Joi.number().required(),
+        TCP_PORT: Joi.number().required(),
+        SMTP_USER: Joi.string().required(),
+        GOOGLE_OAUTH_CLIENT_ID: Joi.string().required(),
+        GOOGLE_OAUTH_CLIENT_SECRET: Joi.string().required(),
+        GOOGLE_OAUTH_REFRESH_TOKEN: Joi.string().required(),
+      }),
     }),
     ClientsModule.registerAsync([
       {
-        name:AUTH_SERVICE,
-        useFactory: (configService : ConfigService) => ({
+        name: AUTH_SERVICE,
+        useFactory: (configService: ConfigService) => ({
           transport: Transport.TCP,
-          options:{
+          options: {
             host: configService.get('AUTH_HOST'),
-            port: configService.get('AUTH_PORT')
-          }
+            port: configService.get('AUTH_PORT'),
+          },
         }),
-        inject: [ConfigService]
-      }
+        inject: [ConfigService],
+      },
     ]),
-    LoggerModule
+    LoggerModule,
   ],
   controllers: [NotificationsController],
   providers: [NotificationsService, NotificationsRepository],
-  exports: [NotificationsService]
+  exports: [NotificationsService],
 })
 export class NotificationsModule {}

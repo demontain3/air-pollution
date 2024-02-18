@@ -4,7 +4,6 @@ import {
   IsOptional,
   IsString,
   IsStrongPassword,
-
 } from 'class-validator';
 import { RoleDto } from './role.dto';
 import { IsStatus, Status } from '@app/common';

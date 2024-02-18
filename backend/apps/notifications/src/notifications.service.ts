@@ -66,19 +66,24 @@ export class NotificationsService {
     const notification = await this.notificationsRepository.findOne({ id: id });
     if (!notification) return false;
     console.log(data);
-    notification.message = notification.message.replace('temporary', data.otpCode);
-    console.log(notification);
+    notification.message = notification.message.replace(
+      'temporary',
+      data.otpCode,
+    );
     await this.sendEmail(notification, data.email);
   }
 
   async sendResetPasswordEmail(
-    { email, link }: resetPasswordEmailDto,
+    data: resetPasswordEmailDto,
     id: number,
   ): Promise<Notification | boolean> {
     const notification = await this.notificationsRepository.findOne({ id: id });
     if (!notification) return false;
-    notification.message = notification.message.replace('temporary', link);
+    notification.message = notification.message.replace(
+      'temporary',
+      data.resetPasswordUrl,
+    );
     console.log(notification);
-    await this.sendEmail(notification, email);
+    await this.sendEmail(notification, data.email);
   }
 }

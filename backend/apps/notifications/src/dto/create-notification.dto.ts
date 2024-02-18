@@ -1,6 +1,6 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
-export class createNotificationsDto{
+export class createNotificationsDto {
   @IsString()
   title: string;
 

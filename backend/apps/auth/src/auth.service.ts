@@ -9,7 +9,6 @@ import { OtpService } from './otp/otp.service';
 import { ClientProxy } from '@nestjs/microservices';
 import * as bcrypt from 'bcryptjs';
 
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -53,7 +52,11 @@ export class AuthService {
     return true;
   }
 
-  async verifyOtp(otpCode: string, user: User): Promise<boolean> {
+  async verifyOtp(otpCode: string, email: string): Promise<boolean> {
+    const user = await this.usersRepository.findOne({ email });
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
     const otp = await this.otpService.getOne(otpCode, user);
     if (!otp) {
       throw new BadRequestException('Invalid OTP');
@@ -66,6 +69,12 @@ export class AuthService {
     }
     otp.is_used = true;
     await this.otpService.update(otp, otp.id);
+
+    user.is_verified = true;
+    await this.usersRepository.findOneAndUpdate(
+      { id: user.id },
+      { is_verified: true },
+    );
     return true;
   }
 
@@ -95,7 +104,10 @@ export class AuthService {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const id = user.id;
-    await this.usersRepository.findOneAndUpdate({id}, {password: hashedPassword});
+    await this.usersRepository.findOneAndUpdate(
+      { id },
+      { password: hashedPassword },
+    );
     return true;
   }
 }
