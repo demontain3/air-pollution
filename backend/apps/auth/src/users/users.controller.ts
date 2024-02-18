@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -31,7 +31,7 @@ export class UsersController {
     return user;
   }
 
-  @Patch('me')
+  @Put('me')
   @UseGuards(JwtAuthGuard)
   async updateMe(
     @CurrentUser() user: User,
@@ -54,7 +54,7 @@ export class UsersController {
     return await this.usersService.getOne({ id });
   }
 
-  @Patch(':id')
+  @Put(':id')
   @UseGuards(JwtAuthGuard)
   @Roles('Admin')
   async updateUser(

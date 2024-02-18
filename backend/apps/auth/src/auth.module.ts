@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { DatabaseModule, LoggerModule } from '@app/common';
+import { DatabaseModule, LoggerModule, NOTIFICATIONS_SERVICE } from '@app/common';
 import { UsersModule } from './users/users.module';
 import { User } from '@app/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt-strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -27,6 +28,19 @@ import { JwtModule } from '@nestjs/jwt';
       }),
       inject: [ConfigService], // Add this line
     }),
+    ClientsModule.registerAsync([
+      {
+        name:NOTIFICATIONS_SERVICE,
+        useFactory: (configService : ConfigService) => ({
+          transport: Transport.TCP,
+          options:{
+            host: configService.get('NOTIFICATIONS_HOST'),
+            port: configService.get('NOTIFICATIONS_PORT')
+          }
+        }),
+        inject: [ConfigService]
+      }
+    ]),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, LocalStrategy],
