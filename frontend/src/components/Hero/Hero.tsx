@@ -23,8 +23,8 @@ export default function Hero() {
             </div>
             <p className="text-xs font-medium">Join our team &rarr;</p>
           </div>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-6xl">
-            People who care about our .env
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-6xl first-letter:text-primary">
+            People who care about your .env
           </h1>
           <p className="mt-8 text-lg text-gray-700">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
