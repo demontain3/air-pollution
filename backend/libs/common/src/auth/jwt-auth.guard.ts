@@ -26,7 +26,6 @@ export class JwtAuthGuard implements CanActivate {
     const jwt =
       context.switchToHttp().getRequest().cookies?.Authentication ||
       context.switchToHttp().getRequest().headers?.Authentication;
-
     if (!jwt) {
       return false;
     }
@@ -39,6 +38,7 @@ export class JwtAuthGuard implements CanActivate {
       })
       .pipe(
         tap((res) => {
+          console.log('current role is',res)
           if (roles) {
             for (const role of roles) {
               if (!res.roles?.map((role) => role.name).includes(role)) {

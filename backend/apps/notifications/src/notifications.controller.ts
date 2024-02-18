@@ -1,15 +1,16 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { createNotificationsDto } from './dto/create-notification.dto';
-import { JwtAuthGuard } from '@app/common';
+import { JwtAuthGuard, Roles } from '@app/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { otpEmailDto, resetPasswordEmailDto } from './dto/email.dto';
 
-@Controller()
+@Controller('notifications')
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
   @Post()
   @UseGuards(JwtAuthGuard)
+  @Roles('Admin')
   async create(@Body() createNotificationsDto: createNotificationsDto){
     return await this.notificationsService.create(createNotificationsDto);
   }

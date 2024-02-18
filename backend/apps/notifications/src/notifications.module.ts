@@ -6,6 +6,7 @@ import * as Joi from 'joi';
 import { AUTH_SERVICE, DatabaseModule, LoggerModule } from '@app/common';
 import { Notification } from './entities/notification.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { NotificationsRepository } from './notifications.repository';
 @Module({
   imports: [
     DatabaseModule,
@@ -14,7 +15,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       isGlobal: true,
       envFilePath: 'apps/notifications/.env',
       validationSchema: Joi.object({
-          PORT : Joi.number().required(),
+          HTTP_PORT : Joi.number().required(),
+          TCP_PORT : Joi.number().required(),
           SMTP_USER: Joi.string().required(),
           GOOGLE_OAUTH_CLIENT_ID: Joi.string().required(),
           GOOGLE_OAUTH_CLIENT_SECRET: Joi.string().required(),
@@ -37,6 +39,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     LoggerModule
   ],
   controllers: [NotificationsController],
-  providers: [NotificationsService],
+  providers: [NotificationsService, NotificationsRepository],
+  exports: [NotificationsService]
 })
 export class NotificationsModule {}

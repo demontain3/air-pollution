@@ -20,7 +20,7 @@ export class User extends AbstractEntity<User> {
   @Column({ type: 'enum', enum: Status, default: Status.Pending })
   status: Status;
 
-  @ManyToMany(() => Role, { cascade: true, onDelete: 'CASCADE' })
+  @ManyToMany(() => Role, { cascade: true, onDelete: 'CASCADE', eager: true })
   @JoinTable()
   roles?: Role[];
 }
