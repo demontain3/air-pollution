@@ -12,7 +12,10 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
-  name: string;
+  firstName: string;
+
+  @IsString()
+  lastName: string;
 
   @IsStrongPassword()
   password: string;

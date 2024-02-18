@@ -19,7 +19,11 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsString()
-  name?: string;
+  firstName?: string;
+
+  @IsOptional()
+  @IsString()
+  lastName?: string;
 }
 
 export class UpdateUserDtoAdmin extends UpdateUserDto {

@@ -51,7 +51,6 @@ export class NotificationsController {
     return this.notificationsService.getOne(id);
   }
 
-
   @EventPattern('send_otp')
   async handleSendOtpVerifyEmail(@Payload() data: otpEmailDto) {
     this.notificationsService.sendOtpVerifyEmail(data, 1);

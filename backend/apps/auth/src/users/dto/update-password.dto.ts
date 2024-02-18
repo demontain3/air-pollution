@@ -1,12 +1,12 @@
-import { IsNotEmpty, IsStrongPassword } from "class-validator";
+import { IsNotEmpty, IsStrongPassword } from 'class-validator';
 
-export class UpdatePasswordDto{
-    @IsStrongPassword()
-    oldPassword: string;
+export class UpdatePasswordDto {
+  @IsStrongPassword()
+  oldPassword: string;
 
-    @IsStrongPassword()
-    newPassword: string;
+  @IsStrongPassword()
+  newPassword: string;
 
-    @IsStrongPassword()
-    confirmedNewPassword: string;
+  @IsStrongPassword()
+  confirmedNewPassword: string;
 }

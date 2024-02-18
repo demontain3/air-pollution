@@ -45,6 +45,9 @@ export class UsersService {
     if (passwordIsValid === false) {
       throw new UnauthorizedException('Invalid credentials');
     }
+    if (user.isVerified === false) {
+      throw new UnauthorizedException('Please verify before logging in');
+    }
     return user;
   }
 
@@ -65,24 +68,31 @@ export class UsersService {
   }
 
   async changePassword(updatePasswordDto: UpdatePasswordDto, user: User) {
-    const { oldPassword, newPassword, confirmedNewPassword } = updatePasswordDto;
-    if(newPassword !== confirmedNewPassword) {
+    const { oldPassword, newPassword, confirmedNewPassword } =
+      updatePasswordDto;
+    if (newPassword !== confirmedNewPassword) {
       throw new UnprocessableEntityException('Passwords do not match');
     }
     const passwordIsValid = await bcrypt.compare(oldPassword, user.password);
     if (passwordIsValid === false) {
       throw new UnauthorizedException('Invalid credentials');
     }
-  
+
     const password = await bcrypt.hash(newPassword, 10);
-    
+
     const id = user.id;
-    return this.usersRepository.findOneAndUpdate({id}, {password: password});
+    return this.usersRepository.findOneAndUpdate(
+      { id },
+      { password: password },
+    );
   }
 
   async updateProfilePicture(user: User, filePath: string): Promise<User> {
-    console.log('filePath', filePath)
+    console.log('filePath', filePath);
     const id = user.id;
-    return this.usersRepository.findOneAndUpdate({id}, { profilePicture: filePath });
+    return this.usersRepository.findOneAndUpdate(
+      { id },
+      { profilePicture: filePath },
+    );
   }
 }
