@@ -70,10 +70,10 @@ export class AuthService {
     otp.is_used = true;
     await this.otpService.update(otp, otp.id);
 
-    user.is_verified = true;
+    user.isVerified = true;
     await this.usersRepository.findOneAndUpdate(
       { id: user.id },
-      { is_verified: true },
+      { isVerified: true },
     );
     return true;
   }

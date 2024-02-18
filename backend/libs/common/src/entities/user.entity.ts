@@ -15,13 +15,13 @@ export class User extends AbstractEntity<User> {
   name: string;
 
   @Column({ nullable: true })
-  profile_picture?: string;
+  profilePicture?: string;
 
   @Column({ type: 'enum', enum: Status, default: Status.Pending })
   status: Status;
 
   @Column({ default: false })
-  is_verified: boolean;
+  isVerified: boolean;
 
   @ManyToMany(() => Role, { cascade: true, onDelete: 'CASCADE', eager: true })
   @JoinTable()

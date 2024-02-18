@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { createNotificationsDto } from './dto/create-notification.dto';
-import { JwtAuthGuard, Roles } from '@app/common';
+import { JwtAuthGuard, Roles, User } from '@app/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { otpEmailDto, resetPasswordEmailDto } from './dto/email.dto';
 
@@ -50,6 +50,7 @@ export class NotificationsController {
   async getOne(@Param('id') id: number) {
     return this.notificationsService.getOne(id);
   }
+
 
   @EventPattern('send_otp')
   async handleSendOtpVerifyEmail(@Payload() data: otpEmailDto) {

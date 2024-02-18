@@ -51,4 +51,10 @@ export class AuthController {
   async authenticate(@Payload() data: any) {
     return data.user;
   }
+
+  @UseGuards(JwtAuthGuard)
+  async logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('Authentication');
+    return 'Logged out';
+  }
 }

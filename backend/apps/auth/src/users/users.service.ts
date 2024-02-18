@@ -10,6 +10,7 @@ import { GetUserDto } from './dto/get-user.dto';
 import { ExtendedFindOptions, Role, User } from '@app/common';
 import { Status } from '@app/common';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -61,5 +62,27 @@ export class UsersService {
 
   async findAll(options: ExtendedFindOptions<User>): Promise<User[]> {
     return this.usersRepository.findAll(options);
+  }
+
+  async changePassword(updatePasswordDto: UpdatePasswordDto, user: User) {
+    const { oldPassword, newPassword, confirmedNewPassword } = updatePasswordDto;
+    if(newPassword !== confirmedNewPassword) {
+      throw new UnprocessableEntityException('Passwords do not match');
+    }
+    const passwordIsValid = await bcrypt.compare(oldPassword, user.password);
+    if (passwordIsValid === false) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+  
+    const password = await bcrypt.hash(newPassword, 10);
+    
+    const id = user.id;
+    return this.usersRepository.findOneAndUpdate({id}, {password: password});
+  }
+
+  async updateProfilePicture(user: User, filePath: string): Promise<User> {
+    console.log('filePath', filePath)
+    const id = user.id;
+    return this.usersRepository.findOneAndUpdate({id}, { profilePicture: filePath });
   }
 }
