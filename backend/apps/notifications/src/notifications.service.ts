@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { NotificationsRepository } from './notifications.repository';
-import { createNotificationsDto } from './dto/create-notification.dto';
+import { CreateNotificationsDto } from './dto/create-notification.dto';
 import { Notification } from './entities/notification.entity';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { NotifyEmailDto } from './dto/notify-email.dto';
 import { otpEmailDto, resetPasswordEmailDto } from './dto/email.dto';
+import { UpdateNotificationsDto } from './dto/update-notification.dto';
 
 @Injectable()
 export class NotificationsService {
@@ -25,12 +26,12 @@ export class NotificationsService {
     },
   });
 
-  async create(createNotificationsDto: createNotificationsDto) {
+  async create(createNotificationsDto: CreateNotificationsDto) {
     const notification = new Notification(createNotificationsDto);
     return await this.notificationsRepository.create(notification);
   }
 
-  async update(id: number, updateNotificationsDto: createNotificationsDto) {
+  async update(id: number, updateNotificationsDto: UpdateNotificationsDto) {
     return this.notificationsRepository.findOneAndUpdate(
       { id },
       updateNotificationsDto,

@@ -22,16 +22,25 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
+import { ApiTags, ApiOperation, ApiParam, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { UserResponse } from './responses/users.response';
+
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('signup')
+  @ApiOperation({ summary: 'Sign up a new user' })
+  @ApiBody({ type: CreateUserDto })
+  @ApiResponse({ status: 201, description: 'The user has been successfully created.', type: UserResponse })
   async signUp(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);
   }
 
   @Get('me')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current user' })
+  @ApiResponse({ status: 200, description: 'Return the current user.', type: UserResponse})
   @UseGuards(JwtAuthGuard)
   async getMe(@CurrentUser() user: User) {
     return user;
@@ -39,6 +48,10 @@ export class UsersController {
 
   @Put('me')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update current user' })
+  @ApiBody({ type: UpdateUserDto })
+  @ApiResponse({ status: 200, description: 'The user has been successfully updated.', type: UserResponse})
   async updateMe(
     @CurrentUser() user: User,
     @Body() updateUserDto: UpdateUserDto,
@@ -48,7 +61,11 @@ export class UsersController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Roles('Admin')
+  @ApiOperation({ summary: 'Delete a user' })
+  @ApiParam({ name: 'id', required: true })
+  @ApiResponse({ status: 200, description: 'The user has been successfully deleted.', type: UserResponse})
   async deleteUser(@Param('id') id: number) {
     return await this.usersService.delete(id);
   }
@@ -56,6 +73,10 @@ export class UsersController {
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @Roles('Admin')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get a user by ID' })
+  @ApiParam({ name: 'id', required: true })
+  @ApiResponse({ status: 200, description: 'Return the user.', type: UserResponse})
   async getUser(@Param('id') id: number) {
     return await this.usersService.getOne({ id });
   }
@@ -63,6 +84,11 @@ export class UsersController {
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   @Roles('Admin')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update a user by ID' })
+  @ApiParam({ name: 'id', required: true })
+  @ApiBody({ type: UpdateUserDtoAdmin })
+  @ApiResponse({ status: 200, description: 'The user has been successfully updated.', type: UserResponse})
   async updateUser(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDtoAdmin,
@@ -73,12 +99,18 @@ export class UsersController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @Roles('Admin')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ status: 200, description: 'Return all users.', type:[UserResponse]})
   async getAllUsers(@Query() query: any): Promise<User[]> {
     return this.usersService.findAll(query);
   }
 
   @Post('upload-profile-picture')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Upload profile picture' })
+  @ApiResponse({ status: 200, description: 'The profile picture has been successfully uploaded.'})
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -99,6 +131,10 @@ export class UsersController {
 
   @Post('change-password')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Change password' })
+  @ApiBody({ type: UpdatePasswordDto })
+  @ApiResponse({ status: 200, description: 'The password has been successfully changed.', type:UserResponse})
   async changePassword(
     @Body() updatePasswordDto: UpdatePasswordDto,
     @CurrentUser() user: User,

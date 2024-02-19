@@ -1,30 +1,25 @@
-import {
-  IsArray,
-  IsEmail,
-  IsOptional,
-  IsString,
-  IsStrongPassword,
-} from 'class-validator';
-import { RoleDto } from './role.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { Status } from '@app/common';
+import { RoleDto } from '../dto/role.dto';
 
-
-export class CreateUserDto {
+export class UserResponse {
   @ApiProperty({ example: 'john.doe@example.com', description: 'The email of the user.' })
-  @IsEmail()
   email: string;
 
   @ApiProperty({ example: 'John', description: 'The first name of the user.' })
-  @IsString()
   firstName: string;
 
   @ApiProperty({ example: 'Doe', description: 'The last name of the user.' })
-  @IsString()
   lastName: string;
 
-  @ApiProperty({ example: '123456789wwE#', description: 'The password of the user.' })
-  @IsStrongPassword()
-  password: string;
+  @ApiProperty({ example: 'https://example.com/profile.jpg', description: 'The profile picture of the user.' })
+  profilePicture?: string;
+
+  @ApiProperty({ example: Status.Live, description: 'The status of the user.' })
+  status: Status;
+
+  @ApiProperty({ example: false, description: 'Whether the user is verified.' })
+  isVerified: boolean;
 
   @ApiProperty({ 
     type: RoleDto, 
@@ -32,7 +27,5 @@ export class CreateUserDto {
     example: [{ name: 'Admin' }, { name: 'User' }], 
     description: 'The roles of the user.' 
   })
-  @IsOptional()
-  @IsArray()
   roles?: RoleDto[];
 }

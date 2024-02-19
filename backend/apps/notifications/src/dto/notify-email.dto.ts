@@ -1,3 +1,3 @@
-import { createNotificationsDto } from './create-notification.dto';
+import { CreateNotificationsDto } from './create-notification.dto';
 
-export class NotifyEmailDto extends createNotificationsDto {}
+export class NotifyEmailDto extends CreateNotificationsDto {}

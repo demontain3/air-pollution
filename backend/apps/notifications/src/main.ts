@@ -5,9 +5,22 @@ import { Logger } from 'nestjs-pino';
 import { Transport } from '@nestjs/microservices';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import { json } from 'express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(NotificationsModule);
+
+  app.use(json());
+  const config = new DocumentBuilder()
+    .setTitle('Auth')
+    .setDescription('The Auth API is a microservice for user authentication and authorization. It is used to register, login, and manage users. It also provides role-based access control.')
+    .setVersion('1.0')
+    .addTag('auth')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document); 
+  
   const configService = app.get(ConfigService);
   app.connectMicroservice({
     transport: Transport.TCP,
