@@ -13,15 +13,16 @@ This document provides the setup instructions for the Vayu backend project.
     - One in the `auth` project root directory
     - One in the `notifications` project root directory
     
-4. **Setup template  emails: For the first time running the app, email templates aren't set so go to the  directory /app/auth/src/auth.controller.ts in the vscode, uncomment the UseGuards() in create api.  
-    - from localhost:8002/api, create new notifications in order:
-        **Note** While creating these email templates for the first time, make sure you create only one instance of each email and the word "temporary" inside "Your otp is        temporary" in "message" is exactly that (its case sensitive). In Real-time, the templates email message's "temporary" field will be replaced by actual otp and link.
-        1. {"title":"OTP", "message": "Your otp is temporary","subject":"Otp Verification"}
-        2. {"title":"Reset Password", "message": "Your password reset link is temporary", "subject" : "Password Verification"} 
-        
+4. **Configuration for template  emails: For the first time running the app, email templates aren't set so go to the  directory /app/auth/src/auth.controller.ts in the vscode, uncomment the UseGuards() in create api.
 
 5. **Start the Docker containers**: From the root directory, run `docker compose up`. This will create a PostgreSQL image and run the containers.
 
+6. **Create Email Templates: from localhost:8002/api, create new notifications in order:
+
+        **Note** While creating the email templates below for the first time, make sure you create only one instance of each email and the word "temporary" inside "Your otp is temporary" in "message" is exactly that (its case sensitive). In Real-time, the templates email message's "temporary" field will be replaced by actual otp and link.**
+
+        1. {"title":"OTP", "message": "Your otp is temporary","subject":"Otp Verification"}
+        2. {"title":"Reset Password", "message": "Your password reset link is temporary", "subject" : "Password Verification"} 
 
 6. Then close the container uncomment the UseGuards() back and rerun the container. (This is needed only for the first time then no nee to comment it again)
 ## API Documentation
