@@ -24,7 +24,7 @@ type PricingCardProps = {
 }
 
 const PricingHeader = ({ title, subtitle }: { title: string; subtitle: string }) => (
-  <section className="text-center">
+  <section className="text-center bg-gray-950">
     <h2 className="text-3xl font-bold">{title}</h2>
     <p className="text-xl pt-1">{subtitle}</p>
     <br />
@@ -32,7 +32,7 @@ const PricingHeader = ({ title, subtitle }: { title: string; subtitle: string })
 )
 
 const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
-  <Tabs defaultValue="0" className="w-40 mx-auto" onValueChange={onSwitch}>
+  <Tabs defaultValue="0" className="w-40 mx-auto bg-gray-950" onValueChange={onSwitch}>
     <TabsList className="py-6 px-2">
       <TabsTrigger value="0" className="text-base">
         Monthly
@@ -47,7 +47,7 @@ const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
 const PricingCard = ({ isYearly, title, monthlyPrice, yearlyPrice, description, features, actionLabel, popular, exclusive }: PricingCardProps) => (
   <Card
     className={cn(`w-72 flex flex-col justify-between py-1 ${popular ? "border-rose-400" : "border-zinc-700"} mx-auto sm:mx-0`, {
-      "animate-background-shine bg-white dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] transition-colors":
+      "animate-background-shine bg-gray-950 dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] transition-colors":
         exclusive,
     })}>
     <div>
@@ -125,7 +125,7 @@ export default function page() {
     },
   ]
   return (
-    <div className="py-8">
+    <div className="py-8 bg-gray-950">
       <PricingHeader title="Pricing Plans" subtitle="Choose the plan that's right for you" />
       <PricingSwitch onSwitch={togglePricingPeriod} />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">

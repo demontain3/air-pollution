@@ -3,9 +3,9 @@ import React from "react"
 export default function Feature() {
   return (
     <>
-      <div className="py-12 md:my-20 lg:my-24">
+      <div className="py-12 md:py-20 lg:py-24 bg-gray-950">
         <div className="flex items-center justify-center gap-4 py-2 ">
-          <h2 className="aaa text-center mb-20 text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl ">
+          <h2 className="aaa text-center mb-20 text-3xl font-bold leading-tight text-gray-300 sm:text-4xl lg:text-5xl ">
             Features
           </h2>
         </div>
@@ -28,10 +28,10 @@ export default function Feature() {
                   />
                 </svg>
               </div>
-              <h3 className="mt-8 text-lg font-semibold text-black">
+              <h3 className="mt-8 text-lg font-semibold text-gray-300">
                 Secured Payments
               </h3>
-              <p className="mt-4 text-sm text-gray-600">
+              <p className="mt-4 text-sm text-gray-400">
                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                 amet sint. Velit officia consequat duis enim velit mollit.
               </p>
@@ -53,10 +53,10 @@ export default function Feature() {
                   />
                 </svg>
               </div>
-              <h3 className="mt-8 text-lg font-semibold text-black">
+              <h3 className="mt-8 text-lg font-semibold text-gray-300">
                 Fast & Easy to Load
               </h3>
-              <p className="mt-4 text-sm text-gray-600">
+              <p className="mt-4 text-sm text-gray-400">
                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                 amet sint. Velit officia consequat duis enim velit mollit.
               </p>
@@ -78,10 +78,10 @@ export default function Feature() {
                   />
                 </svg>
               </div>
-              <h3 className="mt-8 text-lg font-semibold text-black">
+              <h3 className="mt-8 text-lg font-semibold text-gray-300">
                 Light & Dark Version
               </h3>
-              <p className="mt-4 text-sm text-gray-600">
+              <p className="mt-4 text-sm text-gray-400">
                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                 amet sint. Velit officia consequat duis enim velit mollit.
               </p>
@@ -103,10 +103,10 @@ export default function Feature() {
                   />
                 </svg>
               </div>
-              <h3 className="mt-8 text-lg font-semibold text-black">
+              <h3 className="mt-8 text-lg font-semibold text-gray-300">
                 Filter Blocks
               </h3>
-              <p className="mt-4 text-sm text-gray-600">
+              <p className="mt-4 text-sm text-gray-400">
                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                 amet sint. Velit officia consequat duis enim velit mollit.
               </p>

@@ -77,7 +77,7 @@ export const InfiniteMovingCards = ({
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative  max-w-7xl overflow-hidden  [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        "scroller relative  max-w-7xl overflow-hidden bg-gray-950  [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
         className
       )}
     >
@@ -103,7 +103,7 @@ export const InfiniteMovingCards = ({
                 aria-hidden="true"
                 className="user-select-none -z-1 pointer-events-none absolute -left-0.5 -top-0.5 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
               ></div>
-              <span className=" relative z-20 font-normal text-md my-4 leading-[1.6] text-green-950 ">
+              <span className=" relative z-20 font-normal text-md my-4 leading-[1.6] text-gray-300 ">
               <Quote size={28} color="green" className="font-bold" absoluteStrokeWidth />  {item.quote}
               </span>
               <div className="relative z-20 mt-10 flex flex-row items-center">
@@ -116,10 +116,10 @@ export const InfiniteMovingCards = ({
                     className="rounded-full border h-12 w-12 border-gray-200"
                   />
                   <div className="flex flex-col gap-0">
-                    <span className=" text-sm leading-[1.6] text-green-800 font-normal flex gap-4">
+                    <span className=" text-sm leading-[1.6] text-gray-500 font-normal flex gap-4">
                     {item.name}
                     </span>
-                    <span className=" text-md  leading-[1.6] text-green-700 font-extrabold">
+                    <span className=" text-md  leading-[1.6] text-gray-300 font-extrabold">
                       {item.title}
                     </span>
                   </div>
