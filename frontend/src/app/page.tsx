@@ -8,6 +8,7 @@ import Feature from "@/components/Feature"
 import Pricing from "@/components/pricing/Pricingcn"
 import Movingcard from "@/components/card/Movingcard"
 import TrustedBy from "@/components/trustedby/Trustedby"
+import Ourwork from "@/components/Ourwork/Ourwork"
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <TrustedBy />
       <About />
       <Feature />
+      <Ourwork />
       <Pricing />
       <Movingcard />
     </>

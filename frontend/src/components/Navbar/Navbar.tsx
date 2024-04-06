@@ -82,7 +82,7 @@ export function Navbar() {
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="font-semibold"
               >
-                <a
+                <Link
                   href={item.href}
                   className="group relative inline-flex items-center text-sm font-semibold text-gray-800"
                 >
@@ -95,7 +95,7 @@ export function Navbar() {
                     }}
                     className="absolute bottom-0 left-0 h-1 w-full origin-bottom scale-x-0 transform bg-black group-hover:scale-x-100"
                   />
-                </a>
+                </Link>
               </motion.li>
             ))}
           </ul>
@@ -107,7 +107,7 @@ export function Navbar() {
             variant="outline"
             className="rounded-2xl bg-green-500 px-6 text-white hover:border-green-500 hover:bg-green-500/10 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
-            Sign In
+            Login
           </Button>
           </Link>
           <Link href="/auth/signup">
@@ -116,7 +116,7 @@ export function Navbar() {
             type="button"
             className="bottom-2 rounded-2xl border-2  border-primary bg-white px-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
-            Log In
+            Register
           </Button>
           </Link>
         </div>

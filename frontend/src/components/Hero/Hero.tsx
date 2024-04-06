@@ -1,128 +1,58 @@
-"use client"
-
 import React from "react"
 import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-
 import Logo from "../icons/logo"
-import { Button } from "../ui/button"
 
 export default function Hero() {
   return (
-    <>
-      <div className="">
-        <section className="bg-gradient-to-b from-gray-50 via-white to-gray-50 pt-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto grid max-w-md grid-cols-1 gap-x-6 gap-y-8 lg:max-w-none lg:grid-cols-12">
-              <div className="self-center lg:col-span-4">
-                <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl">
-                  Vayu - The Wind
-                </h1>
-                <p className="mt-5 text-base font-normal leading-7 text-gray-500">
-                  Environment Keeper who is the son of Lord Agni and Goddess
-                </p>
-                <div className="group relative mt-9 inline-flex">
-                  <div className="transitiona-all absolute inset-0 rounded-xl bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] opacity-70 blur-lg filter duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
-
-                  <Link
-                    href="#"
-                    title=""
-                    className="relative inline-flex items-center justify-center rounded-lg border border-transparent bg-primary px-8 py-3 text-base font-semibold text-white transition-all duration-200 hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:py-3.5 sm:text-sm"
-                    role="button"
-                  >
-                    Read Exclusive Blog
-                  </Link>
-                </div>
-              </div>
-
-              <div className="self-end lg:order-last lg:col-span-3 lg:pb-20">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-500">
-                  ⚡️ Latest Picks
-                </p>
-
-                <div className="mt-6 space-y-6 lg:space-y-8">
-                  <div className="relative overflow-hidden">
-                    <div className="flex items-start lg:items-center">
-                      <Image
-                        height={48}
-                        width={48}
-                        className="h-12 w-12 shrink-0 rounded-lg object-cover"
-                        src="https://landingfoliocom.imgix.net/store/collection/clarity-blog/images/hero/1/thumbnail-1.png"
-                        alt=""
-                      />
-                      <p className="ml-5 text-base font-bold leading-6 text-gray-900">
-                        <Link href="#" title="">
-                          How Link visual artist redefines success in graphic
-                          design
-                          <span
-                            className="absolute inset-0"
-                            aria-hidden="true"
-                          ></span>
-                        </Link>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="relative overflow-hidden">
-                    <div className="flex items-start lg:items-center">
-                      <Image
-                        height={48}
-                        width={48}
-                        className="h-12 w-12 shrink-0 rounded-lg object-cover"
-                        src="https://landingfoliocom.imgix.net/store/collection/clarity-blog/images/hero/1/thumbnail-2.png"
-                        alt=""
-                      />
-                      <p className="ml-5 text-base font-bold leading-6 text-gray-900">
-                        <Link href="#" title="">
-                          How Link visual artist redefines success in graphic
-                          design
-                          <span
-                            className="absolute inset-0"
-                            aria-hidden="true"
-                          ></span>
-                        </Link>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="relative overflow-hidden">
-                    <div className="flex items-start lg:items-center">
-                      <Image
-                        height={48}
-                        width={48}
-                        className="h-12 w-12 shrink-0 rounded-lg object-cover"
-                        src="https://landingfoliocom.imgix.net/store/collection/clarity-blog/images/hero/1/thumbnail-3.png"
-                        alt=""
-                      />
-                      <p className="ml-5 text-base font-bold leading-6 text-gray-900">
-                        <Link href="#" title="">
-                          How Link visual artist redefines success in graphic
-                          design
-                          <span
-                            className="absolute inset-0"
-                            aria-hidden="true"
-                          ></span>
-                        </Link>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="self-end lg:col-span-5">
-                <Image
-                  height={400}
-                  width={400}
-                  className="mx-auto w-full"
-                  src="https://landingfoliocom.imgix.net/store/collection/clarity-blog/images/hero/1/author.png"
-                  alt=""
-                />
-              </div>
+    <div className="relative w-full bg-white">
+      <div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+        <div className="flex flex-col justify-center px-4 py-12 md:py-16 lg:col-span-7 lg:gap-x-6 lg:px-6 lg:py-24 xl:col-span-6">
+          <Logo height={100} width={120} />
+          <div className="mt-8 flex max-w-max items-center space-x-2 rounded-full bg-slate-200 p-1 border-[1px] border-primary">
+            <div className="rounded-full bg-white p-1 px-2 ">
+              <p className="text-sm font-medium">We&apos; hiring</p>
             </div>
+            <p className="text-sm font-medium">Join our team &rarr;</p>
           </div>
-        </section>
+          <h1 className="mt-8 text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-6xl">
+            People who care about our .env
+          </h1>
+          <p className="mt-8 text-lg text-gray-700">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
+            modi blanditiis dolores quasi eaque explicabo!
+          </p>
+          <form action="" className="mt-8 flex items-start space-x-2">
+            <div>
+              <input
+                className="flex w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                type="email"
+                placeholder="Enter your email"
+                id="email"
+              ></input>
+              <p className="mt-2 text-sm text-gray-500">
+                We care about your privacy
+              </p>
+            </div>
+            <div>
+              <button
+                type="button"
+                className="rounded-md bg-black px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Subscribe
+              </button>
+            </div>
+          </form>
+        </div>
+        <div className="relative lg:col-span-5 lg:-mr-8 xl:col-span-6">
+          <Image
+            height={700}
+            width={800}
+            className="aspect-[3/2] bg-gray-50 object-cover lg:aspect-[4/3] lg:h-[700px] xl:aspect-[16/9]"
+            src="https://plus.unsplash.com/premium_photo-1679079456783-5d862f755557?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjQ3fHxtYW4lMjB3aXRoJTIwbGFwdG9wfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
+            alt=""
+          />
+        </div>
       </div>
-    </>
+    </div>
   )
 }
