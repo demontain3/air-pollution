@@ -6,8 +6,8 @@ import logo from "@/../public/The Wind.svg"
 import { motion, useAnimation } from "framer-motion"
 import { Menu, X } from "lucide-react"
 
-import Logo from "./icons/logo"
-import { Button } from "./ui/button"
+import Logo from "../icons/logo"
+import { Button } from "../ui/button"
 
 const menuItems = [
   {
