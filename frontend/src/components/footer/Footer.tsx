@@ -203,7 +203,7 @@ const Footer = () => {
           <div className="mt-12 border-t border-gray-700 pt-12 sm:mt-16 lg:mt-20">
             <div className="flex flex-col justify-between md:flex-row md:items-center">
               <p className="text-sm font-normal text-white">
-                © Copyright 2022, All Rights Reserved by ClarityUI
+                © Copyright 2022, All Rights Reserved by Vayu Inc
               </p>
 
               <ul className="mt-6 flex items-center justify-start space-x-3 md:mt-0 md:justify-end">
@@ -211,7 +211,7 @@ const Footer = () => {
                   <Link
                     href="#"
                     title=""
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white transition-all duration-200 hover:bg-blue-600"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white transition-all duration-200 hover:bg-primary"
                     target="_blank"
                     rel="noopener"
                   >
@@ -230,7 +230,7 @@ const Footer = () => {
                   <Link
                     href="#"
                     title=""
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white transition-all duration-200 hover:bg-blue-600"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white transition-all duration-200 hover:bg-primary"
                     target="_blank"
                     rel="noopener"
                   >
@@ -249,7 +249,7 @@ const Footer = () => {
                   <Link
                     href="#"
                     title=""
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white transition-all duration-200 hover:bg-blue-600"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white transition-all duration-200 hover:bg-primary"
                     target="_blank"
                     rel="noopener"
                   >
@@ -270,7 +270,7 @@ const Footer = () => {
                   <Link
                     href="#"
                     title=""
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white transition-all duration-200 hover:bg-blue-600"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white transition-all duration-200 hover:bg-primary"
                     target="_blank"
                     rel="noopener"
                   >

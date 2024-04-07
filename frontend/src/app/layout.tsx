@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 
 import "./globals.css"
 
+import { Toaster } from "@/components/ui/toaster"
 import Footer from "@/components/footer/Footer"
 import Navbar from "@/components/Navbar/Navbarcn"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -29,6 +30,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {" "}
+          <Toaster />
           <Navbar />
           {children}
           <Footer />
