@@ -1,26 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
+import { ExtendedFindOptions, User } from '@app/common';
+import { Route } from './entities/route.entity';
+import { RoutesRepository } from './routes.repository';
 
 @Injectable()
 export class RoutesService {
-  create(createRouteDto: CreateRouteDto) {
-    return 'This action adds a new route';
+  constructor(private readonly routesRepository: RoutesRepository) {}
+
+  async create(createRouteDto: CreateRouteDto, user: User): Promise<Route> {
+    const route = new Route({ ...createRouteDto, owner: user.id });
+    return this.routesRepository.create(route);
   }
 
-  findAll() {
-    return `This action returns all routes`;
+  async findAll(
+    options: ExtendedFindOptions<Route>,
+  ): Promise<{ data: Route[]; total: number }> {
+    const result = await this.routesRepository.findAll(options);
+    const data = result.data;
+    const total = result.total;
+    return { data, total };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} route`;
+  async findOne(id: number): Promise<Route> {
+    const route = await this.routesRepository.findOne({ id });
+    if (!route) {
+      throw new NotFoundException(`Route with ID ${id} not found`);
+    }
+    return route;
   }
 
-  update(id: number, updateRouteDto: UpdateRouteDto) {
-    return `This action updates a #${id} route`;
+  async update(id: number, updateRouteDto: UpdateRouteDto): Promise<Route> {
+    const route = await this.findOne(id);
+    if (updateRouteDto.start !== undefined) {
+      route.start = updateRouteDto.start;
+    }
+    if (updateRouteDto.finish !== undefined) {
+      route.finish = updateRouteDto.finish;
+    }
+    if (updateRouteDto.complete !== undefined) {
+      route.complete = updateRouteDto.complete;
+    }
+    return this.routesRepository.findOneAndUpdate({where:{id:id}},route);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} route`;
+  async remove(id: number): Promise<void> {
+    const route = await this.findOne(id);
+    await this.routesRepository.findOneAndDelete(route);
   }
 }
