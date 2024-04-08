@@ -1,4 +1,18 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateRouteDto } from './create-route.dto';
-
-export class UpdateRouteDto extends PartialType(CreateRouteDto) {}
+import { IsNumber, IsString, IsBoolean, IsOptional } from 'class-validator';
+export class UpdateRouteDto {
+    @IsString()
+    @IsOptional()
+    start?: string;
+  
+    @IsString()
+    @IsOptional()
+    finish?: string;
+  
+    @IsBoolean()
+    @IsOptional()
+    complete?: boolean;
+  
+    @IsNumber()
+    @IsOptional()
+    owner?: number;
+  }

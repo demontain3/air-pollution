@@ -1,4 +1,21 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreatePositionDto } from './create-position.dto';
+import { IsNumber, IsString, IsBoolean, IsOptional } from 'class-validator';
 
-export class UpdatePositionDto extends PartialType(CreatePositionDto) {}
+export class UpdatePositionDto {
+    @IsNumber()
+    @IsOptional()
+    lati?: number;
+  
+    @IsNumber()
+    @IsOptional()
+    lngi?: number;
+  
+    @IsNumber()
+    @IsOptional()
+    alti?: number;
+  
+    @IsString()
+    @IsOptional()
+    timestamp?: string;
+  
+
+  }
