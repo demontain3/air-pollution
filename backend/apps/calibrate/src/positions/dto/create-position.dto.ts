@@ -16,4 +16,8 @@ export class CreatePositionDto {
     @IsString()
     @IsNotEmpty()
     timestamp: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    routeId: number;
   }
