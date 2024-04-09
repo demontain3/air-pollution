@@ -3,6 +3,7 @@
 import { Sign } from "crypto"
 import React, { useState } from "react"
 import Link from "next/link"
+import { useRegisterStore } from "@/store/registerStore"
 import { Menu, X } from "lucide-react"
 
 import {
@@ -29,6 +30,10 @@ const Navbarcn = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen)
   }
+
+  const [isLogin, setIsLogin] = useState(false)
+
+  const { isRegistered, setIsRegistered } = useRegisterStore()
 
   return (
     <>
@@ -110,29 +115,33 @@ const Navbarcn = () => {
 
               <div className="flex items-center gap-4">
                 <div className="sm:flex sm:gap-4">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="rounded-full border-2 border-primary bg-green-700 px-10 py-5 text-base text-white shadow dark:hover:bg-green-900">
-                        Login
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[600px]">
-                      {/* Login form */}
-                      <Login />
-                    </DialogContent>
-                  </Dialog>
-                  <div className="hidden sm:flex">
+                  {/* {isLogin && ( */}
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button className="rounded-full border-[1px] border-primary bg-gray-100 px-8 py-5 text-sm font-medium text-primary dark:bg-gray-800 dark:text-white dark:hover:text-white/75">
-                          Register
+                        <Button className="rounded-full border-2 border-primary bg-green-700 px-10 py-5 text-base text-white shadow dark:hover:bg-green-900">
+                          Login
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[600px]">
-                        {/* Register Form */}
-                        <Register />
+                        {/* Login form */}
+                        <Login />
                       </DialogContent>
                     </Dialog>
+                  {/* )}  */}
+                  <div className="hidden sm:flex">
+                    {!isLogin && (
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button className="rounded-full border-[1px] border-primary bg-gray-100 px-8 py-5 text-sm font-medium text-primary bg-gray-800 text-white dark:hover:text-white/75">
+                            Register
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[600px]">
+                          {/* Register Form */}
+                          <Register />
+                        </DialogContent>
+                      </Dialog>
+                    )}
                   </div>
                 </div>
               </div>
