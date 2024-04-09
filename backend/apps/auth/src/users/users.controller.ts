@@ -102,7 +102,7 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'Return all users.', type:[UserResponse]})
-  async getAllUsers(@Query() query: any): Promise<User[]> {
+  async getAllUsers(@Query() query: any): Promise<{ data: User[]; total: number }>{
     return this.usersService.findAll(query);
   }
 

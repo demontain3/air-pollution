@@ -56,15 +56,15 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    return this.usersRepository.findOneAndUpdate({ id }, updateUserDto);
+    return this.usersRepository.findOneAndUpdate({ where:{ id: id} }, updateUserDto);
   }
 
   async delete(id: number) {
     return this.usersRepository.findOneAndDelete({ id });
   }
 
-  async findAll(options: ExtendedFindOptions<User>): Promise<User[]> {
-    return this.usersRepository.findAll(options);
+  async findAll(options: ExtendedFindOptions<User>):Promise<{ data: User[]; total: number }>{
+    return await this.usersRepository.findAll(options);
   }
 
   async changePassword(updatePasswordDto: UpdatePasswordDto, user: User) {
@@ -82,16 +82,15 @@ export class UsersService {
 
     const id = user.id;
     return this.usersRepository.findOneAndUpdate(
-      { id },
+      { where:{id:id} },
       { password: password },
     );
   }
 
   async updateProfilePicture(user: User, filePath: string): Promise<User> {
-    console.log('filePath', filePath);
     const id = user.id;
     return this.usersRepository.findOneAndUpdate(
-      { id },
+      { where:{id: id} },
       { profilePicture: filePath },
     );
   }

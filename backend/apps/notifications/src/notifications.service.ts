@@ -33,7 +33,7 @@ export class NotificationsService {
 
   async update(id: number, updateNotificationsDto: UpdateNotificationsDto) {
     return this.notificationsRepository.findOneAndUpdate(
-      { id },
+      { where:{ id:id }},
       updateNotificationsDto,
     );
   }

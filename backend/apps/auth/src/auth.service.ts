@@ -72,7 +72,7 @@ export class AuthService {
 
     user.isVerified = true;
     await this.usersRepository.findOneAndUpdate(
-      { id: user.id },
+      { where:{id: user.id }},
       { isVerified: true },
     );
     return true;
@@ -105,7 +105,7 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const id = user.id;
     await this.usersRepository.findOneAndUpdate(
-      { id },
+      { where:{id:id} },
       { password: hashedPassword },
     );
     return true;
