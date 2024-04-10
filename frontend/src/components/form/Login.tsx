@@ -1,76 +1,71 @@
-"use client"
 
-import React from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import axios from "axios";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
-import { ToastAction } from "@radix-ui/react-toast"
-import axios from "axios"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
-  email: z.string().min(2).max(50),
-  password: z.string().min(8).max(50),
-})
+  email: z
+    .string()
+    .nonempty({ message: "Email field cannot be empty." })
+    .email({ message: "This is not a valid email." }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long." })
+    .max(50, { message: "Password cannot be longer than 50 characters." }),
+});
+
 
 const Login = () => {
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
     },
-  })
+  });
 
-  const { toast } = useToast()
-
-  // 2. Define a submit handler.
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/auth/login",
-        {
-          email: values.email,
-          password: values.password
-        }
-      );
-      console.log("hell")
+      const response = await axios.post("http://localhost:8000/auth/login", {
+        email: values.email,
+        password: values.password,
+      });
 
-      // Assuming your API returns some data upon successful login, you can handle it here
       console.log(response.data);
 
-      // Show success message using toast
       toast({
         title: "Success",
         description: "Logged in successfully",
-        action: (
-          <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
-        ),
-        duration: 3000, // Optional: Set the duration for the toast
+        duration: 3000,
       });
     } catch (error) {
-      // Handle any errors that occur during the API request
       console.error("Error logging in:", error);
 
-      // Show error message using toast
       toast({
+        variant: "destructive",
         title: "Error",
-        description: "Failed to log in. Please try again later.",
+        description: "Failed to log in. Please try again.",
         duration: 3000,
       });
     }
   }
+
+  const { toast } = useToast();
 
   return (
     <Form {...form}>
@@ -80,6 +75,7 @@ const Login = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
@@ -92,17 +88,18 @@ const Login = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Password" {...field} />
+                <Input placeholder="Password" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Login</Button>
       </form>
     </Form>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

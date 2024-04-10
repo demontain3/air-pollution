@@ -43,3 +43,15 @@ This document provides the setup instructions for the Vayu backend project.
 - **Multiple range-based selection**: `localhost:8000/api/users?range=[{"property":"id","lower":11,"upper":12},{"property":"name","lower":"j","upper":"k"}]`
 - **Pagination**: `localhost:8000/api/users?skip=1&take=1` (skip = number of items to skip, take = number of items to take after skip)
 - **Where**: `localhost:8000/api/users?name=Amrit`
+
+
+# Vayu Frontend
+
+This document provides the setup instructions for the Vayu Frontend project.
+
+## Setup
+
+1. **Clone the repository**: Clone the backend repository to your local machine.
+
+2. **Install dependencies**: Run `yarn install` to install all the necessary dependencies.
+
