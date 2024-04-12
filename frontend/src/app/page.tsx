@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button"
 import About from "@/components/about/About"
 import Movingcard from "@/components/card/Movingcard"
 import Feature from "@/components/Feature"
+import Footer from "@/components/footer/Footer"
 import Hero from "@/components/Hero/Hero"
 import Lambpage from "@/components/Lamp/Lambpage"
-import { Navbar } from "@/components/Navbar/Navbar"
+import Navbarcn from "@/components/Navbar/Navbarcn"
 import Ourwork from "@/components/Ourwork/Ourwork"
 import Pricing from "@/components/pricing/Pricingcn"
 import TrustedBy from "@/components/trustedby/Trustedby"
@@ -14,6 +15,8 @@ import TrustedBy from "@/components/trustedby/Trustedby"
 export default function Home() {
   return (
     <div className=" bg-gray-950">
+      <Navbarcn />
+
       <div className="hidden md:block">
         <Lambpage />
       </div>
@@ -24,6 +27,7 @@ export default function Home() {
       {/* <Ourwork /> */}
       <Pricing />
       <Movingcard />
+      <Footer />
     </div>
   )
 }

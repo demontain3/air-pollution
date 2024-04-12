@@ -32,9 +32,9 @@ export default function RootLayout({
         >
           {" "}
           <Toaster />
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </ThemeProvider>
       </body>
     </html>
