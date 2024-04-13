@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { Task, useTaskStore } from "@/lib/store";
+import { Task, useTaskStore } from "@/store/store";
 import { hasDraggableData } from "@/lib/utils";
 import {
   Announcements,
@@ -109,7 +109,7 @@ export function KanbanBoard() {
         pickedUpTaskColumn.current = active.data.current.task.status;
         const { tasksInColumn, taskPosition, column } = getDraggingTaskData(
           active.id,
-          pickedUpTaskColumn.current,
+          pickedUpTaskColumn.current!,
         );
         return `Picked up Task ${active.data.current.task.title} at position: ${
           taskPosition + 1

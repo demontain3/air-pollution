@@ -114,31 +114,31 @@ export type Employee = {
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",
-    href: "/dashboard",
+    href: "/admindash",
     icon: "dashboard",
     label: "Dashboard",
   },
   {
-    title: "User",
-    href: "/dashboard/user",
+    title: "Admin",
+    href: "/admindash/admin",
     icon: "user",
     label: "user",
   },
   {
     title: "Employee",
-    href: "/dashboard/employee",
+    href: "/admindash/employee",
     icon: "employee",
     label: "employee",
   },
   {
     title: "Profile",
-    href: "/dashboard/profile",
+    href: "/admindash/profile",
     icon: "profile",
     label: "profile",
   },
   {
     title: "Kanban",
-    href: "/dashboard/kanban",
+    href: "/admindash/kanban",
     icon: "kanban",
     label: "kanban",
   },
