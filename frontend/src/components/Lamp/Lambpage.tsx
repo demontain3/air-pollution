@@ -38,7 +38,7 @@ export default function LampDemo() {
           </Link>
 
           <Link
-            className="block w-full rounded border border-blue-600 px-12 py-3 text-md font-bold text-white hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+            className="block w-full rounded border border-blue-600 px-12 py-3 text-md font-bold text-white hover:bg-gray-900 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
             href="#"
           >
             Learn More
