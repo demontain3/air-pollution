@@ -55,3 +55,6 @@ This document provides the setup instructions for the Vayu Frontend project.
 
 2. **Install dependencies**: Run `yarn install` to install all the necessary dependencies.
 
+3. **Home Page || Landing Page** / route
+
+4. **For user & admin Dashboard** for now just simply navigate to the /userdash and /admindash to see basic template
