@@ -125,7 +125,7 @@ export default function page() {
     },
   ]
   return (
-    <div className="py-8 bg-gray-950">
+    <div className="py-8 bg-gray-950 xl:py-32">
       <PricingHeader title="Pricing Plans" subtitle="Choose the plan that's right for you" />
       <PricingSwitch onSwitch={togglePricingPeriod} />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
