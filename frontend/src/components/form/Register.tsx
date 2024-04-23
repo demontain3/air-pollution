@@ -1,16 +1,13 @@
-"use client"
-
 import React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import axios from 'axios'
 
+import { formSchema } from "@/lib/definition"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,141 +15,138 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
-
-const formSchema = z.object({
-  email: z.string().email(),
-  firstName: z.string().min(2).max(50),
-  lastName: z.string().min(2).max(50),
-  password: z.string().min(8).max(50),
-  roles: z.enum(["admin", "user"])
-})
+import Router from "next/router"
 
 const Register = () => {
-  // 1. Define your form.
+  const toast = useToast()
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
       firstName: "",
       lastName: "",
+      email: "",
       password: "",
-      roles: "admin",
     },
   })
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/auth/signup",
-        {
-          email: values.email,
-          firstName: values.firstName,
-          lastName: values.lastName,
-          password: values.password,
-          roles: values.roles,
-        }
-      );
-  
-      // Assuming your API returns some data upon successful registration, you can handle it here
-      console.log(response.data);
-  
-      // Show success message using toast
-      toast({
-        title: "Success",
-        description: "Registered successfully",
-        duration: 3000, // Optional: Set the duration for the toast
-      });
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      })
+
+      if (response.ok) {
+        //   variant: "default",
+        //   title: "Please check your email to verify your account.",
+        //   description: "Registered successfully",
+        // })
+        setIsSubmitting(true)
+        // You might want to redirect the user after successful registration
+        // router.push("/login")
+      } else {
+        const data = await response.json()
+        throw new Error(data.message || "Failed to register")
+      }
     } catch (error) {
-      // Handle any errors that occur during the API request
-      console.error("Error registering:", error);
-  
-      // Show error message using toast
-      toast({
-        variant : "destructive",
-        title: "Error",
-        description: "Failed to register. Please try again later.",
-        duration: 3000,
-      });
+      console.error("Error registering:", error)
+
+      // toast({
+      //   variant: "destructive",
+      //   title: "Error",
+      //   description:
+      // })
     }
   }
 
-  const { toast } = useToast()
-
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="firstName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <FormControl>
-                <Input placeholder="First Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="lastName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Last Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="Password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="roles"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Roles</FormLabel>
-              <FormControl>
-                <select {...field}>
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                </select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="First Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Last Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
+
+      {isSubmitting && (
+        <div className="mx-auto flex w-64 justify-between">
+          <input
+            type="text"
+            maxLength={1}
+            className="h-14 w-14 rounded border-2 border-gray-300 text-center text-lg focus:border-blue-500 focus:outline-none"
+          />
+          <input
+            type="text"
+            maxLength={1}
+            className="h-14 w-14 rounded border-2 border-gray-300 text-center text-lg focus:border-blue-500 focus:outline-none"
+          />
+          <input
+            type="text"
+            maxLength={1}
+            className="h-14 w-14 rounded border-2 border-gray-300 text-center text-lg focus:border-blue-500 focus:outline-none"
+          />
+          <input
+            type="text"
+            maxLength={1}
+            className="h-14 w-14 rounded border-2 border-gray-300 text-center text-lg focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+      )}
+    </>
   )
 }
 

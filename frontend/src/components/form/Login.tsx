@@ -1,22 +1,22 @@
+"use client"
 
-import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import axios from "axios";
+import React from "react"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { FormProvider, useForm } from "react-hook-form"
+import { z } from "zod"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
   email: z
@@ -27,45 +27,50 @@ const formSchema = z.object({
     .string()
     .min(8, { message: "Password must be at least 8 characters long." })
     .max(50, { message: "Password cannot be longer than 50 characters." }),
-});
-
+})
 
 const Login = () => {
+  const { toast } = useToast()
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
     },
-  });
+  })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await axios.post("http://localhost:8000/auth/login", {
-        email: values.email,
-        password: values.password,
-      });
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      })
 
-      console.log(response.data);
-
-      toast({
-        title: "Success",
-        description: "Logged in successfully",
-        duration: 3000,
-      });
-    } catch (error) {
-      console.error("Error logging in:", error);
+      if (response.ok) {
+        router.push("/profile")
+        toast({
+          title: "Success",
+          description: "Logged in successfully",
+          duration: 3000,
+        })
+      } else {
+        const data = await response.json()
+        throw new Error(data.message || "Failed to log in")
+      }
+    } catch (error: any) {
+      console.error("Error logging in:", error)
 
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to log in. Please try again.",
+        description: error.message || "Failed to log in. Please try again.",
         duration: 3000,
-      });
+      })
     }
   }
-
-  const { toast } = useToast();
 
   return (
     <Form {...form}>
@@ -99,7 +104,7 @@ const Login = () => {
         <Button type="submit">Login</Button>
       </form>
     </Form>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

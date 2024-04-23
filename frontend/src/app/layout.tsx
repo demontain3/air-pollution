@@ -3,10 +3,21 @@ import { Inter } from "next/font/google"
 
 import "./globals.css"
 
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query"
+
 import { Toaster } from "@/components/ui/toaster"
 import Footer from "@/components/footer/Footer"
 import Navbar from "@/components/Navbar/Navbarcn"
 import { ThemeProvider } from "@/components/theme-provider"
+
+// Create a client
+const queryClient = new QueryClient()
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -30,11 +41,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {" "}
-          <Toaster />
-          {/* <Navbar /> */}
-          {children}
-          {/* <Footer /> */}
+          {/* <QueryClientProvider client={queryClient}> */}
+            {" "}
+            <Toaster />
+            {/* <Navbar /> */}
+            {children}
+            {/* <Footer /> */}
+          {/* </QueryClientProvider>  */}
         </ThemeProvider>
       </body>
     </html>
