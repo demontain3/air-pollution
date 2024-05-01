@@ -1,8 +1,11 @@
 "use client"
 
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import img from "@/../public/business-woman.png"
+import { LocalStore } from "@/store/localStore"
 
+import { clearCookie } from "@/lib/cookie"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -17,6 +20,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export function UserNav() {
+  const router = useRouter()
+
+  const LogOut = () => {
+    LocalStore.remove("jwt")
+    clearCookie("accessToken")
+    router.replace("/")
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -53,7 +64,7 @@ export function UserNav() {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={LogOut}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

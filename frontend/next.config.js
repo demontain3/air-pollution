@@ -14,6 +14,9 @@ const nextConfig = {
       { hostname: "landingfoliocom.imgix.net" },
     ],
   },
+  env: {
+      BACKEND_URL: "http://localhost:8000",
+  },
 };
 
 module.exports = nextConfig;

@@ -27,6 +27,20 @@ export interface FooterItem {
   }[];
 }
 
+
+export interface Role {
+  id: number;
+  name: string;
+}
+
+export interface User {
+  id: number;
+  email: string;
+  password: string;
+  isVerified: boolean;
+  roles?: Role[];
+}
+
 export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;

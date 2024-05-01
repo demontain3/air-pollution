@@ -3,10 +3,10 @@ import Link from "next/link"
 
 const HyperHero = () => {
   return (
-    <section className="overflow-hidden bg-gray-50 dark:bg-gray-950 sm:grid sm:grid-cols-2 sm:items-center md:mb-28">
+    <section className="overflow-hidden  dark:bg-gray-950 sm:grid sm:grid-cols-2 sm:items-center md:mb-28">
       <div className="p-8 md:p-12 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-xl text-left ltr:sm:text-left rtl:sm:text-right">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white md:text-4xl">
+          <h2 className="text-2xl font-bold text-slate-300 dark:text-white md:text-4xl">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit
           </h2>
 

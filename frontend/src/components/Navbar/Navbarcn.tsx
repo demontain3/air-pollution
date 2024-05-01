@@ -18,9 +18,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-import Login from "../form/Login"
-import Register from "../form/Register"
-import { SignupFormDemo } from "../form/SignupForm"
+import Login from "../auth/Login"
+import Register from "../auth/Register"
+import { SignupFormDemo } from "../auth/SignupForm"
 import Logo from "../icons/logo"
 import { Button } from "../ui/button"
 
@@ -198,7 +198,7 @@ const Navbarcn = () => {
                     Login
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px]">
+                <DialogContent className="w-[200px]">
                   {/* Login form */}
                   <Login />
                 </DialogContent>
