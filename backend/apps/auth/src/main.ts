@@ -6,21 +6,30 @@ import { ConfigService } from '@nestjs/config';
 import * as cookieParser from 'cookie-parser';
 import { Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import {json} from 'express';
-
+import { json } from 'express';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
   app.use(json());
   const config = new DocumentBuilder()
     .setTitle('Auth')
-    .setDescription('The Auth API is a microservice for user authentication and authorization. It is used to register, login, and manage users. It also provides role-based access control.')
+    .setDescription(
+      'The Auth API is a microservice for user authentication and authorization. It is used to register, login, and manage users. It also provides role-based access control.',
+    )
     .setVersion('1.0')
     .addTag('auth')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); 
+  SwaggerModule.setup('api', app, document);
 
+  // Enable CORS
+  const corsOptions: CorsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+    optionsSuccessStatus: 200,
+  };
+  app.enableCors(corsOptions);
 
   const configService = app.get(ConfigService);
   app.connectMicroservice({
