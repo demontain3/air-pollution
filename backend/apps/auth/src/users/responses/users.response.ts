@@ -21,11 +21,11 @@ export class UserResponse {
   @ApiProperty({ example: false, description: 'Whether the user is verified.' })
   isVerified: boolean;
 
-  @ApiProperty({ 
-    type: RoleDto, 
-    isArray: true, 
-    example: [{ name: 'Admin' }, { name: 'User' }], 
-    description: 'The roles of the user.' 
-  })
-  roles?: RoleDto[];
+  // @ApiProperty({ 
+  //   type: RoleDto, 
+  //   isArray: true, 
+  //   example: [{ name: 'Admin' }, { name: 'User' }], 
+  //   description: 'The roles of the user.' 
+  // })
+  // roles?: RoleDto[];
 }

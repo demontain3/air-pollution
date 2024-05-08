@@ -11,7 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, SignUpDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { CurrentUser, Roles } from '@app/common';
 import { User } from '@app/common';
@@ -31,10 +31,10 @@ export class UsersController {
 
   @Post('signup')
   @ApiOperation({ summary: 'Sign up a new user' })
-  @ApiBody({ type: CreateUserDto })
+  @ApiBody({ type: SignUpDto })
   @ApiResponse({ status: 201, description: 'The user has been successfully created.', type: UserResponse })
-  async signUp(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.create(createUserDto);
+  async signUp(@Body() signUpDto: SignUpDto) {
+    return await this.usersService.signup(signUpDto);
   }
 
   @Get('me')

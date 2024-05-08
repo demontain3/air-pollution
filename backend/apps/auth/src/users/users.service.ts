@@ -17,7 +17,10 @@ export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    await this.validateCreateUser(createUserDto);
+    const checkUser = await this.validateCreateUser(createUserDto.email);
+    if(checkUser === null){
+      throw new UnauthorizedException('User already exists');
+    }
     const user = new User({
       ...createUserDto,
       password: await bcrypt.hash(createUserDto.password, 10),
@@ -28,7 +31,7 @@ export class UsersService {
   }
 
   async signup(signUpDto: SignUpDto){
-    await this.validateCreateUser(signUpDto);
+    await this.validateCreateUser(signUpDto.email);
     const user = new User({
       ...signUpDto,
       password: await bcrypt.hash(signUpDto.password, 10),
@@ -37,13 +40,13 @@ export class UsersService {
     return this.usersRepository.create(user);
   }
 
-  private async validateCreateUser(createUserDto: CreateUserDto) {
+  private async validateCreateUser(email: string): Promise<User | null> {
     try {
-      await this.usersRepository.findOne({ email: createUserDto.email });
-    } catch (err) {
-      return;
+      return await this.usersRepository.findOne({ email: email });
+    } catch (err: any) {
+      console.error('Error occurred while validating user:', err);
+      return null;
     }
-    throw new UnprocessableEntityException('User already exists');
   }
 
   async verifyUser(email: string, password: string) {
