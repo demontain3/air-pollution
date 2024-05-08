@@ -1,21 +1,24 @@
-import { IsNumber, IsString, IsBoolean, IsOptional } from 'class-validator';
+import { IsNumber, IsString, IsOptional } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdatePositionDto {
-    @IsNumber()
+    @ApiPropertyOptional({ description: 'The latitude of the position' })
+    @IsNumber({},{ message: 'Latitude must be a number' })
     @IsOptional()
     lati?: number;
   
-    @IsNumber()
+    @ApiPropertyOptional({ description: 'The longitude of the position' })
+    @IsNumber({},{ message: 'Longitude must be a number' })
     @IsOptional()
     lngi?: number;
   
-    @IsNumber()
+    @ApiPropertyOptional({ description: 'The altitude of the position' })
+    @IsNumber({},{ message: 'Altitude must be a number' })
     @IsOptional()
     alti?: number;
   
-    @IsString()
+    @ApiPropertyOptional({ description: 'The timestamp of the position' })
+    @IsString({ message: 'Timestamp must be a string' })
     @IsOptional()
     timestamp?: string;
-  
-
-  }
+}

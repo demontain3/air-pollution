@@ -1,18 +1,24 @@
 import { IsNumber, IsString, IsBoolean, IsOptional } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+
 export class UpdateRouteDto {
-    @IsString()
+    @ApiPropertyOptional({ description: 'The start of the route' })
+    @IsString({ message: 'Start must be a string' })
     @IsOptional()
     start?: string;
   
-    @IsString()
+    @ApiPropertyOptional({ description: 'The finish of the route' })
+    @IsString({ message: 'Finish must be a string' })
     @IsOptional()
     finish?: string;
   
-    @IsBoolean()
+    @ApiPropertyOptional({ description: 'The completion status of the route' })
+    @IsBoolean({ message: 'Complete must be a boolean' })
     @IsOptional()
     complete?: boolean;
   
-    @IsNumber()
+    @ApiPropertyOptional({ description: 'The owner of the route' })
+    @IsNumber({},{ message: 'Owner must be a number' })
     @IsOptional()
     owner?: number;
-  }
+}

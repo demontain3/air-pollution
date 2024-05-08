@@ -3,7 +3,7 @@ import {
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, SignUpDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 import * as bcrypt from 'bcryptjs';
 import { GetUserDto } from './dto/get-user.dto';
@@ -22,6 +22,16 @@ export class UsersService {
       ...createUserDto,
       password: await bcrypt.hash(createUserDto.password, 10),
       roles: createUserDto.roles?.map((roleDto) => new Role(roleDto)),
+    });
+    user.status = Status.Live;
+    return this.usersRepository.create(user);
+  }
+
+  async signup(signUpDto: SignUpDto){
+    await this.validateCreateUser(signUpDto);
+    const user = new User({
+      ...signUpDto,
+      password: await bcrypt.hash(signUpDto.password, 10),
     });
     user.status = Status.Live;
     return this.usersRepository.create(user);

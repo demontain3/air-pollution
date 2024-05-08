@@ -1,19 +1,24 @@
-import { IsNumber, IsString, IsOptional } from "class-validator";
+import { IsNumber, IsString, IsOptional } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateSensorDataDto {
+    @ApiPropertyOptional({ description: 'The key of the sensor data' })
+    @IsString({ message: 'Key must be a string' })
     @IsOptional()
-    @IsString()
     kei?: string;
   
+    @ApiPropertyOptional({ description: 'The value of the sensor data' })
+    @IsNumber({},{ message: 'Value must be a number' })
     @IsOptional()
-    @IsNumber()
     value?: number;
   
+    @ApiPropertyOptional({ description: 'The timestamp of the sensor data' })
+    @IsString({ message: 'Timestamp must be a string' })
     @IsOptional()
-    @IsString()
     timestamp?: string;
   
+    @ApiPropertyOptional({ description: 'The owner of the device' })
+    @IsNumber({},{ message: 'Device owner must be a number' })
     @IsOptional()
-    @IsNumber()
     device_owner?: number;
-  }
+}
