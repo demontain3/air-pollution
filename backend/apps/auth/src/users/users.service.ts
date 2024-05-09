@@ -37,6 +37,8 @@ export class UsersService {
       password: await bcrypt.hash(signUpDto.password, 10),
     });
     user.status = Status.Live;
+    const role = new Role({ name: 'User' });
+    user.roles = [role];
     return this.usersRepository.create(user);
   }
 
