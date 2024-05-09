@@ -8,6 +8,8 @@ COPY yarn.lock ./
 
 RUN which yarn || npm install -g yarn
 
+RUN yarn global add @nestjs/cli
+
 COPY nest-cli.json nest-cli.json
 
 RUN which nest || yarn add @nestjs/cli
