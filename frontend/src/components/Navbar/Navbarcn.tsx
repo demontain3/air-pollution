@@ -122,7 +122,7 @@ const Navbarcn = () => {
                         Login
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[600px]">
+                    <DialogContent className="sm:max-w-[400px] border border-gray-200">
                       {/* Login form */}
                       <Login />
                     </DialogContent>

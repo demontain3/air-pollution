@@ -69,7 +69,7 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       <div className="text-center">
         <Image
           src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/logo-symbol.svg"
@@ -78,10 +78,9 @@ const Login: React.FC = () => {
           height={40}
           className="mx-auto h-12 w-auto"
         />
-        <h1 className="mt-8 text-3xl font-bold text-gray-900">Login</h1>
-        <p className="mt-4 text-sm font-medium text-gray-500">
-          Vayu Designs Is A Creative Agency that builds custom CRM solutions and
-          Websites.
+        <h1 className="mt-8 text-3xl font-bold text-slate-200">Login</h1>
+        <p className="mt-4 text-sm font-medium text-gray-300">
+          Login to your account
         </p>
       </div>
 
@@ -98,7 +97,7 @@ const Login: React.FC = () => {
                 <FormControl>
                   <Input
                     placeholder="Email address"
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm"
+                    className="block w-full rounded-lg border h-12 border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm"
                     {...field}
                   />
                 </FormControl>
@@ -115,7 +114,7 @@ const Login: React.FC = () => {
                   <Input
                     type="password"
                     placeholder="Password (min. 8 characters)"
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm"
+                    className="block w-full rounded-lg h-12 border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm"
                     {...field}
                   />
                 </FormControl>
@@ -126,16 +125,16 @@ const Login: React.FC = () => {
           <Button
             type="submit"
             variant="default"
-            className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
+            className="inline-flex w-full h-12 items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
           >
             Login
           </Button>
         </form>
       </Form>
       <div className="mt-6 text-center">
-        <p className="text-sm font-medium text-gray-900">
+        <p className="text-sm font-medium text-gray-300">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" passHref className="font-bold hover:underline">
+          <Link href="/signup" passHref className="font-bold hover:underline hover:underline-offset-2">
             Sign up now
           </Link>
         </p>
