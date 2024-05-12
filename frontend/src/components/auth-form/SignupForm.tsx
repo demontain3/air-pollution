@@ -1,4 +1,7 @@
+"use client"
+
 import React from "react"
+import Router from "next/router"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -15,9 +18,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
-import Router from "next/router"
 
-const Register = () => {
+const SignupForm = () => {
   const toast = useToast()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
@@ -33,7 +35,9 @@ const Register = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("http://localhost:8000/auth/register", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+      console.log(backendUrl)
+      const response = await fetch(`${backendUrl}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -63,9 +67,9 @@ const Register = () => {
   }
 
   return (
-    <>
+    <div className="border  w-96 p-10 rounded-md">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           <FormField
             control={form.control}
             name="firstName"
@@ -118,36 +122,11 @@ const Register = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="w-full mt-4">Submit</Button>
         </form>
       </Form>
-
-      {isSubmitting && (
-        <div className="mx-auto flex w-64 justify-between">
-          <input
-            type="text"
-            maxLength={1}
-            className="h-14 w-14 rounded border-2 border-gray-300 text-center text-lg focus:border-blue-500 focus:outline-none"
-          />
-          <input
-            type="text"
-            maxLength={1}
-            className="h-14 w-14 rounded border-2 border-gray-300 text-center text-lg focus:border-blue-500 focus:outline-none"
-          />
-          <input
-            type="text"
-            maxLength={1}
-            className="h-14 w-14 rounded border-2 border-gray-300 text-center text-lg focus:border-blue-500 focus:outline-none"
-          />
-          <input
-            type="text"
-            maxLength={1}
-            className="h-14 w-14 rounded border-2 border-gray-300 text-center text-lg focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-      )}
-    </>
+    </div>
   )
 }
 
-export default Register
+export default SignupForm

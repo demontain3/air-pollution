@@ -18,9 +18,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-import Login from "../auth/Login"
-import Register from "../auth/Register"
-import { SignupFormDemo } from "../auth/SignupForm"
+import Login from "../auth-form/LoginForm"
+import Register from "../auth-form/SignupForm"
 import Logo from "../icons/logo"
 import { Button } from "../ui/button"
 
@@ -115,33 +114,18 @@ const Navbarcn = () => {
 
               <div className="flex items-center gap-4">
                 <div className="sm:flex sm:gap-4">
-                  {/* {isLogin && ( */}
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="rounded-full border-2 border-primary bg-green-700 px-10 py-5 text-base text-white shadow dark:hover:bg-green-900">
-                        Login
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[400px] border border-gray-200">
-                      {/* Login form */}
-                      <Login />
-                    </DialogContent>
-                  </Dialog>
-                  {/* )}  */}
+                  <Link href="/auth/login">
+                    <Button className="rounded-full border-2 border-primary bg-green-700 px-10 py-5 text-base text-white shadow dark:hover:bg-green-900">
+                      Login
+                    </Button>
+                  </Link>
+
                   <div className="hidden sm:flex">
-                    {!isLogin && (
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button className="rounded-full border-[1px] border-primary bg-gray-100 bg-gray-800 px-8 py-5 text-sm font-medium text-primary text-white dark:hover:text-white/75">
-                            Register
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[600px]">
-                          {/* Register Form */}
-                          <Register />
-                        </DialogContent>
-                      </Dialog>
-                    )}
+                    <Link href="/auth/signup">
+                      <Button className="rounded-full border-[1px] border-primary  bg-gray-800 px-8 py-5 text-sm font-medium text-primary text-white dark:hover:text-white/75">
+                        Register
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -204,19 +188,19 @@ const Navbarcn = () => {
                 </DialogContent>
               </Dialog>
               {/* )}  */}{" "}
-                {!isLogin && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className=" bg-gray-800text-white mt-4 w-full rounded-md border-[1px] border-primary text-center text-sm font-medium text-primary">
-                        Register
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[600px]">
-                      {/* Register Form */}
-                      <Register />
-                    </DialogContent>
-                  </Dialog>
-                )}{" "}
+              {!isLogin && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button className=" bg-gray-800text-white mt-4 w-full rounded-md border-[1px] border-primary text-center text-sm font-medium text-primary">
+                      Register
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[600px]">
+                    {/* Register Form */}
+                    <Register />
+                  </DialogContent>
+                </Dialog>
+              )}{" "}
             </div>
           </div>
         </nav>

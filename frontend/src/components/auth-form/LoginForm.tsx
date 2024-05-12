@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { jwtDecode } from "jwt-decode"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 import { setCookie } from "@/lib/cookie"
 import {
@@ -26,11 +27,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
 
 const Login: React.FC = () => {
   const router = useRouter()
-  const { toast } = useToast()
   const { setIsLoggedIn, isLoggedIn } = useMeStore()
 
   const loginForm = useForm({
@@ -47,9 +46,12 @@ const Login: React.FC = () => {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
         formData
       )
-      toast({
-        variant: "default",
-        title: "User logged In Successfully.",
+      toast("User Logged in successfully!", {
+        description: "Sunday, December 03, 2023 at 9:00 AM",
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo"),
+        },
       })
       setIsLoggedIn(true)
       const decoded: { exp: number } = jwtDecode(response.data)
@@ -58,18 +60,18 @@ const Login: React.FC = () => {
       LocalStore.setAccessToken(response.data)
       router.push("/admindash")
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: `${error?.response?.data?.error} with Status ${
-          error?.response?.data?.statusCode ?? "Unknown"
-        }`,
-        description: error?.response?.data?.message ?? "An error occurred.",
+      toast("Failed to loggedIn", {
+        description: "Sunday, December 03, 2023 at 9:00 AM",
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo"),
+        },
       })
     }
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-96 rounded-md  border bg-slate-950 p-10">
       <div className="text-center">
         <Image
           src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/logo-symbol.svg"
@@ -97,7 +99,7 @@ const Login: React.FC = () => {
                 <FormControl>
                   <Input
                     placeholder="Email address"
-                    className="block w-full rounded-lg border h-12 border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm"
+                    className="block h-12 w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm"
                     {...field}
                   />
                 </FormControl>
@@ -114,7 +116,7 @@ const Login: React.FC = () => {
                   <Input
                     type="password"
                     placeholder="Password (min. 8 characters)"
-                    className="block w-full rounded-lg h-12 border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm"
+                    className="block h-12 w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm"
                     {...field}
                   />
                 </FormControl>
@@ -125,7 +127,7 @@ const Login: React.FC = () => {
           <Button
             type="submit"
             variant="default"
-            className="inline-flex w-full h-12 items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
+            className="inline-flex h-12 w-full items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
           >
             Login
           </Button>
@@ -134,7 +136,11 @@ const Login: React.FC = () => {
       <div className="mt-6 text-center">
         <p className="text-sm font-medium text-gray-300">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" passHref className="font-bold hover:underline hover:underline-offset-2">
+          <Link
+            href="/auth/signup"
+            passHref
+            className="font-bold hover:underline hover:underline-offset-2"
+          >
             Sign up now
           </Link>
         </p>
