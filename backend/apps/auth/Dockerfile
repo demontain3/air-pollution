@@ -6,13 +6,7 @@ COPY package.json ./
 
 COPY yarn.lock ./
 
-
 RUN which yarn || npm install -g yarn
-
-RUN yarn global add @nestjs/cli
-
-COPY nest-cli.json nest-cli.json
-
 
 RUN yarn install
 
@@ -30,7 +24,7 @@ WORKDIR /usr/src/app
 COPY package.json ./ 
 COPY yarn.lock ./
 
-RUN npm install -g yarn
+RUN npm install -g yarn 
 
 RUN yarn global add @nestjs/cli
 
