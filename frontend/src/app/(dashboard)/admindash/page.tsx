@@ -1,32 +1,26 @@
-// import { CalendarDateRangePicker } from "@/components/date-range-picker";
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BackgroundBeams } from "@/components/background-beams"
-import { Overview } from "@/components/overview"
-import { RecentSales } from "@/components/recent-sales"
+"use client";
 
-export default function page() {
+// import useAuth from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useMeStore from "@/store/useMeStore";
+
+export default function Page() {
+  const { meData } = useMeStore();
+  const userData= meData;
+
   
-
-
-
   return (
     <ScrollArea className="h-full">
-      <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
+      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Hi, Welcome back 👋
-          </h2>
-          <div className="hidden items-center space-x-2 md:flex">
-            {/* <CalendarDateRangePicker /> */}
+          <div className="text-3xl font-bold tracking-tight">
+            Welcome back{" "}
+            {userData?.email.substring(0, userData?.email.indexOf("@"))} 👋{" "}
+          </div>
+          <div className="hidden md:flex items-center space-x-2">
             <Button>Download</Button>
           </div>
         </div>
@@ -141,30 +135,9 @@ export default function page() {
                 </CardContent>
               </Card>
             </div>
-            {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
-                <CardHeader>
-                  <CardTitle>Overview</CardTitle>
-                </CardHeader>
-                <CardContent className="pl-2">
-                  <Overview />
-                </CardContent>
-              </Card>
-              <Card className="col-span-4 md:col-span-3">
-                <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
-                  <CardDescription>
-                    You made 265 sales this month.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RecentSales />
-                </CardContent>
-              </Card>
-              </div> */}
           </TabsContent>
         </Tabs>
       </div>
     </ScrollArea>
-  )
+  );
 }

@@ -1,26 +1,58 @@
-import { BackgroundBeams } from "@/components/background-beams";
-import Header from "@/components/layout/header";
-import Sidebar from "@/components/layout/sidebar";
-import type { Metadata } from "next";
+import React from "react"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
+import axios from "axios"
 
-export const metadata: Metadata = {
-  title: "Next Shadcn Dashboard Starter",
-  description: "Basic dashboard with Next.js and Shadcn",
-};
+import Header from "@/components/layout/header"
+import Sidebar from "@/components/layout/sidebar"
+import RootLayout from "@/app/layout"
 
-export default function DashboardLayout({
+async function checkIfLoggedIn() {
+  let isLoading = true
+
+  try {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+
+    const res = await axios.get(
+      `${backendUrl}/users/me`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cookies().get("accessToken")?.value}`,
+        },
+      }
+    )
+
+    isLoading = false
+
+    if (res?.data?.id) {
+      return { data: res.data, isLoading }
+    } else {
+      redirect("/login")
+      return { data: null, isLoading }
+    }
+  } catch (e) {
+    isLoading = false
+    redirect("/login")
+    return { data: null, isLoading }
+  }
+}
+
+export default async function DashboardLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  const { data: userData, isLoading } = await checkIfLoggedIn()
   return (
-    <>
-      <Header />
-      <div className="flex h-screen overflow-hidden">
-        <Sidebar />
-        <main className="w-full pt-16 bg-slate-700">{children}
+    <div>
+      <Header userData={userData} />
+      <div className="flex h-screen ">
+        <Sidebar userData={userData} isLoading={isLoading} />
+        <main className="mb-10 mt-16  w-full overflow-x-hidden overflow-y-scroll md:p-4">
+          {children}
         </main>
       </div>
-    </>
-  );
+    </div>
+  )
 }

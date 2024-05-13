@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { User } from "@/types";
 
 interface  useMeStore {
-  organizationId: any;
   meData: User | null;
   setMeData: (user: User | null) => void;
 
@@ -14,7 +13,6 @@ interface  useMeStore {
 }
 
 const useMeStore = create<useMeStore>((set) => ({
-  organizationId: null, // Add the organizationId property
   meData: null,
   setMeData: (meData) => set({ meData }),
 
