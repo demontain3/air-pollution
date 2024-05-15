@@ -24,10 +24,18 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
+
+import { Label } from "../ui/label"
+
+export const inputLead =
+  "peer block w-full h-14 appearance-none rounded-t-lg border-0 border-b-2 border-l-2 border-green-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm focus:border-green-600 focus:outline-none focus:ring-0 dark:border-green-600 bg-slate-950 dark:text-white dark:focus:border-green-500"
+export const labelLead =
+  "absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-600 dark:text-gray-400 peer-focus:dark:text-green-500 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
 
 export default function SignupForm() {
   const router = useRouter()
@@ -35,8 +43,8 @@ export default function SignupForm() {
   const signupForm = useForm({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
-      firstName: "Suman",
-      lastName: "Sharma",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       // organizationId: NaN,
@@ -62,6 +70,7 @@ export default function SignupForm() {
         throw error
       }
     },
+
     // Define success behavior
     onSuccess: (data) => {
       toast({
@@ -70,6 +79,7 @@ export default function SignupForm() {
       })
       router.push("/auth/login")
     },
+
     // Define error handling
     onError: (error) => {
       console.log(error?.response?.data)
@@ -95,7 +105,7 @@ export default function SignupForm() {
   }
 
   return (
-    <div className="28 w-96 items-center rounded-lg border border-slate-300 bg-white p-5 drop-shadow-2xl">
+    <div className="28 w-[28rem] items-center rounded-lg border border-slate-300 bg-slate-950 p-10 drop-shadow-2xl">
       <div className="text-center">
         <Image
           src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/logo-symbol.svg"
@@ -104,7 +114,7 @@ export default function SignupForm() {
           height={40}
           className="mx-auto h-12 w-auto"
         />
-        <h1 className="mt-8 text-3xl font-bold text-gray-900">Signup</h1>
+        <h1 className="mt-8 text-3xl font-bold text-green-500">Signup</h1>
         <p className="mt-4 text-sm font-medium text-gray-500">
           Vayu Is A Creative Agency that builds custom CRM solutions and
           Websites.
@@ -122,11 +132,18 @@ export default function SignupForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder="First Name"
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      id="firstName"
+                      className={inputLead}
+                      placeholder=" "
+                      {...field}
+                    />
+                    <Label htmlFor="firstName" className={labelLead}>
+                      First Name
+                    </Label>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -141,7 +158,7 @@ export default function SignupForm() {
                 <FormControl>
                   <Input
                     placeholder="Last Name"
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
+                    className="block h-12 w-full rounded-sm border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
                     {...field}
                   />
                 </FormControl>
@@ -158,7 +175,7 @@ export default function SignupForm() {
                 <FormControl>
                   <Input
                     placeholder="Email address"
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
+                    className="block h-12 w-full rounded-sm border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
                     {...field}
                   />
                 </FormControl>
@@ -175,7 +192,7 @@ export default function SignupForm() {
                   <Input
                     type="password"
                     placeholder="Password (min. 8 characters)"
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
+                    className="block h-12 w-full rounded-sm border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
                     {...field}
                   />
                 </FormControl>
@@ -186,16 +203,20 @@ export default function SignupForm() {
           <Button
             type="submit"
             variant="default"
-            className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
+            className="inline-flex h-12 w-full items-center justify-center rounded-sm border border-transparent bg-primary px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
           >
             Sign Up
           </Button>
         </form>
       </Form>
       <div className="mt-6 text-center">
-        <p className="text-sm font-medium text-gray-900">
+        <p className="text-sm font-medium text-gray-300">
           Already have an account?{" "}
-          <Link href="/login" passHref className="font-bold hover:underline">
+          <Link
+            href="/auth/login"
+            passHref
+            className="font-bold hover:underline"
+          >
             Login now
           </Link>
         </p>

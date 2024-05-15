@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { User } from "@/types";
 type Props = {
-  userData: User;
+  userData: any;
 }
 export default function Header({userData}: Props) {
 

@@ -1,16 +1,9 @@
-// import { NextRequest } from "next/server";
-// import { updateSession } from "@/lib/mainlib";
-
-// export async function middleware(request: NextRequest) {
-//   return await updateSession(request);
-// }
-
-
-
 // import { cookies } from "next/headers"
-// import { NextResponse } from "next/server"
+// import { NextRequest, NextResponse } from "next/server"
 // import axios from "axios"
 // import { jwtDecode } from "jwt-decode"
+
+
 // interface MyCookies {
 //   accessToken?: {
 //     name: string
@@ -31,6 +24,8 @@
 //   const accessTokencookies = cookiesStore.get("accessToken")
 //   const currentPath = new URL(request.url).pathname
 //   const accessToken = accessTokencookies?.value
+
+  
 //   const token = accessToken
 //   let decodedToken: { userId?: string } | undefined
 //   try {
