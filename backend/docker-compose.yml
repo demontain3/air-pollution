@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
-      target: development
+      target: production
     command: yarn start:dev auth
     env_file:
       - ./apps/auth/.env
@@ -11,12 +11,13 @@ services:
       - '2610:2610'
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
 
   notifications:
     build:
       context: .
       dockerfile: ./apps/notifications/Dockerfile
-      target: development
+      target: production
     command: yarn start:dev notifications
     env_file:
       - ./apps/notifications/.env
@@ -24,12 +25,13 @@ services:
       - '2612:2612'
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
 
   calibrate:
       build:
         context: .
         dockerfile: ./apps/calibrate/Dockerfile
-        target: development
+        target: production
       command: yarn start:dev calibrate
       env_file:
         - ./apps/calibrate/.env
@@ -37,6 +39,7 @@ services:
         - '2614:2614'
       volumes:
         - .:/usr/src/app
+        - /usr/src/app/node_modules
 
   postgres:
     image: postgres

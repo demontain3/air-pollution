@@ -51,11 +51,7 @@
     "postgres": "^3.4.3",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.20",
-    "@nestjs/cli": "^10.0.0",
-    "ts-jest": "^29.1.0",
-    "ts-loader": "^9.4.3",
-    "ts-node": "^10.9.1"
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
