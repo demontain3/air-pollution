@@ -1,17 +1,13 @@
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+"use client"
+
+import { Poppins } from "next/font/google"
 
 import "./globals.css"
 
-import { Toaster } from "@/components/ui/sonner"
+import { ReactQueryProvider } from "@/lib/providers/QueryProviders"
+import { Toaster } from "@/components/ui/toaster"
 
-const inter = Inter({ subsets: ["latin"] })
-
-export const metadata: Metadata = {
-  title: "Vayu - Air Quality Info System",
-  description:
-    "Vayu is the IOT based platform for the company to monitor the air quality of the environment.",
-}
+const font = Poppins({ weight: "500", subsets: ["latin"] })
 
 export default function RootLayout({
   children,
@@ -20,11 +16,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Toaster />
-        {/* <Navbar /> */}
-        {children}
-        {/* <Footer /> */}
+      <body className={font.className}>
+        <ReactQueryProvider>
+          <div className="flex overflow-hidden">
+            <main className="w-full">
+              {children}
+              <Toaster />
+            </main>
+          </div>
+        </ReactQueryProvider>
       </body>
     </html>
   )

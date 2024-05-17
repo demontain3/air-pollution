@@ -5,6 +5,7 @@ import React, { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import logo from "@/../public/The Wind (1).svg"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   useMutation,
@@ -12,6 +13,7 @@ import {
   UseMutationResult,
 } from "@tanstack/react-query"
 import axios, { AxiosError, AxiosResponse } from "axios"
+import { Eye, EyeOff } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 import {
@@ -33,13 +35,15 @@ import { useToast } from "@/components/ui/use-toast"
 import { Label } from "../ui/label"
 
 export const inputLead =
-  "peer block w-full h-14 appearance-none rounded-t-lg border-0 border-b-2 border-l-2 border-green-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm focus:border-green-600 focus:outline-none focus:ring-0 dark:border-green-600 bg-slate-950 dark:text-white dark:focus:border-green-500"
+  "peer block w-full h-14 appearance-none rounded-t-lg border-0 border-b-2 border-l-2 border-green-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm focus:border-green-600 focus:outline-none focus:ring-0 dark:border-green-600 bg-slate-950 dark:text-white dark:focus:border-green-500 text-gray-300"
 export const labelLead =
   "absolute start-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-600 dark:text-gray-400 peer-focus:dark:text-green-500 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
 
 export default function SignupForm() {
   const router = useRouter()
   const { toast } = useToast()
+  const [isView, setIsView] = useState(false)
+
   const signupForm = useForm({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
@@ -108,7 +112,9 @@ export default function SignupForm() {
     <div className="28 w-[28rem] items-center rounded-lg border border-slate-300 bg-slate-950 p-10 drop-shadow-2xl">
       <div className="text-center">
         <Image
-          src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/logo-symbol.svg"
+          src={
+            "https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/logo-symbol.svg"
+          }
           alt=""
           width={120}
           height={40}
@@ -116,8 +122,7 @@ export default function SignupForm() {
         />
         <h1 className="mt-8 text-3xl font-bold text-green-500">Signup</h1>
         <p className="mt-4 text-sm font-medium text-gray-500">
-          Vayu Is A Creative Agency that builds custom CRM solutions and
-          Websites.
+          Vayu who cares about your .env
         </p>
       </div>
 
@@ -138,6 +143,10 @@ export default function SignupForm() {
                       id="firstName"
                       className={inputLead}
                       placeholder=" "
+                      style={{
+                        WebkitBoxShadow: "0 0 0px 1000px #111827 inset",
+                        WebkitTextFillColor: "#D1D5DB",
+                      }}
                       {...field}
                     />
                     <Label htmlFor="firstName" className={labelLead}>
@@ -156,11 +165,22 @@ export default function SignupForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder="Last Name"
-                    className="block h-12 w-full rounded-sm border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      id="lastName"
+                      className={inputLead}
+                      placeholder=" "
+                      style={{
+                        WebkitBoxShadow: "0 0 0px 1000px #111827 inset",
+                        WebkitTextFillColor: "#D1D5DB",
+                      }}
+                      {...field}
+                    />
+                    <Label htmlFor="lastName" className={labelLead}>
+                      Last Name
+                    </Label>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -173,11 +193,22 @@ export default function SignupForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder="Email address"
-                    className="block h-12 w-full rounded-sm border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Input
+                      type="email"
+                      id="email"
+                      className={inputLead}
+                      placeholder=" "
+                      style={{
+                        WebkitBoxShadow: "0 0 0px 1000px #111827 inset",
+                        WebkitTextFillColor: "#D1D5DB",
+                      }}
+                      {...field}
+                    />
+                    <Label htmlFor="email" className={labelLead}>
+                      Email
+                    </Label>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -189,12 +220,36 @@ export default function SignupForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Password (min. 8 characters)"
-                    className="block h-12 w-full rounded-sm border border-gray-300 px-4 py-3 placeholder-gray-500 sm:text-sm "
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Input
+                      type={isView ? "text" : "password"}
+                      id="password"
+                      className={inputLead}
+                      placeholder=" "
+                      style={{
+                        WebkitBoxShadow: "0 0 0px 1000px #111827 inset",
+                        WebkitTextFillColor: "#D1D5DB",
+                      }}
+                      {...field}
+                    />
+                    {isView ? (
+                      <Eye
+                        className="absolute right-4 top-4 z-10 cursor-pointer text-gray-500"
+                        onClick={() => {
+                          setIsView(!isView), console.log(isView)
+                        }}
+                      />
+                    ) : (
+                      <EyeOff
+                        className="absolute right-4 top-4 z-10 cursor-pointer text-gray-500"
+                        onClick={() => setIsView(!isView)}
+                      />
+                    )}
+
+                    <Label htmlFor="password" className={labelLead}>
+                      Password
+                    </Label>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

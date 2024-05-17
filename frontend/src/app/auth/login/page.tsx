@@ -1,5 +1,4 @@
 import React from "react"
-
 import Login from "@/components/auth-form/LoginForm"
 
 const page = () => {
