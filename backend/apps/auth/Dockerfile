@@ -12,7 +12,7 @@ RUN which yarn || npm install -g yarn
 
 RUN yarn install
 
-COPY apps/auth  apps/auth
+COPY apps/auth apps/auth
 
 COPY libs libs
 
