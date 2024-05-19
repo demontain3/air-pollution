@@ -7,16 +7,19 @@ COPY package.json ./
 COPY yarn.lock ./
 
 COPY tsconfig.json tsconfig.json
+COPY nest-cli.json nest-cli.json
 
 RUN which yarn || npm install -g yarn
 
 RUN yarn install
 
-COPY apps/notifications  apps/notifications
+COPY apps/notifications apps/notifications
 
 COPY libs libs
 
-RUN yarn run build auth
+RUN cd apps/notifications && yarn install
+
+RUN yarn run build notifications
 
 FROM node:alpine as production
 

@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
-      target: production
+      target: development
     command: yarn start:dev auth
     env_file:
       - ./apps/auth/.env
@@ -17,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/notifications/Dockerfile
-      target: production
+      target: development
     command: yarn start:dev notifications
     env_file:
       - ./apps/notifications/.env
@@ -31,7 +31,7 @@ services:
       build:
         context: .
         dockerfile: ./apps/calibrate/Dockerfile
-        target: production
+        target: development
       command: yarn start:dev calibrate
       env_file:
         - ./apps/calibrate/.env
@@ -48,9 +48,6 @@ services:
         - .env
       ports:
         - '5432:5432' 
-      volumes:
-        - postgres_data:/var/lib/postgresql/data  
 
-volumes:
-  postgres_data:            
+        
 

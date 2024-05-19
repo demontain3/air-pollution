@@ -7,6 +7,7 @@ COPY package.json ./
 COPY yarn.lock ./
 
 COPY tsconfig.json tsconfig.json
+COPY nest-cli.json nest-cli.json
 
 RUN which yarn || npm install -g yarn
 
@@ -15,6 +16,8 @@ RUN yarn install
 COPY apps/auth apps/auth
 
 COPY libs libs
+
+RUN cd apps/auth && yarn install
 
 RUN yarn run build auth
 

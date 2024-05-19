@@ -6,15 +6,20 @@ COPY package.json ./
 
 COPY yarn.lock ./
 
+COPY tsconfig.json tsconfig.json
+COPY nest-cli.json nest-cli.json
+
 RUN which yarn || npm install -g yarn
 
 RUN yarn install
 
-RUN yarn global add @nestjs/cli
+COPY apps/calibrate apps/calibrate
 
-COPY . .
+COPY libs libs
 
-RUN yarn run build
+RUN cd apps/calibrate && yarn install
+
+RUN yarn run build calibrate
 
 FROM node:alpine as production
 
