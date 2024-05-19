@@ -3,7 +3,6 @@
 import { useEffect } from "react"
 import { navItems } from "@/constants/data"
 import useMeStore from "@/store/useMeStore"
-import { User } from "@/types"
 
 import { cn } from "@/lib/utils"
 import { DashboardNav } from "@/components/dashboard-nav"
@@ -12,6 +11,8 @@ type Props = {
   userData: any
   isLoading: boolean
 }
+
+
 export default function Sidebar({ userData, isLoading }: Props) {
   const { setMeData, setIsLoading } = useMeStore()
 

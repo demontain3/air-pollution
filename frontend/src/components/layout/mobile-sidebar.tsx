@@ -13,16 +13,18 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function MobileSidebar({ className }: SidebarProps) {
   const [open, setOpen] = useState(false);
+
+
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger asChild>
-          <MenuIcon />
+        <SheetTrigger asChild >
+          <MenuIcon className="text-green-500" />
         </SheetTrigger>
-        <SheetContent side="left" className="!px-0">
+        <SheetContent side="left" className="!px-0 bg-slate-950 w-96">
           <div className="space-y-4 py-4">
             <div className="px-3 py-2">
-              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-primary">
                 Overview
               </h2>
               <div className="space-y-1">

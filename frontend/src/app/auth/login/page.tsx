@@ -1,5 +1,10 @@
 import React from "react"
 import Login from "@/components/auth-form/LoginForm"
+import { metaObject } from "@/config/site.config";
+
+export const metadata = {
+  ...metaObject('Login To Vayu'),
+};
 
 const page = () => {
   return (

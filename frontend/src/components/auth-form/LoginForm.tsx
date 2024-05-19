@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import loginMutationAction from "@/server/actions/loginAction"
 import { LocalStore } from "@/store/localStore"
 import useMeStore from "@/store/useMeStore"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -55,15 +56,7 @@ const Login: React.FC = () => {
     LoginFormType,
     unknown
   > = {
-    mutationFn: async (formData: LoginFormType) => {
-      try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
-        const response = await axios.post(`${backendUrl}/auth/login`, formData)
-        return response
-      } catch (error) {
-        throw error
-      }
-    },
+    mutationFn: loginMutationAction, // The server action for loginmutation
     onSuccess: (data) => {
       toast("User Logged IN SuccessFully", {
         description: "Sunday, December 03, 2023 at 9:00 AM",
@@ -81,6 +74,7 @@ const Login: React.FC = () => {
 
       router.push("/admindash")
       console.log("ONE")
+      
     },
     onError: (error) => {
       toast("Failed to logged in", {

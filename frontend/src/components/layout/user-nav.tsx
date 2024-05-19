@@ -28,7 +28,7 @@ export function UserNav({userData}:Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="h-10  cursor-pointer flex items-center justify-between min-w-0 space-x-3 w-10  rounded-full bg-slate-300 text-black">
+        <div className="h-10 border-2 border-green-400  cursor-pointer flex items-center justify-between min-w-0 space-x-3 w-10  rounded-full bg-slate-300 text-black">
           {userData && (
             <Avatar >
               {/* <Image height={32} width={32} src={img} alt="Profile picture" /> */}

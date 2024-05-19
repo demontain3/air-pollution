@@ -1,6 +1,11 @@
-import SignupForm from "@/components/auth-form/SignupForm"
 import React from "react"
 
+import SignupForm from "@/components/auth-form/SignupForm"
+
+export const metadata = {
+  title: "Sign Up",
+  description: "Sign up to Vayu",
+}
 
 const page = () => {
   return (
