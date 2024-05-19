@@ -12,6 +12,8 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+      - /usr/src/app/apps/auth/node_modules
+
 
   notifications:
     build:
@@ -26,6 +28,8 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+      - /usr/src/app/apps/notifications/node_modules
+
 
   calibrate:
       build:
@@ -40,6 +44,8 @@ services:
       volumes:
         - .:/usr/src/app
         - /usr/src/app/node_modules
+        - /usr/src/app/apps/calibrate/node_modules
+
 
   postgres:
       
