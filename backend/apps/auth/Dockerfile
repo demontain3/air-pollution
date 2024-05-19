@@ -6,15 +6,17 @@ COPY package.json ./
 
 COPY yarn.lock ./
 
+COPY tsconfig.json tsconfig.json
+
 RUN which yarn || npm install -g yarn
 
 RUN yarn install
 
-RUN yarn global add @nestjs/cli
+COPY apps/auth  apps/auth
 
-COPY . .
+COPY libs libs
 
-RUN yarn run build
+RUN yarn run build auth
 
 FROM node:alpine as production
 
@@ -27,8 +29,6 @@ COPY package.json ./
 COPY yarn.lock ./
 
 RUN npm install -g yarn 
-
-RUN yarn global add @nestjs/cli
 
 RUN yarn install --prod
 
