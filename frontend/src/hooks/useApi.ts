@@ -1,24 +1,3 @@
-// import { useQuery } from '@tanstack/react-query';
-// import axios from 'axios';
-
-// interface ApiResponse<T> {
-//   data: T | null;
-//   error: string | null;
-//   isLoading: boolean;
-// }
-
-// export function useApi<T>(url: string): ApiResponse<T> {
-//   const { data, error, isLoading } = useQuery<T, Error>({
-//     queryKey: [url],
-//     queryFn: async () => {
-//       const response = await axios.get<T>(url);
-//       return response.data;
-//     },
-//   });
-
-//   return { data: data as T | null, error: error?.message ?? null, isLoading };
-// }
-
 import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 

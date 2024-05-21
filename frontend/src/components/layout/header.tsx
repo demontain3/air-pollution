@@ -17,7 +17,7 @@ type Props = {
 }
 export default function Header({ userData }: Props) {
   return (
-    <div className="supports-backdrop-blur:bg-background/60 fixed left-0 right-0 top-0 z-20 border-b bg-background/95 bg-slate-950 py-1 backdrop-blur">
+    <div className="supports-backdrop-blur:bg-background/60 fixed left-0 right-0 top-0 z-20  bg-background/95 border-b border-primary bg-slate-950 text-slate-300 py-1 backdrop-blur">
       <nav className="flex h-16 items-center justify-between px-2">
         <div className="mx-6 hidden lg:block">
           <Link href="/dashboard">

@@ -19,11 +19,12 @@ export default function Page() {
           <div className="flex items-center justify-between space-y-2">
             <div className="text-3xl font-bold tracking-tight text-gray-400">
               Welcome back,{" "}
-              <span className="from-gradient-start via-gradient-middle to-gradient-end animate-gradient bg-gradient-to-r bg-clip-text text-transparent">
-                {userData?.email
+              <span className="text-primary">
+                {/* {userData?.email
                   .substring(0, userData?.email.indexOf("@"))
                   .toUpperCase()}{" "}
-                👋{" "}
+                👋{" "} */}
+                {userData?.firstName.toUpperCase()}👋
               </span>
             </div>
             <div className="hidden items-center space-x-2 md:flex">

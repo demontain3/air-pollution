@@ -65,7 +65,7 @@
 import React from "react"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 
 import Header from "@/components/layout/header"
 import Sidebar from "@/components/layout/sidebar"
@@ -87,7 +87,7 @@ async function checkIfLoggedIn() {
       }
     )
 
-    console.log(res, "res")
+    console.log((res as AxiosResponse<any, any>).data.roles, "res")
 
     isLoading = false
 

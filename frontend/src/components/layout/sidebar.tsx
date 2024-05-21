@@ -25,7 +25,7 @@ export default function Sidebar({ userData, isLoading }: Props) {
 
   return (
     <nav
-      className={cn(`relative hidden h-screen w-80 border-r pt-16 lg:block`)}
+      className={cn(`relative hidden h-screen w-72 border-r border-primary pt-16 lg:block`)}
     >
       <div className="space-y-4 py-4">
         <div className="px-2 py-2">
