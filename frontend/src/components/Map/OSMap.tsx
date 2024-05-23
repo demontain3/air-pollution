@@ -1,31 +1,57 @@
 "use client"
 
-import React from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import React, { useState, useRef } from 'react'
+import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import { Map } from 'leaflet';
 
-import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
-
-interface OSMapProps {
-  position: [number, number];
-  zoom: number;
+interface Location {
+  loaded: boolean;
+  error: boolean;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
 }
 
-export default function OSMap(props: OSMapProps) {
-  const { position, zoom } = props;
+interface OpenStreetMapProps {
+  location: Location;
+}
+
+const OSMap: React.FC<OpenStreetMapProps> = ({ location }) => {
+  const [center, setCenter] = useState({ lat: -4.043477, lng: 39.668205 })
+  const ZOOM_LEVEL = 9
+  const mapRef = useRef<Map | null>(null);
 
   return (
-    <MapContainer center={position} zoom={zoom} scrollWheelZoom={true}>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={position}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-    </MapContainer>
-  );
+    <>
+      <div className='container'>
+        <div className='container'>
+          <h1 className='text-center-mt-5'>OpenStreetMap Embeded</h1>
+        </div>
+        <div className='row'>
+          <div className='col'>
+            <div className='container'>
+              <MapContainer center={center} zoom={ZOOM_LEVEL} ref={mapRef}>
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                />
+                {location.loaded && !location.error && (
+                  <Marker
+                    position={[
+                      location.coordinates.lat,
+                      location.coordinates.lng,
+                    ]}
+                  ></Marker>
+                )}
+              </MapContainer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
+
+export default OSMap
