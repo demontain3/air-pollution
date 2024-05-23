@@ -9,7 +9,7 @@ import { Customer, Lead } from "@/types"
 export const columns: ColumnDef<Customer>[] = [
  
   {
-    accessorKey: "name",
+    accessorKey: "firstName",
     header: "Name",
   },
   {
@@ -17,8 +17,8 @@ export const columns: ColumnDef<Customer>[] = [
     header: "Email",
   },
   {
-    accessorKey: "phone",
-    header: "Phone",
+    accessorKey: "email",
+    header: "Email",
   },
   {
     accessorKey: "createdAt",

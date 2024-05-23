@@ -128,11 +128,12 @@ DataTableProps<TData, TValue>) {
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="hover:bg-transparent"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {cell.column.id === "name" ? (
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-4 ">
                         {/* <Avatar>
                           <AvatarImage
                             src={
@@ -169,26 +170,26 @@ DataTableProps<TData, TValue>) {
                     className="w-12 flex-col "
                     onClick={() =>
                       router.push(
-                        `/dashboard/customers/${
+                        `/admindash/users/${
                           (row?.original as { id: number })?.id
                         }`
                       )
                     }
                   >
                     <PencilLine width={100} height={100} />
-                    <p className="h-1 text-sm text-primary">Edit</p>
+                    {/* <p className="h-1 text-sm text-primary">Edit</p> */}
                   </Button>
 
                   <DeleteButton
                     id={(row?.original as { id: number })?.id}
-                    entity="customers"
+                    entity="users"
                     onDeleteSuccess={() => {
                       {
                         refetchData
                       }
                     }}
-                    queryKey={["customers"]}
-                    url={process.env.NEXT_PUBLIC_BACKEND_API_URL_LEADS}
+                    queryKey={["users"]}
+                    url={process.env.NEXT_PUBLIC_BACKEND_URL}
                   />
                 </TableCell>
               </TableRow>

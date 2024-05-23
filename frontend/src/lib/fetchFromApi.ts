@@ -20,10 +20,10 @@ export const fetchFromApi = async <T>({
 }): Promise<ApiData<T> | Blob> => {
   // Update the return type to include Blob
   if (type === "export") {
-    if (who === "customers") {
-      url = `${process.env.NEXT_PUBLIC_BACKEND_API_URL_LEADS}/customers/export/csv`;
+    if (who === "users") {
+      url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/export/csv`;
     } else {
-      url = `${process.env.NEXT_PUBLIC_BACKEND_API_URL_LEADS}/leads/export/csv`;
+      url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/export/csv`;
     }
   }
   const rangeFilters = filters

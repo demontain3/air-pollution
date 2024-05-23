@@ -17,7 +17,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import { LocalStore } from "@/store/localstore";
+import { LocalStore } from "@/store/localStore";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 
@@ -139,7 +139,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild className="hover:bg-gray-100 w-full">
+      <AlertDialogTrigger asChild className=" w-full">
         <Button
           variant={type === "button" ? "default" : "mini"}
           className={cn(
@@ -148,18 +148,17 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
               : "flex-col w-12"
           )}
         >
-          <Trash size={16} className="font-bold" />
-          <p className={cn(type === "button" ? "" : "text-xs h-1")}>Remove</p>
+          <Trash size={16} className="text-primary font-extrabold" />
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-slate-950">
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure you want to delete?</AlertDialogTitle>
+          <AlertDialogTitle className="text-slate-300">Are you sure you want to delete?</AlertDialogTitle>
           <AlertDialogDescription>{message}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => mutation.mutate()}>
+          <AlertDialogCancel className="rounded-none">Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => mutation.mutate()} className="rounded-none">
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

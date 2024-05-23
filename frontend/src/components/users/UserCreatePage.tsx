@@ -40,40 +40,22 @@ import { Textarea } from "@/components/ui/textarea"
 import { inputLead, labelLead } from "../auth-form/SignupForm"
 import { Label } from "../ui/label"
 
-const leadSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "Name can't be empty " })
-    .max(255)
-    .optional(),
-  phone: z
-    .string()
-    .min(1, { message: "Phone number cannot be empty" })
-    .max(20, { message: "can't exceed 20 characters" })
-    .optional(),
-  email: z.string().email(),
 
-  revenuePotential: z.coerce.number().optional(),
-
-  profile: z.instanceof(File).optional(),
-  segment: z.string().max(50).optional(), // segment lai address ma change gareko just to divert error
-  details: z.string().optional(),
-})
-
-type LeadData = z.infer<typeof leadSchema> & { [key: string]: any }
+type userData = z.infer<typeof signupFormSchema> & { [key: string]: any }
 
 interface Props {
   closeDialog: (value: any) => void
   refetch: () => void
 }
 
-const UserCreatePage = ({ closeDialog, refetch: refetchCustomer }: Props) => {
+const UserCreatePage = ({ closeDialog, refetch }: Props) => {
   const { meData } = useMeStore()
-  //   const { setLeadFormSubmitted } = useleadFormSubmitted()
+    // const { setLeadFormSubmitted } = useleadFormSubmitted()
   const [isOpen, setIsOpen] = React.useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
   const [isView, setIsView] = useState(false)
+
 
   const signupForm = useForm({
     resolver: zodResolver(signupFormSchema),
@@ -82,52 +64,26 @@ const UserCreatePage = ({ closeDialog, refetch: refetchCustomer }: Props) => {
       lastName: "",
       email: "",
       password: "",
-      // organizationId: NaN,
     },
-  })
+  });
 
-  const createCustomerMutation = useMutation({
-    mutationFn: async (data: LeadData) => {
-      const formData = new FormData()
-
-      for (const key in data) {
-        if (key !== "profile") {
-          if (key === "priority") {
-            if (data[key] !== undefined) {
-              formData.append(key, Number(data[key]).toString())
-            }
-          } else if (key === "product" || key === "service") {
-            if (typeof data[key] === "object" && data[key] !== null) {
-              const nestedData = data[key] as { name?: string | undefined }
-              if (nestedData.name !== undefined) {
-                formData.append(`${key}[name]`, nestedData.name)
-              }
-            }
-          } else {
-            formData.append(key, data[key])
-          }
-        }
-      }
-
-      if (data.profile) {
-        formData.append("profile", data.profile, data.profile.name)
-      }
-
+  const createUserMutation = useMutation({
+    mutationFn: async (data: userData) => {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL_LEADS}/customers`,
-        formData,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signup`,
+        data,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${LocalStore.getAccessToken()}`,
           },
         }
-      )
+      );
 
       if (response.status === 200 || response.status === 201) {
-        return response.data
+        return response.data;
       } else {
-        throw new Error("An error occurred while creating the lead.")
+        throw new Error("An error occurred while creating the user.");
       }
     },
     onError: (err: any) => {
@@ -135,7 +91,7 @@ const UserCreatePage = ({ closeDialog, refetch: refetchCustomer }: Props) => {
         description:
           `${
             err.response?.data?.message ||
-            "An error occurred while creating the Customer."
+            "An error occurred while creating the user."
           } ` +
           `${
             err.response?.data?.error
@@ -147,63 +103,51 @@ const UserCreatePage = ({ closeDialog, refetch: refetchCustomer }: Props) => {
               ? `Status Code: ${err.response?.data?.statusCode}`
               : ""
           }`,
-      })
+      });
     },
     onSuccess: (data) => {
-      refetchCustomer()
-      //   setLeadFormSubmitted(true)
-      leadCreationForm.reset()
-      router.push("/dashboard/customers")
-      closeDialog(false)
+      refetch();
+      signupForm.reset();
+      router.push("/admindash/user");
+      closeDialog(false);
       toast("Success ✅✅", {
         description: "User has been created successfully!",
         action: {
           label: "Undo",
           onClick: () => console.log("Undo"),
         },
-      })
+      });
     },
-  })
+  });
 
-  const handleSubmit = (values: LeadData) => {
-    createCustomerMutation.mutate(values)
-  }
+  const handleSubmit = (values: userData) => {
+    createUserMutation.mutate(values);
+  };
 
   useEffect(() => {
-    const hasAdminRole = meData?.roles?.some((role) => role.name === "Admin")
-    console.log(isAdmin)
-    setIsAdmin(hasAdminRole ?? false)
-  }, [meData])
+    const hasAdminRole = meData?.roles?.some((role) => role.name === "Admin");
+    setIsAdmin(hasAdminRole ?? false);
+  }, [meData]);
 
-  const leadCreationForm = useForm<z.infer<typeof leadSchema>>({
-    resolver: zodResolver(leadSchema),
-    defaultValues: {
-      email: "",
-      details: "",
-      phone: "",
-      name: "",
-      profile: undefined,
-      revenuePotential: 0,
-      segment: "", //
-    },
-  })
+
 
   return (
     <div className="mx-auto flex flex-col justify-start">
-      <div className="flex flex-row items-center justify-start gap-2 text-3xl font-extrabold text-primary ">
+      <div className="flex flex-row items-center justify-start gap-2 text-3xl font-extrabold text-primary relative bottom-4 ">
         <ChevronLeft
           size={28}
           strokeWidth={3}
           onClick={() => router.back()}
           className="cursor-pointer text-primary transition-transform duration-300 ease-in-out hover:scale-110 hover:text-green-400"
         />
-        <h1>Customer</h1>
+        <h1>Add New User</h1>
       </div>
-      <div className="grid gap-4 py-4">
+      <div className="grid gap-4 py-4 w-full relative bottom-4">
         <Form {...signupForm}>
           <form
             onSubmit={signupForm.handleSubmit(handleSubmit)}
-            className="mt-4 space-y-4 "
+            className="mt-4 space-y-4 w-full "
+            // action={createUser}
           >
             <div className="w-full">
               <FormField
@@ -216,7 +160,8 @@ const UserCreatePage = ({ closeDialog, refetch: refetchCustomer }: Props) => {
                         <Input
                           type="text"
                           id="firstName"
-                          className={inputLead}
+                          // className={inputLead}
+                          className="peer block w-[440px] h-14 appearance-none rounded-t-lg border-0 border-b-2 border-l-2 border-green-300 px-2.5 pb-2.5 pt-5 text-sm focus:border-green-600 focus:outline-none focus:ring-0 dark:border-green-600 bg-slate-950 dark:text-white dark:focus:border-green-500 text-gray-300"
                           placeholder=" "
                           style={{
                             WebkitBoxShadow: "0 0 0px 1000px #111827 inset",
@@ -335,9 +280,9 @@ const UserCreatePage = ({ closeDialog, refetch: refetchCustomer }: Props) => {
             <Button
               type="submit"
               variant="default"
-              disabled={createCustomerMutation.isPending}
+              disabled={createUserMutation.isPending}
               className={cn(
-                createCustomerMutation.isPending
+                createUserMutation.isPending
                   ? `inline-flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-6 py-6 text-sm font-semibold leading-5 text-gray-500 transition-all duration-200`
                   : `inline-flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-6 py-6 text-sm font-semibold leading-5 text-white transition-all duration-200`
               )}

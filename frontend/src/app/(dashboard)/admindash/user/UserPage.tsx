@@ -70,7 +70,7 @@ const UserPage = () => {
 
   const filters: Range[] = [] // Define your filters here if needed
   const { data, refetch } = useDataFetcher<Customer>({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_API_URL_LEADS}/customers?order[createdAt]=DESC`,
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/users?order[createdAt]=DESC`,
     // filters: appliedFilters,
     filters: debouncedSearchTerm
       ? [
@@ -110,12 +110,12 @@ const UserPage = () => {
   }
 
   const exportCustomer = async () => {
-    let customerUrl = `${process.env.NEXT_PUBLIC_BACKEND_API_URL_LEADS}/customers`
+    let usersUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
 
     try {
       const response = await fetchFromApi<Customer>({
-        url: customerUrl,
-        who: "customers",
+        url: usersUrl,
+        who: "users",
         filters: [
           ...filters,
           ...(debouncedSearchTerm
@@ -137,7 +137,7 @@ const UserPage = () => {
       })
 
       if (response instanceof Blob) {
-        saveAs(response, "Customers.xlsx")
+        saveAs(response, "Users.xlsx")
       } else {
         console.error("Expected Blob, got ApiData<Customer>")
       }
@@ -161,7 +161,7 @@ const UserPage = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL_LEADS}/customers/import/csv`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/import/csv`,
         formData,
         {
           headers: {
@@ -189,26 +189,6 @@ const UserPage = () => {
     }
   }
 
-  const [segments, setSegments] = useState<{ name: string; id: string }[]>([])
-
-  const { data: segmentData, refetch: segmentRefetch } =
-    useDataFetcher<Segment>({
-      url: `${process.env.NEXT_PUBLIC_BACKEND_API_URL_LEADS}/segments`,
-      filters: [],
-      page: 0,
-      pageSize: 0,
-      rangeFields: [],
-    })
-
-  useEffect(() => {
-    if (data?.data) {
-      const segments = data.data.map((segment) => ({
-        name: segment.name,
-        id: segment.id.toString(), // Convert the id to string
-      }))
-      setSegments(segments)
-    }
-  }, [data])
 
   return (
     <div className="bgslate-950 mt-10 flex flex-col gap-8 text-slate-300">
@@ -228,12 +208,12 @@ const UserPage = () => {
               value={searchTerm}
               onChange={handleSearchChange}
               placeholder="Search Customer"
-              className="h-12 w-96 border border-primary pr-10"
+              className="h-12 w-96 border border-slate-300 pr-10"
             />
             <Search
               width={15}
               height={20}
-              className="absolute right-3 top-1/2 -translate-y-1/2 transform text-primary"
+              className="absolute right-3 top-1/2 -translate-y-1/2 transform text-slate-300"
             />
           </div>
 
@@ -241,7 +221,7 @@ const UserPage = () => {
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
-                  className="flex h-12 flex-row gap-2 border border-green-500 text-primary hover:no-underline"
+                  className="flex h-12 flex-row gap-2 border border-slate-300 text-slate-300 hover:no-underline"
                   variant="link"
                 >
                   <Import size={20} strokeWidth={2} />
@@ -312,7 +292,7 @@ const UserPage = () => {
 
           {/* export buttom=n  */}
           <Button
-            className="flex h-12 flex-row gap-2 border border-primary text-primary hover:no-underline"
+            className="flex h-12 flex-row gap-2 border border-slate-300 text-slate-300 hover:no-underline"
             variant="link"
             onClick={exportCustomer}
           >
@@ -333,10 +313,8 @@ const UserPage = () => {
                   Create new User
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-slate-950 text-slate-300 sm:max-w-[600px]">
+              <DialogContent className="bg-slate-950 text-slate-300">
                 <DialogHeader></DialogHeader>
-                {/* form here */}
-                {/* <LeadCreatePage /> */}
                 <UserCreatePage closeDialog={setIsOpen} refetch={refetchData} />
               </DialogContent>
             </Dialog>
