@@ -25,6 +25,12 @@ import {
 import { useToast } from "@/components/ui/use-toast"
 import DeleteButton from "@/components/DeleteButton"
 import Status from "@/components/Status"
+import { LocalStore } from "@/store/localStore"
+import axios from "axios"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { useState } from "react"
+import { SignupFormType } from "@/lib/validators/signupValidators"
+// import UpdateUser from "@/components/users/UpdateUser"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -48,6 +54,11 @@ DataTableProps<TData, TValue>) {
     getCoreRowModel: getCoreRowModel(),
   })
   // const [filterValues, setFilterValues] = useState<Record<string, string>>({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<SignupFormType | undefined>();
+
+
+
   return (
     <div className="rounded-ee-3xl rounded-es-3xl border bg-slate-950 text-slate-300">
       <Table>
@@ -165,20 +176,46 @@ DataTableProps<TData, TValue>) {
                 ))}
 
                 <TableCell className="flex h-full items-center justify-start gap-2 text-muted-foreground ">
-                  <Button
-                    variant={"link"}
-                    className="w-12 flex-col "
-                    onClick={() =>
-                      router.push(
-                        `/admindash/users/${
-                          (row?.original as { id: number })?.id
-                        }`
-                      )
-                    }
-                  >
-                    <PencilLine width={100} height={100} />
-                    {/* <p className="h-1 text-sm text-primary">Edit</p> */}
-                  </Button>
+                  <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                    <DialogTrigger
+                      asChild
+                      onClick={() => {
+                        setIsOpen(true)
+                      }}
+                    >
+                      <Button
+                        variant={"mini"}
+                        className="w-12 flex-col"
+                        onClick={async () => {
+                          try {
+                            const response = await axios.get(
+                              `${
+                                process.env.NEXT_PUBLIC_BACKEND_URL
+                              }/users/${(row?.original as { id: number })?.id}`,
+                              {
+                                headers: {
+                                  Authorization: `Bearer ${LocalStore.getAccessToken()}`,
+                                },
+                              }
+                            )
+                            setUser(response.data)
+                          } catch (err: any) {
+                            console.error("Error fetching user data:", err)
+                          }
+                        }}
+                      >
+                        <PencilLine width={100} height={100} className="text-primary" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[600px]">
+
+                      {/* <UpdateUser
+                        setIsOpen={setIsOpen}
+                        user={user}
+                        refetch={refetchData}
+                      /> */}
+                    </DialogContent>
+                  </Dialog>
 
                   <DeleteButton
                     id={(row?.original as { id: number })?.id}
@@ -198,7 +235,7 @@ DataTableProps<TData, TValue>) {
             <TableRow>
               <TableCell
                 colSpan={columns.length}
-                className="h-24 text-center hover:bg-slate-950 bg-slate-950 rounded-es-3xl"
+                className="h-24 rounded-es-3xl bg-slate-950 text-center hover:bg-slate-950"
               >
                 No results.
               </TableCell>

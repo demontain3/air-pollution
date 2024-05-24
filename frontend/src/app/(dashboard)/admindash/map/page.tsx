@@ -17,7 +17,7 @@ const page = () => {
 
   return (
     <div className="text-slate-300">
-      <OSMap location={customLocation} />
+      <OSMap  />
     </div>
   )
 }
