@@ -24,7 +24,7 @@ export default function Page() {
                   .substring(0, userData?.email.indexOf("@"))
                   .toUpperCase()}{" "}
                 👋{" "} */}
-                {userData?.firstName.toUpperCase()}👋
+                {/* {userData?.firstName.toUpperCase()}👋 */}
               </span>
             </div>
             <div className="hidden items-center space-x-2 md:flex">

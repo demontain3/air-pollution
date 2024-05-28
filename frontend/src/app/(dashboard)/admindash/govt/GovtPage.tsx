@@ -1,11 +1,11 @@
 import React from 'react'
 
-const profile = () => {
+const GovtPage = () => {
   return (
     <div>
-      Profile
+      GOVT Page
     </div>
   )
 }
 
-export default profile
+export default GovtPage
