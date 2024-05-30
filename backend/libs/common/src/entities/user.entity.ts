@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, CreateDateColumn } from 'typeorm';
 import { AbstractEntity } from '../database';
 import { Role } from './role.entity';
 import { Status } from '../enums/status.enum';
@@ -26,7 +26,12 @@ export class User extends AbstractEntity<User> {
   @Column({ default: false })
   isVerified: boolean;
 
+  @CreateDateColumn()
+  createdAt: Date;
+
   @ManyToMany(() => Role, { cascade: true, onDelete: 'CASCADE', eager: true })
   @JoinTable()
   roles?: Role[];
+
+  
 }

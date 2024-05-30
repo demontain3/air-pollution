@@ -7,6 +7,7 @@ import * as nodemailer from 'nodemailer';
 import { NotifyEmailDto } from './dto/notify-email.dto';
 import { otpEmailDto, resetPasswordEmailDto } from './dto/email.dto';
 import { UpdateNotificationsDto } from './dto/update-notification.dto';
+import { template } from 'lodash';
 
 @Injectable()
 export class NotificationsService {
@@ -51,27 +52,42 @@ export class NotificationsService {
   }
 
   private async sendEmail(notificationEmaildto: NotifyEmailDto, email: string) {
-    const notification = this.transporter.sendMail({
-      from: this.configService.get('SMTP_USER'),
-      to: email,
-      subject: notificationEmaildto.subject,
-      text: notificationEmaildto.message,
-    });
-    return notification;
+    try{
+      const notification = this.transporter.sendMail({
+        from: this.configService.get('SMTP_USER'),
+        to: email,
+        subject: notificationEmaildto.subject,
+        text: notificationEmaildto.message,
+      });
+      return notification;
+    }
+    catch(e){
+      console.log("email sent fail")
+    }
+
   }
 
+  
   async sendOtpVerifyEmail(
     data: otpEmailDto,
     id: number,
   ): Promise<Notification | boolean> {
-    const notification = await this.notificationsRepository.findOne({ id: id });
-    if (!notification) return false;
-    console.log(data);
-    notification.message = notification.message.replace(
-      'temporary',
-      data.otpCode,
-    );
-    await this.sendEmail(notification, data.email);
+    try{
+      const notification = await this.notificationsRepository.findOne({ id: id });
+      if (!notification) return false;
+      notification.message = template(notification.message)({
+        value: data.otpCode,
+      });
+      // notification.html_content = template(notification.html_content)({
+      //   value: data.otpCode,
+      // });
+      if (!(await this.sendEmail(notification, data.email))) {
+        throw new Error('Email not sent');
+      }
+    }
+    catch(e: any){
+      console.log(e)
+    }
   }
 
   async sendResetPasswordEmail(
@@ -80,11 +96,14 @@ export class NotificationsService {
   ): Promise<Notification | boolean> {
     const notification = await this.notificationsRepository.findOne({ id: id });
     if (!notification) return false;
-    notification.message = notification.message.replace(
-      'temporary',
-      data.resetPasswordUrl,
-    );
-    console.log(notification);
-    await this.sendEmail(notification, data.email);
+    notification.message = template(notification.message)({
+      value: data.resetPasswordUrl,
+    });
+    // notification.html_content = template(notification.html_content)({
+    //   value: data.resetPasswordUrl,
+    // });
+    if (!(await this.sendEmail(notification, data.email))) {
+      throw new Error('Email not sent');
+    }
   }
 }
