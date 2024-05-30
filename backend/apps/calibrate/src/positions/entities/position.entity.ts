@@ -1,5 +1,5 @@
 import { AbstractEntity } from '@app/common';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Route } from '../../routes/entities/route.entity'; // Assuming you have a Route entity defined
 
 @Entity('position')
@@ -19,6 +19,7 @@ export class Position extends AbstractEntity<Position> {
   @Column()
   timestamp: string;
 
-  @ManyToOne(() => Route)
+  @ManyToOne(() => Route, route => route.positions)
+  @JoinColumn({name: 'route_id'}) // This is the new line
   route: Route;
 }

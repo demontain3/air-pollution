@@ -1,5 +1,6 @@
 import { AbstractEntity } from '@app/common';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Position } from '../../positions/entities/position.entity';
 
 
 @Entity('route')
@@ -18,4 +19,9 @@ export class Route extends AbstractEntity<Route> {
 
   @Column()
   owner: number; // this is user ID
+
+  @OneToMany(() => Position, position => position.route)
+  positions: Position[];
+
+
 }

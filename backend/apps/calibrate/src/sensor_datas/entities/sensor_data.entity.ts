@@ -7,11 +7,17 @@ export class SensorData extends AbstractEntity<SensorData> {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({type: 'float'})
+  pm: number;
+
+  @Column({type: 'float'})
+  humidity: number;
+
+  @Column({type: 'float'})
+  temperature: number;
+
   @Column()
   kei: string;
-
-  @Column('float')
-  value: number;
 
   @Column()
   timestamp: string;
