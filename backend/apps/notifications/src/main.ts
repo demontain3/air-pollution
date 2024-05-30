@@ -13,8 +13,8 @@ async function bootstrap() {
 
   app.use(json());
   const config = new DocumentBuilder()
-    .setTitle('Auth')
-    .setDescription('The Auth API is a microservice for user authentication and authorization. It is used to register, login, and manage users. It also provides role-based access control.')
+    .setTitle('Notification')
+    .setDescription('The Notifiaction API is a microservice for emailing.')
     .setVersion('1.0')
     .addTag('auth')
     .build();
