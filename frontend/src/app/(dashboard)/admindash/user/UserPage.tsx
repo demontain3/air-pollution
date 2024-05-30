@@ -200,14 +200,14 @@ const UserPage = () => {
             onClick={() => router.back()}
             className="cursor-pointer text-primary transition-transform duration-300 ease-in-out hover:scale-110 hover:text-green-400"
           />
-          <h1>Customer</h1>
+          <h1>Users</h1>
         </div>
         <div className="flex flex-row gap-3">
           <div className="relative">
             <Input
               value={searchTerm}
               onChange={handleSearchChange}
-              placeholder="Search Customer"
+              placeholder="Search Users"
               className="h-12 w-96 border border-slate-300 pr-10"
             />
             <Search
