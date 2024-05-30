@@ -5,7 +5,7 @@ import { Status } from '../enums/status.enum';
 
 @Entity()
 export class User extends AbstractEntity<User> {
-  @Column()
+  @Column({unique: true})
   email: string;
 
   @Column()

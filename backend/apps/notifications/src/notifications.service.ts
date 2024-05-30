@@ -86,7 +86,7 @@ export class NotificationsService {
       }
     }
     catch(e: any){
-      console.log(e)
+      console.log("error is"+e)
     }
   }
 

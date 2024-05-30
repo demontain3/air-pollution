@@ -31,7 +31,10 @@ export class UsersService {
   }
 
   async signup(signUpDto: SignUpDto){
-    await this.validateCreateUser(signUpDto.email);
+    const checkedUser = await this.validateCreateUser(signUpDto.email);
+    if(checkedUser){
+      throw new UnprocessableEntityException('User already exists');
+    }
     const user = new User({
       ...signUpDto,
       password: await bcrypt.hash(signUpDto.password, 10),
