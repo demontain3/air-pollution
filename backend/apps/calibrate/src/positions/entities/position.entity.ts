@@ -1,6 +1,7 @@
 import { AbstractEntity } from '@app/common';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 import { Route } from '../../routes/entities/route.entity'; // Assuming you have a Route entity defined
+import { SensorData } from '../../sensor_datas/entities/sensor_data.entity';
 
 @Entity('position')
 export class Position extends AbstractEntity<Position> {
@@ -22,4 +23,8 @@ export class Position extends AbstractEntity<Position> {
   @ManyToOne(() => Route, route => route.positions)
   @JoinColumn({name: 'route_id'}) // This is the new line
   route: Route;
+
+  @OneToOne(() => SensorData, sensorData => sensorData.position)
+  @JoinColumn()
+  sensorData: SensorData;
 }

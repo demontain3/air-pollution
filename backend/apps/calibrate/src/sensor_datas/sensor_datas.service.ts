@@ -44,18 +44,9 @@ export class SensorDatasService {
     if (updateSensorDataDto.kei !== undefined) {
       sensorData.kei = updateSensorDataDto.kei;
     }
-    if (updateSensorDataDto.value !== undefined) {
-      sensorData.value = updateSensorDataDto.value;
-    }
-    if (updateSensorDataDto.timestamp !== undefined) {
-      sensorData.timestamp = updateSensorDataDto.timestamp;
-    }
-    if (updateSensorDataDto.device_owner !== undefined) {
-      sensorData.device_owner = updateSensorDataDto.device_owner;
-    }
     return this.sensorDatasRepository.findOneAndUpdate(
       { where: { id: sensorData.id } },
-      sensorData,
+      updateSensorDataDto,
     );
   }
 

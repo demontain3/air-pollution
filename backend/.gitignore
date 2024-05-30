@@ -3,7 +3,8 @@
 /node_modules
 /build
 /apps/notifications/node_modules
-/apps/notifications/node_modules
+/apps/auth/node_modules
+
 
 # Logs
 logs
@@ -57,3 +58,7 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+
+eval "$(ssh-agent -s)"
+eval "$(ssh-agent -s)".pub

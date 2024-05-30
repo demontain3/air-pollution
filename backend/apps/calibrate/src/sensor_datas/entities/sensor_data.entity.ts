@@ -1,5 +1,6 @@
 import { AbstractEntity } from '@app/common';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Position } from '../../positions/entities/position.entity';
 
 
 @Entity('sensordata')
@@ -24,4 +25,7 @@ export class SensorData extends AbstractEntity<SensorData> {
 
   @Column()
   device_owner: number; //this is user id
+
+  @OneToOne(() => Position, position => position.sensorData)
+  position: Position;
 }

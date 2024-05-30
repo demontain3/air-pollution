@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateSensorDataDto } from '../../sensor_datas/dto/create-sensor_data.dto';
 
 export class CreatePositionDto {
     @ApiProperty({ description: 'The latitude of the position' })
@@ -26,4 +27,8 @@ export class CreatePositionDto {
     @IsNumber({},{ message: 'Route ID must be a number' })
     @IsNotEmpty({ message: 'Route ID is required' })
     routeId: number;
+
+    @ApiProperty({ description: 'The details of sensor data' })
+    @IsOptional()
+    sensorData: CreateSensorDataDto;
 }

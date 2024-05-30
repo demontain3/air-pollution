@@ -5,22 +5,40 @@ import { ExtendedFindOptions, User } from '@app/common';
 import { Position } from './entities/position.entity';
 import { PositionsRepository } from './positions.repository';
 import { RoutesService } from '../routes/routes.service';
+import { CreateSensorDataDto } from '../sensor_datas/dto/create-sensor_data.dto';
+import { SensorData } from '../sensor_datas/entities/sensor_data.entity';
+import { EntityManager } from 'typeorm';
 
 @Injectable()
 export class PositionsService {
   constructor(
     private readonly positionsRepository: PositionsRepository,
     private readonly routesService: RoutesService,
+    private manager: EntityManager,
+
   ) {}
 
   async create(createPositionDto: CreatePositionDto): Promise<Position> {
-    const route = await this.routesService.findOne(createPositionDto.routeId);
-    if (!route) {
-      throw new BadRequestException(`Route with ID ${createPositionDto.routeId} not found`);
-    }
-    const position = new Position({ ...createPositionDto });
-    position.route = route;
-    return this.positionsRepository.create(position);
+    return this.manager.transaction(async manager => {
+      const { sensorData, ...positionData } = createPositionDto;
+
+      const route = await this.routesService.findOne(createPositionDto.routeId);
+      if (!route) {
+        throw new BadRequestException(`Route with ID ${createPositionDto.routeId} not found`);
+      }
+
+      const position = new Position({ ...positionData });
+      position.route = route;
+
+      const savedPosition = await manager.save(position);
+
+      const finalSensorData = new SensorData({ ...sensorData });
+      finalSensorData.position = savedPosition;
+
+      await manager.save(finalSensorData);
+
+      return savedPosition;
+    });
   }
 
   async findAll(
