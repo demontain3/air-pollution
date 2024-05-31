@@ -34,7 +34,7 @@ export class SensorDatasController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Create a new sensorData' })
   @ApiBearerAuth()
   @ApiBody({ type: CreateSensorDataDto })
@@ -51,7 +51,7 @@ export class SensorDatasController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Get all sensorDatas' })
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'Successfully retrieved sensorDatas.'})
@@ -63,7 +63,7 @@ export class SensorDatasController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('User')
+  // @Roles('User')
   @ApiOperation({ summary: 'Get a sensorData by id' })
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'The id of the sensorData' })
@@ -77,7 +77,7 @@ export class SensorDatasController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Update a sensorData' })
   @ApiBearerAuth()
   @ApiParam({
@@ -100,7 +100,7 @@ export class SensorDatasController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Delete a sensorData' })
   @ApiBearerAuth()
   @ApiParam({

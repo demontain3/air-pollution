@@ -12,7 +12,7 @@ export class RoutesController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Create a new route' })
   @ApiBearerAuth()
   @ApiBody({ type: CreateRouteDto })
@@ -26,7 +26,7 @@ export class RoutesController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Get all routes' })
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'Successfully retrieved routes.'})
@@ -38,7 +38,7 @@ export class RoutesController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('User')
+  // @Roles('User')
   @ApiOperation({ summary: 'Get a route by id' })
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'The id of the route' })
@@ -52,7 +52,7 @@ export class RoutesController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Update a route' })
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'The id of the route to update' })
@@ -68,7 +68,7 @@ export class RoutesController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Delete a route' })
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'The id of the route to delete' })

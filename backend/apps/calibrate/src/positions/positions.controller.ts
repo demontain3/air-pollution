@@ -12,7 +12,7 @@ export class PositionsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Create a new position' })
   @ApiBearerAuth()
   @ApiBody({ type: CreatePositionDto, description: 'The position data' })
@@ -25,7 +25,7 @@ export class PositionsController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Get all positions' })
   @ApiBearerAuth()
   @ApiQuery({ name: 'page', required: false, description: 'Page number for pagination', example: 1 })
@@ -37,7 +37,7 @@ export class PositionsController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('User')
+  // @Roles('User')
   @ApiOperation({ summary: 'Get a position by id' })
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'The id of the position', example: '1' })
@@ -50,7 +50,7 @@ export class PositionsController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Update a position' })
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'The id of the position to update', example: '1' })
@@ -64,7 +64,7 @@ export class PositionsController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Delete a position' })
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'The id of the position to delete', example: '1' })
