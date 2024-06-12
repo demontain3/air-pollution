@@ -65,13 +65,12 @@ const Login: React.FC = () => {
           onClick: () => console.log("Undo"),
         },
       })
-
       setIsLoggedIn(true)
-      const decoded: { exp: number } = jwtDecode(data.data!)
+      console.log(data)
+      const decoded: { exp: number } = jwtDecode(data.toString())
       const exp = decoded.exp
-      setCookie("accessToken", data.data, exp)
-      LocalStore.setAccessToken(data.data)
-
+      setCookie("accessToken", data.toString(), exp)
+      LocalStore.setAccessToken(data.toString())
       router.push("/admindash")
       console.log("ONE")
       
