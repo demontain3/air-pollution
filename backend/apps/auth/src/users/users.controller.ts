@@ -62,7 +62,7 @@ export class UsersController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiOperation({ summary: 'Delete a user' })
   @ApiParam({ name: 'id', required: true })
   @ApiResponse({ status: 200, description: 'The user has been successfully deleted.', type: UserResponse})
@@ -72,7 +72,7 @@ export class UsersController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiParam({ name: 'id', required: true })
@@ -83,7 +83,7 @@ export class UsersController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a user by ID' })
   @ApiParam({ name: 'id', required: true })
@@ -98,7 +98,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
+  // @Roles('Admin')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'Return all users.', type:[UserResponse]})
