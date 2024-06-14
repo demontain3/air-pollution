@@ -8,8 +8,8 @@ import { ModelDefinition, MongooseModule } from '@nestjs/mongoose';
         useFactory: (configService: ConfigService) => ({
           uri: configService.get('MONGODB_URI'),
           dbName: configService.get('MONGO_DB'),
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
+          // useNewUrlParser: true,
+          // useUnifiedTopology: true,
         }),
         inject: [ConfigService],
       }),
