@@ -1,20 +1,24 @@
 import { Module } from '@nestjs/common';
 import { PositionsService } from './positions.service';
 import { PositionsController } from './positions.controller';
-import { AUTH_SERVICE, DatabaseModule, LoggerModule } from '@app/common';
-import { Position } from './entities/position.entity';
+import { AUTH_SERVICE, LoggerModule } from '@app/common';
 import { RoutesModule } from '../routes/routes.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PositionsRepository } from './positions.repository';
+import { Position, PositionSchema } from './entities/position.entity';
+import { DatabaseModule } from 'apps/calibrate/database/database.module';
 
 @Module({
   imports: [
     DatabaseModule,
-    DatabaseModule.forFeature([Position]),
+    DatabaseModule.forFeature([
+      { name: Position.name, schema: PositionSchema },
+    ]),
     RoutesModule,
     ConfigModule.forRoot({
-      isGlobal: true,}),
+      isGlobal: true,
+    }),
     ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE,

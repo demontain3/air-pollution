@@ -8,7 +8,6 @@ import { Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {json} from 'express';
 
-
 async function bootstrap() {
   const app = await NestFactory.create(CalibrateModule);
   app.use(json());

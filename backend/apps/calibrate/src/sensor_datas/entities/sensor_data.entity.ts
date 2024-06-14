@@ -1,31 +1,21 @@
-import { AbstractEntity } from '@app/common';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
 import { Position } from '../../positions/entities/position.entity';
+import { AbstractDocument } from 'apps/calibrate/database/abstract.schema';
 
-
-@Entity('sensordata')
-export class SensorData extends AbstractEntity<SensorData> {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({type: 'float'})
-  pm: number;
-
-  @Column({type: 'float'})
-  humidity: number;
-
-  @Column({type: 'float'})
-  temperature: number;
-
-  @Column()
+@Schema()
+export class SensorData extends AbstractDocument {
+  @Prop({ type: String })
   kei: string;
 
-  @Column()
+  @Prop({ type: String })
   timestamp: string;
 
-  @Column()
+  @Prop({ type: Number })
   device_owner: number; //this is user id
 
-  @OneToOne(() => Position, position => position.sensorData)
+  @Prop({ type: Types.ObjectId, ref: 'Position' })
   position: Position;
 }
+
+export const SensorDataSchema = SchemaFactory.createForClass(SensorData);

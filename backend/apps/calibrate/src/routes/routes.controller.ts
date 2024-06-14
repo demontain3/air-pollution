@@ -10,73 +10,73 @@ import { ApiOperation, ApiBearerAuth, ApiParam, ApiBody, ApiTags, ApiOkResponse,
 export class RoutesController {
   constructor(private readonly routesService: RoutesService) {}
 
-  @Post()
-  @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
-  @ApiOperation({ summary: 'Create a new route' })
-  @ApiBearerAuth()
-  @ApiBody({ type: CreateRouteDto })
-  @ApiCreatedResponse({ description: 'The route has been successfully created.'})
-  @ApiBadRequestResponse({ description: 'Invalid input.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
-  async create(@Body() createRouteDto: CreateRouteDto, @CurrentUser() user: User) {
-    return this.routesService.create(createRouteDto, user);
-  }
+  // @Post()
+  // @UseGuards(JwtAuthGuard)
+  // @Roles('Admin')
+  // @ApiOperation({ summary: 'Create a new route' })
+  // @ApiBearerAuth()
+  // @ApiBody({ type: CreateRouteDto })
+  // @ApiCreatedResponse({ description: 'The route has been successfully created.'})
+  // @ApiBadRequestResponse({ description: 'Invalid input.'})
+  // @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+  // @ApiForbiddenResponse({ description: 'Forbidden.'})
+  // async create(@Body() createRouteDto: CreateRouteDto, @CurrentUser() user: User) {
+  //   return this.routesService.create(createRouteDto, user);
+  // }
 
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
-  @ApiOperation({ summary: 'Get all routes' })
-  @ApiBearerAuth()
-  @ApiOkResponse({ description: 'Successfully retrieved routes.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
-  async findAll(@Query() query: any) {
-    return this.routesService.findAll({query});
-  }
+  // @Get()
+  // @UseGuards(JwtAuthGuard)
+  // @Roles('Admin')
+  // @ApiOperation({ summary: 'Get all routes' })
+  // @ApiBearerAuth()
+  // @ApiOkResponse({ description: 'Successfully retrieved routes.'})
+  // @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+  // @ApiForbiddenResponse({ description: 'Forbidden.'})
+  // async findAll(@Query() query: any) {
+  //   return this.routesService.findAll({query});
+  // }
 
-  @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  @Roles('User')
-  @ApiOperation({ summary: 'Get a route by id' })
-  @ApiBearerAuth()
-  @ApiParam({ name: 'id', required: true, description: 'The id of the route' })
-  @ApiOkResponse({ description: 'Successfully retrieved the route.'})
-  @ApiNotFoundResponse({ description: 'Route not found.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
-  async findOne(@Param('id') id: string) {
-    return this.routesService.findOne(+id);
-  }
+  // @Get(':id')
+  // @UseGuards(JwtAuthGuard)
+  // @Roles('User')
+  // @ApiOperation({ summary: 'Get a route by id' })
+  // @ApiBearerAuth()
+  // @ApiParam({ name: 'id', required: true, description: 'The id of the route' })
+  // @ApiOkResponse({ description: 'Successfully retrieved the route.'})
+  // @ApiNotFoundResponse({ description: 'Route not found.'})
+  // @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+  // @ApiForbiddenResponse({ description: 'Forbidden.'})
+  // async findOne(@Param('id') id: string) {
+  //   return this.routesService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
-  @ApiOperation({ summary: 'Update a route' })
-  @ApiBearerAuth()
-  @ApiParam({ name: 'id', required: true, description: 'The id of the route to update' })
-  @ApiBody({ type: UpdateRouteDto })
-  @ApiOkResponse({ description: 'Successfully updated the route.'})
-  @ApiBadRequestResponse({ description: 'Invalid input.'})
-  @ApiNotFoundResponse({ description: 'Route not found.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
-  async update(@Param('id') id: string, @Body() updateRouteDto: UpdateRouteDto) {
-    return this.routesService.update(+id, updateRouteDto);
-  }
+  // @Patch(':id')
+  // @UseGuards(JwtAuthGuard)
+  // @Roles('Admin')
+  // @ApiOperation({ summary: 'Update a route' })
+  // @ApiBearerAuth()
+  // @ApiParam({ name: 'id', required: true, description: 'The id of the route to update' })
+  // @ApiBody({ type: UpdateRouteDto })
+  // @ApiOkResponse({ description: 'Successfully updated the route.'})
+  // @ApiBadRequestResponse({ description: 'Invalid input.'})
+  // @ApiNotFoundResponse({ description: 'Route not found.'})
+  // @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+  // @ApiForbiddenResponse({ description: 'Forbidden.'})
+  // async update(@Param('id') id: string, @Body() updateRouteDto: UpdateRouteDto) {
+  //   return this.routesService.update(+id, updateRouteDto);
+  // }
 
-  @Delete(':id')
-  @UseGuards(JwtAuthGuard)
-  @Roles('Admin')
-  @ApiOperation({ summary: 'Delete a route' })
-  @ApiBearerAuth()
-  @ApiParam({ name: 'id', required: true, description: 'The id of the route to delete' })
-  @ApiOkResponse({ description: 'Successfully deleted the route.'})
-  @ApiNotFoundResponse({ description: 'Route not found.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
-  async remove(@Param('id') id: string) {
-    return this.routesService.remove(+id);
-  }
+  // @Delete(':id')
+  // @UseGuards(JwtAuthGuard)
+  // @Roles('Admin')
+  // @ApiOperation({ summary: 'Delete a route' })
+  // @ApiBearerAuth()
+  // @ApiParam({ name: 'id', required: true, description: 'The id of the route to delete' })
+  // @ApiOkResponse({ description: 'Successfully deleted the route.'})
+  // @ApiNotFoundResponse({ description: 'Route not found.'})
+  // @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+  // @ApiForbiddenResponse({ description: 'Forbidden.'})
+  // async remove(@Param('id') id: string) {
+  //   return this.routesService.remove(+id);
+  // }
 }

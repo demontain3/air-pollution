@@ -1,30 +1,28 @@
-import { AbstractEntity } from '@app/common';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
-import { Route } from '../../routes/entities/route.entity'; // Assuming you have a Route entity defined
+import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
+import { Route } from '../../routes/entities/route.entity';
 import { SensorData } from '../../sensor_datas/entities/sensor_data.entity';
+import { AbstractDocument } from 'apps/calibrate/database/abstract.schema';
 
-@Entity('position')
-export class Position extends AbstractEntity<Position> {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column('float')
+@Schema()
+export class Position extends AbstractDocument {
+  @Prop({ type: Number })
   lati: number;
 
-  @Column('float')
+  @Prop({ type: Number })
   lngi: number;
 
-  @Column('float')
+  @Prop({ type: Number })
   alti: number;
 
-  @Column()
+  @Prop({ type: String })
   timestamp: string;
 
-  @ManyToOne(() => Route, route => route.positions)
-  @JoinColumn({name: 'route_id'}) // This is the new line
+  @Prop({ type: Types.ObjectId, ref: 'Route' })
   route: Route;
 
-  @OneToOne(() => SensorData, sensorData => sensorData.position)
-  @JoinColumn()
+  @Prop({ type: Types.ObjectId, ref: 'SensorData' })
   sensorData: SensorData;
 }
+
+export const PositionSchema = SchemaFactory.createForClass(Position);

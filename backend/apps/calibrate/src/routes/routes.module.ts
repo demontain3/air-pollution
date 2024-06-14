@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { RoutesService } from './routes.service';
 import { RoutesController } from './routes.controller';
-import { AUTH_SERVICE, DatabaseModule, LoggerModule } from '@app/common';
-import { Route } from './entities/route.entity';
+import { AUTH_SERVICE, LoggerModule } from '@app/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RoutesRepository } from './routes.repository';
+import { DatabaseModule } from 'apps/calibrate/database/database.module';
+import { Route, RouteSchema } from './entities/route.entity';
 
 @Module({
   imports: [
-    DatabaseModule,
-    DatabaseModule.forFeature([Route]),
+    // DatabaseModule.forFeature([{ name: Route.name, schema: RouteSchema }]),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

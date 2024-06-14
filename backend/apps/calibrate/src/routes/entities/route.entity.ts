@@ -1,27 +1,24 @@
-import { AbstractEntity } from '@app/common';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
 import { Position } from '../../positions/entities/position.entity';
+import { AbstractDocument } from 'apps/calibrate/database/abstract.schema';
 
-
-@Entity('route')
-export class Route extends AbstractEntity<Route> {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
+@Schema()
+export class Route extends AbstractDocument {
+  @Prop({ type: String })
   start: string;
 
-  @Column()
+  @Prop({ type: String })
   finish: string;
 
-  @Column({ default: false })
+  @Prop({ type: Boolean, default: false })
   complete: boolean;
 
-  @Column()
+  @Prop({ type: Number })
   owner: number; // this is user ID
 
-  @OneToMany(() => Position, position => position.route)
+  @Prop([{ type: Types.ObjectId, ref: 'Position' }])
   positions: Position[];
-
-
 }
+
+export const RouteSchema = SchemaFactory.createForClass(Route);

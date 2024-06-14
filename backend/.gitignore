@@ -4,6 +4,7 @@
 /build
 /apps/notifications/node_modules
 /apps/auth/node_modules
+/apps/calibrate/node_modules
 
 
 # Logs
