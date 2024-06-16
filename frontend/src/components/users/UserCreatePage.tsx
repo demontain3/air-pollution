@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { SelectItem } from "@radix-ui/react-select"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
-import { ChevronLeft, Eye, EyeOff, Plus } from "lucide-react"
+import { ChevronLeft, Eye, EyeOff } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -287,8 +287,8 @@ const UserCreatePage = ({ closeDialog, refetch }: Props) => {
                   : `inline-flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-6 py-6 text-sm font-semibold leading-5 text-white transition-all duration-200`
               )}
             >
-              {/* <Plus type="pencil" width={20} /> */}
-              Create a user
+              {/* <Icon type="pencil" width={20} /> */}
+              Create a Customer
             </Button>
           </form>
         </Form>

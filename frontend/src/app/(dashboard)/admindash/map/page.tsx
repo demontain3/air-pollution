@@ -10,6 +10,14 @@ const OSMap = dynamic(() => import("@/components/Map/OSMap"), {
 })
 
 const page = () => {
+  // const customLocation = {
+  //   loaded: true,
+  //   error: false,
+  //   coordinates: {
+  //     lat: -4.043477,
+  //     lng: 39.668205,
+  //   },
+  // }
 
   const router = useRouter()
 

@@ -71,53 +71,53 @@ import Header from "@/components/layout/header"
 import Sidebar from "@/components/layout/sidebar"
 import RootLayout from "@/app/layout"
 
-async function checkIfLoggedIn() {
-  let isLoading = true
+// async function checkIfLoggedIn() {
+//   let isLoading = true
 
-  console.log("res", `${cookies().get("accessToken")?.value}`)
-  try {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/me`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${cookies().get("accessToken")?.value}`,
-        },
-        // withCredentials: true,
-      }
-    )
+//   console.log("res", `${cookies().get("accessToken")?.value}`)
+//   try {
+//     const res = await axios.get(
+//       `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/me`,
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${cookies().get("accessToken")?.value}`,
+//         },
+//         // withCredentials: true,
+//       }
+//     )
 
-    console.log((res as AxiosResponse<any, any>).data.roles, "res")
+//     console.log((res as AxiosResponse<any, any>).data.roles, "res")
 
-    isLoading = false
+//     isLoading = false
 
-    if (res?.data?.id) {
-      return { data: res.data, isLoading }
-    } else {
-      redirect("/auth/login")
-      return { data: null, isLoading }
-    }
-  } catch (e: any) {
-    console.log(e, "error")
-    isLoading = false
-    redirect("/auth/login")
-    return { data: null, isLoading }
-  }
-}
-
-// const userData = {
-//   name: "Suman Sharma",
-//   email: "whysumancode@gmail.com",
+//     if (res?.data?.id) {
+//       return { data: res.data, isLoading }
+//     } else {
+//       redirect("/auth/login")
+//       return { data: null, isLoading }
+//     }
+//   } catch (e: any) {
+//     console.log(e, "error")
+//     isLoading = false
+//     redirect("/auth/login")
+//     return { data: null, isLoading }
+//   }
 // }
 
-// const isLoading: boolean = false
+const userData = {
+  name: "Suman Sharma",
+  email: "whysumancode@gmail.com",
+}
+
+const isLoading: boolean = false
 
 export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const { data: userData, isLoading } = await checkIfLoggedIn()
+  // const { data: userData, isLoading } = await checkIfLoggedIn()
   return (
     <div>
       <Header userData={userData} />
