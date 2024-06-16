@@ -2,6 +2,11 @@ import { NavItem, SidebarNavItem } from "@/types"
 
 import { Icons } from "@/components/icons"
 
+export interface Review{
+  location:string,
+
+}
+
 export type User = {
   id: number
   name: string
@@ -183,3 +188,97 @@ export const navItemsUser: NavItem[] = [
     label: "map",
   },
 ]
+
+// data.ts
+export interface Sale {
+  id: number;
+  name: string;
+  email: string;
+  amount: string;
+  avatar: string;
+  initials: string;
+}
+
+export const salesData: Sale[] = [
+  {
+    id: 1,
+    name: "Olivia Martin",
+    email: "olivia.martin@email.com",
+    amount: "+$1,999.00",
+    avatar: "/avatars/01.png",
+    initials: "OM",
+  },
+  {
+    id: 2,
+    name: "Jackson Lee",
+    email: "jackson.lee@email.com",
+    amount: "+$39.00",
+    avatar: "/avatars/02.png",
+    initials: "JL",
+  },
+  {
+    id: 3,
+    name: "Isabella Nguyen",
+    email: "isabella.nguyen@email.com",
+    amount: "+$299.00",
+    avatar: "/avatars/03.png",
+    initials: "IN",
+  },
+  {
+    id: 4,
+    name: "William Kim",
+    email: "will@email.com",
+    amount: "+$99.00",
+    avatar: "/avatars/04.png",
+    initials: "WK",
+  },
+  {
+    id: 5,
+    name: "Sofia Davis",
+    email: "sofia.davis@email.com",
+    amount: "+$39.00",
+    avatar: "/avatars/05.png",
+    initials: "SD",
+  },
+];
+
+
+
+export interface CardData {
+  title: string;
+  value: string;
+  description: string;
+  iconPath: string;
+  iconViewBox: string;
+}
+
+export const cardData: CardData[] = [
+  {
+    title: "Total Revenue",
+    value: "$45,231.89",
+    description: "+20.1% from last month",
+    iconPath: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+    iconViewBox: "0 0 24 24",
+  },
+  {
+    title: "Subscriptions",
+    value: "+2350",
+    description: "+180.1% from last month",
+    iconPath: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75",
+    iconViewBox: "0 0 24 24",
+  },
+  {
+    title: "Sales",
+    value: "+12,234",
+    description: "+19% from last month",
+    iconPath: "M2 10h20 M2 5h20a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H2V5z",
+    iconViewBox: "0 0 24 24",
+  },
+  {
+    title: "Active Now",
+    value: "+573",
+    description: "+201 since last hour",
+    iconPath: "M22 12h-4l-3 9L9 3l-3 9H2",
+    iconViewBox: "0 0 24 24",
+  },
+];

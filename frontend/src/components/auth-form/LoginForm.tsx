@@ -67,7 +67,8 @@ const Login: React.FC = () => {
       })
 
       setIsLoggedIn(true)
-      const decoded: { exp: number } = jwtDecode(data.data!)
+      console.log(data.data, "data")
+      const decoded: { exp: number } = jwtDecode(data.data)
       const exp = decoded.exp
       setCookie("accessToken", data.data, exp)
       LocalStore.setAccessToken(data.data)
