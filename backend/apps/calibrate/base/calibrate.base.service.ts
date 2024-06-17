@@ -24,7 +24,15 @@ export class BaseService<T, R> {
     if (filters && filters.length) {
       filters.forEach((filter: string) => {
         const [key, operatorValue] = filter.split('=');
-        const [operator, value] = operatorValue.split('_');
+        let operator;
+        let value;
+        if (operatorValue.includes('_')) {
+          [operator, value] = operatorValue.split('_');
+        } else {
+          operator = '=';
+          value = operatorValue;
+        }
+        console.log(key, operatorValue)
         customFilters = { ...customFilters, ...processOperator(operator, value, key) };
       });
     }

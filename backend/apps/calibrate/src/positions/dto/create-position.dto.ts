@@ -24,9 +24,9 @@ export class CreatePositionDto {
     timestamp: Date;
 
     @ApiProperty({ description: 'The ID of the route', example: 1 })
-    @IsNumber({},{ message: 'Route ID must be a number' })
+    @IsString({ message: 'Route ID must be a string' })
     @IsNotEmpty({ message: 'Route ID is required' })
-    routeId: number;
+    routeId: string;
 
     // @ApiProperty({ description: 'The details of sensor data' })
     // @IsOptional()

@@ -1,5 +1,5 @@
 import { IsNumber, IsString, IsOptional } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 
 export class UpdateSensorDataDto {
@@ -17,6 +17,11 @@ export class UpdateSensorDataDto {
     @IsNumber({},{ message: 'Device owner must be a number' })
     @IsOptional()
     device_owner?: number;
+
+    @ApiProperty({ description: 'The value of the sensor' })
+    @IsNumber({},{ message: 'Value must be a number' })
+    @IsOptional({ message: 'Value is required' })
+    value: number;
 
     @ApiPropertyOptional({ description: 'The position of the sensor data', type: String })
     @IsOptional()

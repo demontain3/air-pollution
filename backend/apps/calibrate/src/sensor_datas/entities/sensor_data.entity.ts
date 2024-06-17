@@ -8,6 +8,9 @@ export class SensorDataDocument extends AbstractDocument {
   @Prop({ type: String })
   kei: string;
 
+  @Prop({ type: Number })
+  value: number;
+
   @Prop({ type: String })
   timestamp: string;
 

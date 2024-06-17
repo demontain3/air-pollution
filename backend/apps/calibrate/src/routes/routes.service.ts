@@ -34,16 +34,15 @@ export class RoutesService extends BaseService<
   }
 
   async findAll(
-    options: ExtendedFindOptions<RouteDocument>,
   ): Promise<{ data: RouteDocument[]; total: number }> {
-    const result = await this.routesRepository.find(options.query);
+    const result = await this.routesRepository.find({});
     const data = result;
     const total = result.length;
     return { data, total };
   }
 
-  async findOne(id: number): Promise<RouteDocument> {
-    const route = await this.routesRepository.findOne({ id });
+  async findOne(id: string): Promise<RouteDocument> {
+    const route = await this.routesRepository.findOne({_id: id});
     if (!route) {
       throw new NotFoundException(`RouteDocument with ID ${id} not found`);
     }
@@ -51,7 +50,7 @@ export class RoutesService extends BaseService<
   }
 
   async update(
-    id: number,
+    id: string,
     updateRouteDto: UpdateRouteDto,
   ): Promise<RouteDocument> {
     const route = await this.findOne(id);
@@ -70,49 +69,11 @@ export class RoutesService extends BaseService<
     return route;
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const route = await this.findOne(id);
     if (!route) {
       throw new NotFoundException(`RouteDocument with ID ${id} not found`);
     }
     await this.routesRepository.findOneAndDelete({ id });
   }
-
-  // async findAllWithFilters(
-  //   queryParams: QueryParams = {},
-  // ): Promise<{ data: RouteDocument[]; total: number }> {
-  //   let {
-  //     page = 1,
-  //     limit = 10,
-  //     sortBy = 'id',
-  //     sortOrder = 'asc',
-  //     owner,
-  //     filters = [],
-  //   } = queryParams;
-  //   console.log(filters)
-  //   let customFilters = {};
-
-  //   if (filters && typeof filters === 'string') {
-  //     filters = [filters];
-  //   }
-  //   if (filters && filters.length) {
-  //     filters.forEach((filter: string) => {
-  //       const [key, operatorValue] = filter.split('=');
-  //       const [operator, value] = operatorValue.split('_');
-  //       customFilters = { ...customFilters, ...processOperator(operator, value, key) };
-  //     });
-  //   }
-  //   const options = {
-  //     sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 },
-  //     skip: (parseInt(String(page), 10) - 1) * parseInt(String(limit), 10),
-  //     limit: parseInt(String(limit), 10),
-  //     populate: 'owner', // Example of population, adjust as needed
-  //     customFilters: customFilters, // Pass additional filters to repository
-  //   };
-  //   const filterQuery = { ...customFilters, ...(owner ? { owner } : {}) }; // Example filter, adjust as needed
-
-  //   const result = await this.routesRepository.getAll(filterQuery, options);
-  //   const { data, total } = result;
-  //   return { data, total };
-  // }
 }

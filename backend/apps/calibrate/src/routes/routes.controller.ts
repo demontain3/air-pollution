@@ -63,8 +63,8 @@ export class RoutesController {
   @ApiOkResponse({ description: 'Successfully retrieved routes.' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
-  async findAll(@Query() query: any) {
-    return this.routesService.findAll({ query });
+  async findAll() {
+    return this.routesService.findAll();
   }
 
   @Get(':id')
@@ -78,7 +78,7 @@ export class RoutesController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   async findOne(@Param('id') id: string) {
-    return this.routesService.findOne(+id);
+    return this.routesService.findOne(id);
   }
 
   @Patch(':id')
@@ -101,7 +101,7 @@ export class RoutesController {
     @Param('id') id: string,
     @Body() updateRouteDto: UpdateRouteDto,
   ) {
-    return this.routesService.update(+id, updateRouteDto);
+    return this.routesService.update(id, updateRouteDto);
   }
 
   @Delete(':id')
@@ -119,7 +119,7 @@ export class RoutesController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   async remove(@Param('id') id: string) {
-    return this.routesService.remove(+id);
+    return this.routesService.remove(id);
   }
 
   @Get('list/filter')

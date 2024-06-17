@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { PositionsService } from './positions.service';
 import { CreatePositionDto } from './dto/create-position.dto';
@@ -21,7 +22,9 @@ import {
   ApiTags,
   ApiResponse,
   ApiQuery,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
+import { PositionDocument } from './entities/position.entity';
 
 @ApiTags('positions')
 @Controller('positions')
@@ -56,8 +59,8 @@ export class PositionsController {
   })
   @ApiResponse({ status: 200, description: 'Return all positions.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findAll(@Query() query: any) {
-    return this.positionsService.findAll({ query });
+  async findAll() {
+    return this.positionsService.findAll({ });
   }
 
   @Get(':id')
@@ -122,5 +125,79 @@ export class PositionsController {
   @ApiResponse({ status: 404, description: 'Position not found.' })
   async remove(@Param('id') id: string) {
     return this.positionsService.remove(+id);
+  }
+
+  @Get('list/filter')
+  @ApiOperation({ summary: 'Retrieve all positions with filters and pagination' })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page number for pagination',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Number of items per page for pagination',
+    example: 10,
+  })
+  @ApiQuery({
+    name: 'sortBy',
+    required: false,
+    type: String,
+    description: 'Field to sort the results by',
+    example: 'createdAt',
+  })
+  @ApiQuery({
+    name: 'sortOrder',
+    required: false,
+    type: String,
+    enum: ['asc', 'desc'],
+    description: 'Order to sort the results in',
+    example: 'desc',
+  })
+  @ApiQuery({
+    name: 'owner',
+    required: false,
+    type: String,
+    description: 'Filter the results by owner',
+  })
+  @ApiQuery({
+    name: 'filters',
+    required: false,
+    type: [String],
+    description: 'Additional query params as filters',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The positions have been successfully retrieved.',
+    type: [PositionDocument],
+  })
+  @ApiNotFoundResponse({ description: 'Failed to retrieve positions.' })
+  async getAllPositions(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: 'asc' | 'desc',
+    @Query('owner') owner?: string, // Optional owner query param
+    @Query('filters') filters?: string[], // Additional query params as filters
+  ): Promise<{ data: PositionDocument[]; total: number }> {
+    try {
+      const queryParams = {
+        page,
+        limit,
+        sortBy,
+        sortOrder,
+        owner,
+        filters,
+      };
+      const { data, total } =
+        await this.positionsService.findAllWithFilters(queryParams);
+      return { data, total };
+    } catch (error) {
+      throw new NotFoundException('Failed to retrieve positions');
+    }
   }
 }

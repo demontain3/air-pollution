@@ -4,12 +4,19 @@ import { UpdateSensorDataDto } from '../sensor_datas/dto/update-sensor_data.dto'
 import { ExtendedFindOptions, User } from '@app/common';
 import { SensorDataDocument } from '../sensor_datas/entities/sensor_data.entity';
 import { SensorDatasRepository } from '../sensor_datas/sensor_datas.repository';
+import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
 
 @Injectable()
-export class SensorDatasService {
+export class SensorDatasService extends BaseService<
+SensorDataDocument,
+SensorDatasRepository
+>{
   constructor(
     private readonly sensorDatasRepository: SensorDatasRepository,
-  ) {}
+  ) {
+    super(sensorDatasRepository);
+
+  }
 
   async create(createSensorDataDto: CreateSensorDataDto, user: User): Promise<SensorDataDocument> {
     const sensorData = new SensorDataDocument();

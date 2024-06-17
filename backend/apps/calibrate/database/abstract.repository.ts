@@ -70,7 +70,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     options: FindOptions = {},
   ): Promise<{ data: TDocument[]; total: number }> {
     try {
-      console.log(filterQuery,options)
+      console.log("here",filterQuery,options,)
       let query = this.model.find(filterQuery);
       query = applyProjection(query, options.projection);
       query = applyCustomFilters(query, options.customFilters);

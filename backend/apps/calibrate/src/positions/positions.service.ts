@@ -7,13 +7,16 @@ import { PositionsRepository } from './positions.repository';
 import { RoutesService } from '../routes/routes.service';
 import { CreateSensorDataDto } from '../sensor_datas/dto/create-sensor_data.dto';
 import { SensorDataDocument } from '../sensor_datas/entities/sensor_data.entity';
+import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
 
 @Injectable()
-export class PositionsService {
+export class PositionsService extends BaseService<PositionDocument, PositionsRepository>{
   constructor(
     private readonly positionsRepository: PositionsRepository,
     private readonly routesService: RoutesService,
-  ) {}
+  ) {
+    super(positionsRepository)
+  }
 
   async create(createPositionDto: CreatePositionDto): Promise<PositionDocument> {
     const {routeId, ...rest} = createPositionDto;

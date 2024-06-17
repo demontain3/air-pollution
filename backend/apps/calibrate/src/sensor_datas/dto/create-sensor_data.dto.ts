@@ -18,6 +18,11 @@ export class CreateSensorDataDto {
   @IsNotEmpty({ message: 'Device owner is required' })
   device_owner: number;
 
+  @ApiProperty({ description: 'The value of the sensor' })
+  @IsNumber({},{ message: 'Value must be a number' })
+  @IsNotEmpty({ message: 'Value is required' })
+  value: number;
+
   @ApiProperty({ description: 'The position of the sensor data', type: String })
   @IsNotEmpty({ message: 'Position is required' })
   position: Types.ObjectId; // Added position field based on the schema
