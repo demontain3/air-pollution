@@ -252,7 +252,7 @@ const HeatMap: React.FC = () => {
 
   return (
     <ScrollArea className="min-h-full">
-      <div id="map" style={{ height: "100vh", width: "100%", zIndex:"-10" }} />
+      <div id="map" style={{ height: "100vh", width: "100%",}} />
     </ScrollArea>
   )
 }
