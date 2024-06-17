@@ -1,21 +1,27 @@
 import { Module } from '@nestjs/common';
-import { RoutesModule } from './routes/routes.module';
 import { PositionsModule } from './positions/positions.module';
 import { SensorDatasModule } from './sensor_datas/sensor_datas.module';
 import { CALIBRATE_SERVICE, LoggerModule } from '@app/common';
-// import { RouteSchema } from './routes/schemas/route.schema';
-// import { SensorDataSchema } from './sensor_datas/schemas/sensor_data.schema';
-// import { PositionSchema } from './positions/schemas/position.schema';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { DatabaseModule } from '../database/database.module';
+import * as Joi from 'joi';
+import { RoutesModule } from './routes/routes.module';
 
 @Module({
   imports: [
-    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: 'apps/calibrate/.env',
+      validationSchema: Joi.object({
+        MONGODB_URI: Joi.string().required(),
+        TCP_PORT: Joi.number().required(),
+        HTTP_PORT: Joi.number().required()
+      }),
     }),
+    
+    DatabaseModule,
+    LoggerModule,
     ClientsModule.registerAsync([
       {
         name: CALIBRATE_SERVICE,
@@ -29,9 +35,9 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         inject: [ConfigService],
       },
     ]),
+    SensorDatasModule,
     RoutesModule,
     PositionsModule,
-    SensorDatasModule,
   ],
   providers: [],
 })

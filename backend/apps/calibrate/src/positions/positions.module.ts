@@ -6,14 +6,13 @@ import { RoutesModule } from '../routes/routes.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PositionsRepository } from './positions.repository';
-import { Position, PositionSchema } from './entities/position.entity';
+import { PositionDocument, PositionSchema } from './entities/position.entity';
 import { DatabaseModule } from 'apps/calibrate/database/database.module';
 
 @Module({
   imports: [
-    DatabaseModule,
     DatabaseModule.forFeature([
-      { name: Position.name, schema: PositionSchema },
+      { name: PositionDocument.name, schema: PositionSchema },
     ]),
     RoutesModule,
     ConfigModule.forRoot({

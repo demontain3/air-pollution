@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { Position } from '../../positions/entities/position.entity';
+import { PositionDocument } from '../../positions/entities/position.entity';
 import { AbstractDocument } from 'apps/calibrate/database/abstract.schema';
 
 @Schema()
-export class Route extends AbstractDocument {
+export class RouteDocument extends AbstractDocument {
   @Prop({ type: String })
   start: string;
 
@@ -18,7 +18,7 @@ export class Route extends AbstractDocument {
   owner: number; // this is user ID
 
   @Prop([{ type: Types.ObjectId, ref: 'Position' }])
-  positions: Position[];
+  positions: PositionDocument[];
 }
 
-export const RouteSchema = SchemaFactory.createForClass(Route);
+export const RouteSchema = SchemaFactory.createForClass(RouteDocument);

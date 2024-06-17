@@ -1,7 +1,15 @@
 import { Logger, NotFoundException } from '@nestjs/common';
 import { FilterQuery, Model, Types, UpdateQuery } from 'mongoose';
 import { AbstractDocument } from './abstract.schema';
-
+import {
+  applyCustomFilters,
+  applyLimit,
+  applyPopulation,
+  applyProjection,
+  applySkip,
+  applySort,
+} from './find/find.methods';
+import { FindOptions } from '../src/types';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   protected abstract readonly logger: Logger;
@@ -56,4 +64,32 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   ): Promise<TDocument> {
     return this.model.findOneAndDelete(filterQuery).lean<TDocument>(true);
   }
+
+  async getAll(
+    filterQuery:  FilterQuery<any> = {},
+    options: FindOptions = {},
+  ): Promise<{ data: TDocument[]; total: number }> {
+    try {
+      console.log(filterQuery,options)
+      let query = this.model.find(filterQuery);
+      query = applyProjection(query, options.projection);
+      query = applyCustomFilters(query, options.customFilters);
+
+      const countQuery = this.model.find(filterQuery);
+      const total = await countQuery.countDocuments();
+
+      query = applyLimit(query, options.limit);
+      query = applySkip(query, options.skip);
+      query = applySort(query, options.sort);
+      query = applyPopulation(query, options.populate);
+
+      const results = await query.lean<TDocument[]>(true);
+      return { data: results, total };
+    } catch (error) {
+      console.log('Error finding documents', error);
+      throw new Error('Failed to find documents');
+    }
+  }
 }
+
+// options: FindOptions = { limit: 10, skip: 1 }

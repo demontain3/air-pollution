@@ -1,16 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Route } from './entities/route.entity';
+import { RouteDocument } from './entities/route.entity';
 import { AbstractRepository } from 'apps/calibrate/database/abstract.repository';
 
 @Injectable()
-export class RoutesRepository extends AbstractRepository<Route> {
+export class RoutesRepository extends AbstractRepository<RouteDocument> {
   protected readonly logger = new Logger(RoutesRepository.name);
 
   constructor(
-    @InjectModel(Route.name)
-    routesModel: Model<Route>,
+    @InjectModel(RouteDocument.name)
+    routesModel: Model<RouteDocument>,
   ) {
     super(routesModel);
   }

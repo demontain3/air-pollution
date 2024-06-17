@@ -6,11 +6,11 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RoutesRepository } from './routes.repository';
 import { DatabaseModule } from 'apps/calibrate/database/database.module';
-import { Route, RouteSchema } from './entities/route.entity';
+import { RouteDocument, RouteSchema } from './entities/route.entity';
 
 @Module({
   imports: [
-    // DatabaseModule.forFeature([{ name: Route.name, schema: RouteSchema }]),
+    DatabaseModule.forFeature([{ name: RouteDocument.name, schema: RouteSchema }]),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

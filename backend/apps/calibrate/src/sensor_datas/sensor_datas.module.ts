@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SensorDatasService } from './sensor_datas.service';
 import { SensorDatasController } from './sensor_datas.controller';
 import { AUTH_SERVICE, LoggerModule } from '@app/common';
-import { SensorData, SensorDataSchema } from './entities/sensor_data.entity';
+import { SensorDataDocument, SensorDataSchema } from './entities/sensor_data.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SensorDatasRepository } from './sensor_datas.repository';
@@ -10,8 +10,9 @@ import { DatabaseModule } from 'apps/calibrate/database/database.module';
 
 @Module({
   imports: [
-    // DatabaseModule,
-    // DatabaseModule.forFeature([{ name: SensorData.name, schema: SensorDataSchema }]),
+    DatabaseModule.forFeature([
+      { name: SensorDataDocument.name, schema: SensorDataSchema },
+    ]),   
     ConfigModule.forRoot({
       isGlobal: true,
     }),

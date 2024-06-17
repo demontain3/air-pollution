@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
-import { Position } from '../../positions/entities/position.entity';
 import { AbstractDocument } from 'apps/calibrate/database/abstract.schema';
+import { PositionDocument } from '../../positions/entities/position.entity';
+import { Types } from 'mongoose';
 
-@Schema()
-export class SensorData extends AbstractDocument {
+@Schema({ versionKey: false })
+export class SensorDataDocument extends AbstractDocument {
   @Prop({ type: String })
   kei: string;
 
@@ -15,7 +15,8 @@ export class SensorData extends AbstractDocument {
   device_owner: number; //this is user id
 
   @Prop({ type: Types.ObjectId, ref: 'Position' })
-  position: Position;
+  position: PositionDocument;
 }
 
-export const SensorDataSchema = SchemaFactory.createForClass(SensorData);
+export const SensorDataSchema =
+  SchemaFactory.createForClass(SensorDataDocument);

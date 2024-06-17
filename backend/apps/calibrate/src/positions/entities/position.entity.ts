@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { Route } from '../../routes/entities/route.entity';
-import { SensorData } from '../../sensor_datas/entities/sensor_data.entity';
+import { RouteDocument } from '../../routes/entities/route.entity';
+import { SensorDataDocument } from '../../sensor_datas/entities/sensor_data.entity';
 import { AbstractDocument } from 'apps/calibrate/database/abstract.schema';
 
 @Schema()
-export class Position extends AbstractDocument {
+export class PositionDocument extends AbstractDocument {
   @Prop({ type: Number })
   lati: number;
 
@@ -15,14 +15,14 @@ export class Position extends AbstractDocument {
   @Prop({ type: Number })
   alti: number;
 
-  @Prop({ type: String })
-  timestamp: string;
+  @Prop({ type: Date })
+  timestamp: Date;
 
   @Prop({ type: Types.ObjectId, ref: 'Route' })
-  route: Route;
+  route: RouteDocument;
 
   @Prop({ type: Types.ObjectId, ref: 'SensorData' })
-  sensorData: SensorData;
+  sensorDataDocument: SensorDataDocument;
 }
 
-export const PositionSchema = SchemaFactory.createForClass(Position);
+export const PositionSchema = SchemaFactory.createForClass(PositionDocument);
