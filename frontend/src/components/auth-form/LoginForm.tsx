@@ -33,9 +33,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-
 import { Label } from "../ui/label"
 import { inputLead, labelLead } from "./SignupForm"
+
 
 const Login: React.FC = () => {
   const router = useRouter()
@@ -68,10 +68,10 @@ const Login: React.FC = () => {
 
       setIsLoggedIn(true)
       console.log(data.data, "data")
-      const decoded: { exp: number } = jwtDecode(data.data)
+      const decoded: { exp: number } = jwtDecode(data.data.jwt)
       const exp = decoded.exp
-      setCookie("accessToken", data.data, exp)
-      LocalStore.setAccessToken(data.data)
+      setCookie("accessToken", data.data.jwt, exp)
+      LocalStore.setAccessToken(data.data.jwt)
 
       router.push("/admindash")
       console.log("ONE")

@@ -87,7 +87,7 @@ import RootLayout from "@/app/layout"
 //       }
 //     )
 
-//     console.log((res as AxiosResponse<any, any>).data.roles, "res")
+//     console.log((res as AxiosResponse<any, any>).data.data.users.roles, "res")
 
 //     isLoading = false
 
