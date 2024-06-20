@@ -45,8 +45,8 @@ const pdata = [
  
 function LineChartComponent() {
     return (
-        <>
-            <h1 className="text-heading">Line Chart Using Rechart</h1>
+        <div className="w-full p-4">
+            <h1 className="text-heading text-start text-sm md:text-xl text-slate-300 my-2 pb-4">Line Chart Using Rechart</h1>
             <ResponsiveContainer width="100%" aspect={3}>
                 <LineChart data={pdata} margin={{ right: 300 }}>
                     <CartesianGrid />
@@ -59,10 +59,10 @@ function LineChartComponent() {
                         stroke="green"
                         activeDot={{ r: 8 }}
                     />
-                    <Line dataKey="fees" stroke="red" activeDot={{ r: 8 }} />
+                    <Line dataKey="fees" stroke="red" activeDot={{ r:8 }} />
                 </LineChart>
             </ResponsiveContainer>
-        </>
+        </div>
     );
 }
  

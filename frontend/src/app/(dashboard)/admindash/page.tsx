@@ -1,6 +1,8 @@
 "use client"
 
+import { cardData } from "@/constants/data"
 import useMeStore from "@/store/useMeStore"
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -11,9 +13,11 @@ import {
 } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import LineChartComponent from "@/components/LineChart"
 import { Overview } from "@/components/overview"
 import { RecentSales } from "@/components/recent-sales"
-import { cardData } from "@/constants/data"
+import AQIindex from "@/components/AQIindex"
+import BarChart from "@/components/BarChart"
 
 export default function Page() {
   const { meData } = useMeStore()
@@ -40,7 +44,10 @@ export default function Page() {
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {cardData.map((card, index) => (
-                <Card key={index} className="bg-gray-800 drop-shadow-md shadow-green-500 border-none">
+                <Card
+                  key={index}
+                  className="border-none bg-gray-800 shadow-green-500 drop-shadow-md"
+                >
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-slate-300">
                       {card.title}
@@ -59,22 +66,27 @@ export default function Page() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-primary">{card.value}</div>
-                    <p className="text-xs text-muted-foreground">{card.description}</p>
+                    <div className="text-2xl font-bold text-primary">
+                      {card.value}
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {card.description}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4 bg-black drop-shadow-md shadow-green-500 border-none">
+              <Card className="col-span-4 border-none bg-black shadow-green-500 drop-shadow-md">
                 <CardHeader>
                   <CardTitle className="text-slate-300">Overview</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
-                  <Overview />
+                  {/* <Overview /> */}
+                  <BarChart/>
                 </CardContent>
               </Card>
-              <Card className="col-span-4 md:col-span-3 bg-black drop-shadow-md shadow-green-500 border-none">
+              <Card className="col-span-4 border-none bg-black shadow-green-500 drop-shadow-md md:col-span-3">
                 <CardHeader>
                   <CardTitle className="text-slate-300">Recent Sales</CardTitle>
                   <CardDescription>
@@ -82,12 +94,18 @@ export default function Page() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-slate-300">
-                  <RecentSales />
+                  {/* <RecentSales /> */}
+                  <AQIindex/>
+
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
         </Tabs>
+        <Card className="items-center flex justify-center w-full border-none bg-black shadow-green-500 drop-shadow-md md:col-span-3">
+          <LineChartComponent />
+
+        </Card>
       </div>
     </ScrollArea>
   )

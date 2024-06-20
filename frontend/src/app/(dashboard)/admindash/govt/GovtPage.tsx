@@ -6,7 +6,6 @@ import React from 'react'
 const GovtPage = () => {
   return (
     <div>
-      <LineChartComponent />
       <BarChartComponent />
     </div>
   )
