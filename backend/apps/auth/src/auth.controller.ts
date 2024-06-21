@@ -35,8 +35,8 @@ export class AuthController {
     @CurrentUser() user: User,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const result = await this.authService.login(user, response);
-    response.send(result);
+    const jwt = await this.authService.login(user, response);
+    return { user, jwt };
   }
 
   @Post('request-otp')

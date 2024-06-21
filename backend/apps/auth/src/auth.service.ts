@@ -24,20 +24,20 @@ export class AuthService {
     const tokenPayload: TokenPayload = {
       userId: user.id,
     };
-  
+
     const expires = new Date();
     expires.setSeconds(
       expires.getSeconds() + this.configService.get('JWT_EXPIRATION'),
     );
-  
+
     const token = this.jwtService.sign(tokenPayload);
-  
+
     response.cookie('Authentication', token, {
       httpOnly: true,
       expires,
     });
-  
-    return { user, token };
+
+    return token;
   }
 
   async requestOtpVerify(email: string): Promise<boolean> {
