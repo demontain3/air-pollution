@@ -24,6 +24,7 @@ import { extname } from 'path';
 
 import { ApiTags, ApiOperation, ApiParam, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UserResponse } from './responses/users.response';
+import { EventPattern } from '@nestjs/microservices';
 
 @Controller('users')
 export class UsersController {
@@ -141,4 +142,33 @@ export class UsersController {
   ): Promise<User> {
     return this.usersService.changePassword(updatePasswordDto, user);
   }
+
+  @EventPattern('get_user_by_id')
+  async getUserById(data: { id: number }) {
+    return this.usersService.getOne({ id: data.id });
+  }
+
+  @EventPattern('allocate_device_to_user')
+  async allocateDeviceToUser(data: { id: number, deviceId: string }) {
+    const { id, deviceId } = data; // Destructure the id and deviceId from the data object
+    return await this.usersService.allocateDeviceId(id, {deviceId: deviceId}); // Use the id and deviceId to update the userPass the id parameter to the update method
+  }
+
+  @EventPattern('deallocate_device_to_user')
+  async deallocateDeviceToUser(data: { deviceId: string }) {
+    return await this.usersService.deAllocateDeviceId(data.deviceId);
+  }
+
+  @Put('deallocate-device')
+  @UseGuards(JwtAuthGuard)
+  @Roles('Admin')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Deallocate deivice' })
+  @ApiResponse({ status: 200, description: 'The device has been successfully deallocated.'})
+  async deallocteDevice(
+    @Body() deviceId: string,
+  ) {
+    return await this.usersService.deAllocateDeviceId(deviceId);
+  }
+
 }

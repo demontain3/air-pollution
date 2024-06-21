@@ -3,7 +3,7 @@ export interface QueryParams {
     limit?: number;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
-    owner?: string;
-    filters?: string[] 
+    filters?: string[] | Record<string, any>; // Allow filters to be an object
+    filterObject?: string;
   }
   

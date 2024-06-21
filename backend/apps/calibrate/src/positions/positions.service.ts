@@ -1,45 +1,62 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { CreatePositionDto } from './dto/create-position.dto';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
+import {
+  CreatePositionDto,
+  CreatePositionWithSensorDataDto,
+} from './dto/create-position.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
 import { ExtendedFindOptions, User } from '@app/common';
 import { PositionDocument } from './entities/position.entity';
 import { PositionsRepository } from './positions.repository';
 import { RoutesService } from '../routes/routes.service';
-import { CreateSensorDataDto } from '../sensor_datas/dto/create-sensor_data.dto';
 import { SensorDataDocument } from '../sensor_datas/entities/sensor_data.entity';
 import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
+import { SensorDatasRepository } from '../sensor_datas/sensor_datas.repository';
+import { Connection } from 'mongoose';
+import { InjectConnection } from '@nestjs/mongoose';
 
 @Injectable()
-export class PositionsService extends BaseService<PositionDocument, PositionsRepository>{
+export class PositionsService extends BaseService<
+  PositionDocument,
+  PositionsRepository
+> {
   constructor(
+    @InjectConnection() private readonly connection: Connection,
     private readonly positionsRepository: PositionsRepository,
+    private readonly sensorDatasRepository: SensorDatasRepository,
     private readonly routesService: RoutesService,
   ) {
-    super(positionsRepository)
+    super(positionsRepository);
   }
 
-  async create(createPositionDto: CreatePositionDto): Promise<PositionDocument> {
-    const {routeId, ...rest} = createPositionDto;
-    const route = await this.routesService.findOne(routeId);
-    if (!route) {
-      throw new BadRequestException(`Route with ID ${routeId} not found`);
-    }
+  async create(
+    createPositionDto: CreatePositionDto,
+  ): Promise<PositionDocument> {
+    const { routeId, ...rest } = createPositionDto;
     const position = new PositionDocument();
     Object.assign(position, rest);
-    position.route = route;
+    if (routeId) {
+      const route = await this.routesService.findOne(routeId);
+      if (!route) {
+        throw new BadRequestException(`Route with ID ${routeId} not found`);
+      }
+      position.route = route;
+    }
     return await this.positionsRepository.create(position);
   }
 
-  async findAll(
-    options: ExtendedFindOptions<PositionDocument>,
-  ): Promise<{ data: PositionDocument[]; total: number }> {
-    const result = await this.positionsRepository.find(options.query);
+  async findAll(): Promise<{ data: PositionDocument[]; total: number }> {
+    const result = await this.positionsRepository.find({
+    });
     const data = result;
     const total = result.length;
     return { data, total };
   }
 
-  async findOne(id: number): Promise<PositionDocument> {
+  async findOne(id: string): Promise<PositionDocument> {
     const position = await this.positionsRepository.findOne({ id });
     if (!position) {
       throw new NotFoundException(`PositionDocument with ID ${id} not found`);
@@ -48,7 +65,7 @@ export class PositionsService extends BaseService<PositionDocument, PositionsRep
   }
 
   async update(
-    id: number,
+    id: string,
     updatePositionDto: UpdatePositionDto,
   ): Promise<PositionDocument> {
     const position = await this.findOne(id);
@@ -62,9 +79,6 @@ export class PositionsService extends BaseService<PositionDocument, PositionsRep
     if (updatePositionDto.alti !== undefined) {
       position.alti = updatePositionDto.alti;
     }
-    if (updatePositionDto.timestamp !== undefined) {
-      position.timestamp = updatePositionDto.timestamp;
-    }
 
     await this.positionsRepository.findOneAndUpdate(
       { id: position._id },
@@ -73,11 +87,57 @@ export class PositionsService extends BaseService<PositionDocument, PositionsRep
     return position;
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const position = await this.findOne(id);
     if (!position) {
       throw new NotFoundException(`PositionDocument with ID ${id} not found`);
     }
     await this.positionsRepository.findOneAndDelete({ id });
+  }
+
+  async createPositionWithSensorData(
+    createPositionWithSensorDataDto: CreatePositionWithSensorDataDto,
+  ): Promise<{ sensorData: SensorDataDocument }> {
+    const session = await this.connection.startSession();
+    session.startTransaction();
+    try {
+      const { routeId, sensorData, ...positionDto } =
+        createPositionWithSensorDataDto;
+
+      let route = null;
+      if (routeId) {
+        route = await this.routesService.findOne(routeId);
+        if (!route) {
+          throw new BadRequestException(`Route with ID ${routeId} not found`);
+        }
+      }
+
+      const position = new PositionDocument();
+      Object.assign(position, positionDto);
+      if (route) {
+        position.route = route;
+      }
+
+      const createdPosition = await this.positionsRepository.create(position, {
+        session,
+      });
+
+      const sensorDataDoc = new SensorDataDocument();
+      Object.assign(sensorDataDoc, sensorData);
+      sensorDataDoc.position = createdPosition;
+
+      const createdSensorData = await this.sensorDatasRepository.create(
+        sensorDataDoc,
+        { session },
+      );
+
+      await session.commitTransaction();
+      return { sensorData: createdSensorData };
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
   }
 }

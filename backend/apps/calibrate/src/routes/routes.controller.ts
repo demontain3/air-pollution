@@ -154,12 +154,6 @@ export class RoutesController {
     example: 'desc',
   })
   @ApiQuery({
-    name: 'owner',
-    required: false,
-    type: String,
-    description: 'Filter the results by owner',
-  })
-  @ApiQuery({
     name: 'filters',
     required: false,
     type: [String],
@@ -176,8 +170,7 @@ export class RoutesController {
     @Query('limit') limit?: number,
     @Query('sortBy') sortBy?: string,
     @Query('sortOrder') sortOrder?: 'asc' | 'desc',
-    @Query('owner') owner?: string, // Optional owner query param
-    @Query('filters') filters?: string[], // Additional query params as filters
+    @Query('filters') filters?: string[],
   ): Promise<{ data: RouteDocument[]; total: number }> {
     try {
       const queryParams = {
@@ -185,7 +178,6 @@ export class RoutesController {
         limit,
         sortBy,
         sortOrder,
-        owner,
         filters,
       };
       const { data, total } =
@@ -195,4 +187,5 @@ export class RoutesController {
       throw new NotFoundException('Failed to retrieve routes');
     }
   }
+
 }

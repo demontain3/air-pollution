@@ -1,22 +1,20 @@
 import { Module } from '@nestjs/common';
-import { PositionsService } from './positions.service';
-import { PositionsController } from './positions.controller';
+import { DevicesService } from './device.service';
+import { DevicesController } from './device.controller';
 import { AUTH_SERVICE, LoggerModule } from '@app/common';
 import { RoutesModule } from '../routes/routes.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PositionsRepository } from './positions.repository';
-import { PositionDocument, PositionSchema } from './entities/position.entity';
+import { DevicesRepository } from './device.repository';
+import { DeviceDocument, DeviceSchema } from './entities/device.entity';
 import { DatabaseModule } from 'apps/calibrate/database/database.module';
-import { SensorDatasModule } from '../sensor_datas/sensor_datas.module';
 
 @Module({
   imports: [
     DatabaseModule.forFeature([
-      { name: PositionDocument.name, schema: PositionSchema },
+      { name: DeviceDocument.name, schema: DeviceSchema },
     ]),
     RoutesModule,
-    SensorDatasModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -35,7 +33,8 @@ import { SensorDatasModule } from '../sensor_datas/sensor_datas.module';
     ]),
     LoggerModule,
   ],
-  controllers: [PositionsController],
-  providers: [PositionsService, PositionsRepository],
+  controllers: [DevicesController],
+  providers: [DevicesService, DevicesRepository],
+  exports: [DevicesService, DevicesRepository]
 })
-export class PositionsModule {}
+export class DevicesModule {}

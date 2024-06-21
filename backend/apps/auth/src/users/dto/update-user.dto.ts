@@ -42,3 +42,9 @@ export class UpdateUserDtoAdmin extends UpdateUserDto {
   @IsStatus()
   status?: Status;
 }
+
+export class AllocateDeviceIdDto {
+  @ApiProperty({ description: 'The device id to allocate.', required: true, example: '123456789' })
+  @IsString()
+  deviceId: string;
+}

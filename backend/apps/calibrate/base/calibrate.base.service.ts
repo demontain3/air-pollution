@@ -12,12 +12,10 @@ export class BaseService<T, R> {
       limit = 10,
       sortBy = 'id',
       sortOrder = 'asc',
-      owner,
       filters = [],
+      // filterObject,
     } = queryParams;
-    console.log(filters)
-    let customFilters = {};
-
+    let customFilters = { };
     if (filters && typeof filters === 'string') {
       filters = [filters];
     }
@@ -32,18 +30,19 @@ export class BaseService<T, R> {
           operator = '=';
           value = operatorValue;
         }
-        console.log(key, operatorValue)
-        customFilters = { ...customFilters, ...processOperator(operator, value, key) };
+        customFilters = {
+          ...customFilters,
+          ...processOperator(operator, value, key),
+        };
       });
     }
     const options = {
       sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 },
       skip: (parseInt(String(page), 10) - 1) * parseInt(String(limit), 10),
       limit: parseInt(String(limit), 10),
-      populate: 'owner', // Example of population, adjust as needed
-      customFilters: customFilters, // Pass additional filters to repository
+      customFilters: customFilters,
     };
-    const filterQuery = { ...customFilters, ...(owner ? { owner } : {}) }; // Example filter, adjust as needed
+    const filterQuery = { ...customFilters }; // Use the id and populateField parameters to create the filter
 
     const result = await (this.repository as any).getAll(filterQuery, options);
     const { data, total } = result;

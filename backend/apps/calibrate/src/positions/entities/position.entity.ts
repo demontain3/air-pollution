@@ -6,23 +6,18 @@ import { AbstractDocument } from 'apps/calibrate/database/abstract.schema';
 
 @Schema()
 export class PositionDocument extends AbstractDocument {
-  @Prop({ type: Number })
+  @Prop({ type: Number, required: true })
   lati: number;
 
-  @Prop({ type: Number })
+  @Prop({ type: Number, required: true })
   lngi: number;
 
-  @Prop({ type: Number })
+  @Prop({ type: Number , required: false})
   alti: number;
 
-  @Prop({ type: Date })
-  timestamp: Date;
+  @Prop({ type: Types.ObjectId, ref: 'Route', required: false })
+  route?: RouteDocument;
 
-  @Prop({ type: Types.ObjectId, ref: 'Route' })
-  route: RouteDocument;
-
-  @Prop({ type: Types.ObjectId, ref: 'SensorData' })
-  sensorDataDocument: SensorDataDocument;
 }
 
 export const PositionSchema = SchemaFactory.createForClass(PositionDocument);

@@ -8,6 +8,7 @@ import { ExtendedFindOptions, User } from '@app/common';
 import { RouteDocument } from './entities/route.entity';
 import { RoutesRepository } from './routes.repository';
 import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
+import { PopulateOptions } from 'apps/calibrate/database/abstract.repository';
 
 @Injectable()
 export class RoutesService extends BaseService<
@@ -18,18 +19,25 @@ export class RoutesService extends BaseService<
     super(routesRepository);
   }
 
-  async create(
-    createRouteDto: CreateRouteDto,
-    user: User,
-  ): Promise<RouteDocument> {
+  // async create(
+  //   createRouteDto: CreateRouteDto,
+  //   user: User,
+  // ): Promise<RouteDocument> {
+  //   const route = new RouteDocument();
+  //   Object.assign(route, createRouteDto);
+  //   /* only for test */
+  //   if (!user) {
+  //     route.owner = 1;
+  //   } else {
+  //     route.owner = user.id;
+  //   }
+  //   return await this.routesRepository.create(route);
+  // }
+
+  async create(createRouteDto: CreateRouteDto, user: User): Promise<RouteDocument> {
     const route = new RouteDocument();
     Object.assign(route, createRouteDto);
-    /* only for test */
-    if (!user) {
-      route.owner = 1;
-    } else {
-      route.owner = user.id;
-    }
+    route.owner = user ? user.id : 1; // Default to 1 if no user provided (for testing)
     return await this.routesRepository.create(route);
   }
 
@@ -76,4 +84,5 @@ export class RoutesService extends BaseService<
     }
     await this.routesRepository.findOneAndDelete({ id });
   }
+
 }

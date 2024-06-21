@@ -43,15 +43,6 @@
       "compilerOptions": {
         "tsConfigPath": "apps/calibrate/tsconfig.app.json"
       }
-    },
-    "iot": {
-      "type": "application",
-      "root": "apps/iot",
-      "entryFile": "main",
-      "sourceRoot": "apps/iot/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/iot/tsconfig.app.json"
-      }
     }
   },
   "monorepo": true,

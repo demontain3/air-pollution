@@ -17,6 +17,9 @@ export class User extends AbstractEntity<User> {
   @Column()
   lastName: string;
 
+  @Column({nullable:true})
+  deviceId: string;
+
   @Column({ nullable: true })
   profilePicture?: string;
 

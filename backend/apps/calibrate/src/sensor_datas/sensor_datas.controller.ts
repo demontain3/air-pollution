@@ -27,30 +27,31 @@ import {
   ApiForbiddenResponse,
   ApiUnauthorizedResponse,
   ApiQuery,
-  ApiResponse
+  ApiResponse,
 } from '@nestjs/swagger';
 import { SensorDataDocument } from './entities/sensor_data.entity';
+import { DeviceGuard } from 'apps/calibrate/guards/device.guard';
 
 @ApiTags('SensorDatas')
 @Controller('sensorDatas')
 export class SensorDatasController {
   constructor(private readonly sensorDatasService: SensorDatasService) {}
 
+  //only for stationery user
   @Post()
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(DeviceGuard)
   // @Roles('Admin')
   @ApiOperation({ summary: 'Create a new sensorData' })
   @ApiBearerAuth()
   @ApiBody({ type: CreateSensorDataDto })
-  @ApiCreatedResponse({ description: 'The sensorData has been successfully created.'})
-  @ApiBadRequestResponse({ description: 'Invalid input.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
-  async create(
-    @Body() createSensorDataDto: CreateSensorDataDto,
-    @CurrentUser() user: User,
-  ) {
-    return this.sensorDatasService.create(createSensorDataDto, user);
+  @ApiCreatedResponse({
+    description: 'The sensorData has been successfully created.',
+  })
+  @ApiBadRequestResponse({ description: 'Invalid input.' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  async create(@Body() createSensorDataDto: CreateSensorDataDto) {
+    return this.sensorDatasService.create(createSensorDataDto);
   }
 
   @Get()
@@ -58,11 +59,11 @@ export class SensorDatasController {
   // @Roles('Admin')
   @ApiOperation({ summary: 'Get all sensorDatas' })
   @ApiBearerAuth()
-  @ApiOkResponse({ description: 'Successfully retrieved sensorDatas.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
+  @ApiOkResponse({ description: 'Successfully retrieved sensorDatas.' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   async findAll() {
-    return this.sensorDatasService.findAll({});
+    return this.sensorDatasService.findAll();
   }
 
   @Get(':id')
@@ -70,37 +71,55 @@ export class SensorDatasController {
   // @Roles('User')
   @ApiOperation({ summary: 'Get a sensorData by id' })
   @ApiBearerAuth()
-  @ApiParam({ name: 'id', required: true, description: 'The id of the sensorData' })
-  @ApiOkResponse({ description: 'Successfully retrieved the sensorData.'})
-  @ApiNotFoundResponse({ description: 'SensorData not found.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
-  async findOne(@Param('id') id: string) {
-    return this.sensorDatasService.findOne(+id);
-  }
-
-  @Patch(':id')
-  // @UseGuards(JwtAuthGuard)
-  // @Roles('Admin')
-  @ApiOperation({ summary: 'Update a sensorData' })
-  @ApiBearerAuth()
   @ApiParam({
     name: 'id',
     required: true,
-    description: 'The id of the sensorData to update',
+    description: 'The id of the sensorData',
   })
-  @ApiBody({ type: UpdateSensorDataDto })
-  @ApiOkResponse({ description: 'Successfully updated the sensorData.'})
-  @ApiBadRequestResponse({ description: 'Invalid input.'})
-  @ApiNotFoundResponse({ description: 'SensorData not found.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
-  async update(
-    @Param('id') id: string,
-    @Body() updateSensorDataDto: UpdateSensorDataDto,
-  ) {
-    return this.sensorDatasService.update(+id, updateSensorDataDto);
+  @ApiOkResponse({ description: 'Successfully retrieved the sensorData.' })
+  @ApiNotFoundResponse({ description: 'SensorData not found.' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  async findOne(@Param('id') id: string) {
+    return this.sensorDatasService.findOne(id);
   }
+
+  @Get(':id')
+  // @UseGuards(JwtAuthGuard)
+  // @Roles('User')
+  @ApiOperation({ summary: 'Get a sensorData by device Id' })
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', required: true, description: 'The id of the device' })
+  @ApiOkResponse({ description: 'Successfully retrieved the sensorData.' })
+  @ApiNotFoundResponse({ description: 'SensorData not found.' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  async findOneBySerialNo(@Param('id') id: string) {
+    return this.sensorDatasService.findOne(id);
+  }
+
+  // @Patch(':id')
+  // // @UseGuards(JwtAuthGuard)
+  // // @Roles('Admin')
+  // @ApiOperation({ summary: 'Update a sensorData' })
+  // @ApiBearerAuth()
+  // @ApiParam({
+  //   name: 'id',
+  //   required: true,
+  //   description: 'The id of the sensorData to update',
+  // })
+  // @ApiBody({ type: UpdateSensorDataDto })
+  // @ApiOkResponse({ description: 'Successfully updated the sensorData.'})
+  // @ApiBadRequestResponse({ description: 'Invalid input.'})
+  // @ApiNotFoundResponse({ description: 'SensorData not found.'})
+  // @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+  // @ApiForbiddenResponse({ description: 'Forbidden.'})
+  // async update(
+  //   @Param('id') id: string,
+  //   @Body() updateSensorDataDto: UpdateSensorDataDto,
+  // ) {
+  //   return this.sensorDatasService.update(+id, updateSensorDataDto);
+  // }
 
   @Delete(':id')
   // @UseGuards(JwtAuthGuard)
@@ -112,16 +131,18 @@ export class SensorDatasController {
     required: true,
     description: 'The id of the sensorData to delete',
   })
-  @ApiOkResponse({ description: 'Successfully deleted the sensorData.'})
-  @ApiNotFoundResponse({ description: 'SensorData not found.'})
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-  @ApiForbiddenResponse({ description: 'Forbidden.'})
+  @ApiOkResponse({ description: 'Successfully deleted the sensorData.' })
+  @ApiNotFoundResponse({ description: 'SensorData not found.' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   async remove(@Param('id') id: string) {
-    return this.sensorDatasService.remove(+id);
+    return this.sensorDatasService.remove(id);
   }
 
   @Get('list/filter')
-  @ApiOperation({ summary: 'Retrieve all sensorDatas with filters and pagination' })
+  @ApiOperation({
+    summary: 'Retrieve all sensorDatas with filters and pagination',
+  })
   @ApiQuery({
     name: 'page',
     required: false,
@@ -152,15 +173,15 @@ export class SensorDatasController {
     example: 'desc',
   })
   @ApiQuery({
-    name: 'owner',
-    required: false,
-    type: String,
-    description: 'Filter the results by owner',
-  })
-  @ApiQuery({
     name: 'filters',
     required: false,
     type: [String],
+    description: 'Additional query params as filters',
+  })
+  @ApiQuery({
+    name: 'filterObject',
+    required: false,
+    type: String,
     description: 'Additional query params as filters',
   })
   @ApiResponse({
@@ -174,23 +195,24 @@ export class SensorDatasController {
     @Query('limit') limit?: number,
     @Query('sortBy') sortBy?: string,
     @Query('sortOrder') sortOrder?: 'asc' | 'desc',
-    @Query('owner') owner?: string, // Optional owner query param
-    @Query('filters') filters?: string[], // Additional query params as filters
+    @Query('filters') filters?: string[],
+    // @Query('filterObject') filterObject?: string ,
   ): Promise<{ data: SensorDataDocument[]; total: number }> {
-    try {
-      const queryParams = {
-        page,
-        limit,
-        sortBy,
-        sortOrder,
-        owner,
-        filters,
-      };
-      const { data, total } =
-        await this.sensorDatasService.findAllWithFilters(queryParams);
-      return { data, total };
-    } catch (error) {
-      throw new NotFoundException('Failed to retrieve sensorDatas');
-    }
+    const queryParams = {
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+      filters,
+      // filterObject
+    };
+    const { data, total } =
+      await this.sensorDatasService.findAllWithFilters(queryParams);
+    return { data, total };
   }
+  catch(error) {
+    throw new NotFoundException('Failed to retrieve sensorDatas');
+  }
+
+  
 }

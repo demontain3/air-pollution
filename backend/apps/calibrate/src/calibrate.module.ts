@@ -7,6 +7,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DatabaseModule } from '../database/database.module';
 import * as Joi from 'joi';
 import { RoutesModule } from './routes/routes.module';
+import { DevicesModule } from './device/device.module';
 
 @Module({
   imports: [
@@ -19,7 +20,6 @@ import { RoutesModule } from './routes/routes.module';
         HTTP_PORT: Joi.number().required()
       }),
     }),
-    
     DatabaseModule,
     LoggerModule,
     ClientsModule.registerAsync([
@@ -38,6 +38,8 @@ import { RoutesModule } from './routes/routes.module';
     SensorDatasModule,
     RoutesModule,
     PositionsModule,
+    DevicesModule,
+    CalibrateModule,
   ],
   providers: [],
 })

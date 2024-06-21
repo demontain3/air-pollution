@@ -7,6 +7,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SensorDatasRepository } from './sensor_datas.repository';
 import { DatabaseModule } from 'apps/calibrate/database/database.module';
+import { DevicesModule } from '../device/device.module';
+
 
 @Module({
   imports: [
@@ -30,8 +32,10 @@ import { DatabaseModule } from 'apps/calibrate/database/database.module';
       },
     ]),
     LoggerModule,
+    DevicesModule
   ],
   controllers: [SensorDatasController],
   providers: [SensorDatasService, SensorDatasRepository],
+  exports:[SensorDatasService, SensorDatasRepository]
 })
 export class SensorDatasModule {}

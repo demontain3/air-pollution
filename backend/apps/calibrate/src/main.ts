@@ -13,7 +13,7 @@ async function bootstrap() {
   app.use(json());
   const config = new DocumentBuilder()
     .setTitle('Calibrate')
-    .setDescription('The Calibrate API is a microservice for user authentication and authorization. It is used to register, login, and manage users. It also provides role-based access control.')
+    .setDescription('The Calibrate API is a microservice for iot')
     .setVersion('1.0')
     .addTag('calibrate')
     .build();

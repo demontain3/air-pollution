@@ -9,7 +9,7 @@ import * as bcrypt from 'bcryptjs';
 import { GetUserDto } from './dto/get-user.dto';
 import { ExtendedFindOptions, Role, User } from '@app/common';
 import { Status } from '@app/common';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { AllocateDeviceIdDto, UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
@@ -75,6 +75,19 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     return this.usersRepository.findOneAndUpdate({ where:{ id: id} }, updateUserDto);
+  }
+
+  async allocateDeviceId(id: number, allocateDeviceIdDtio: AllocateDeviceIdDto) {
+    return this.usersRepository.findOneAndUpdate({ where:{ id: id} }, allocateDeviceIdDtio);
+  }
+
+  async deAllocateDeviceId(id: string) {
+    const user= await this.usersRepository.findOne({deviceId: id} );
+    if(!user){
+      throw new UnprocessableEntityException('Device not allocated to any user');
+    }
+    user.deviceId = null;
+    return this.usersRepository.findOneAndUpdate({ where:{ id: user.id} }, user);
   }
 
   async delete(id: number) {
