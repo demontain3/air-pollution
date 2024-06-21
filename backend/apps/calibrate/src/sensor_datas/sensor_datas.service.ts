@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSensorDataDto } from '../sensor_datas/dto/create-sensor_data.dto';
 import { UpdateSensorDataDto } from '../sensor_datas/dto/update-sensor_data.dto';
-import {  User } from '@app/common';
+// import {  User } from '@app/common';
 import { SensorDataDocument } from '../sensor_datas/entities/sensor_data.entity';
 import { SensorDatasRepository } from '../sensor_datas/sensor_datas.repository';
 import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
 import { DevicesService } from '../device/device.service';
 import { DeviceType } from '../device/dto/enum/device-type.enum';
-import { PositionDocument } from '../positions/entities/position.entity';
-import { Types } from 'mongoose';
+// import { PositionDocument } from '../positions/entities/position.entity';
+// import { Types } from 'mongoose';
 
 @Injectable()
 export class SensorDatasService extends BaseService<
