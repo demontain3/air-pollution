@@ -9,8 +9,8 @@ enum MODE {
 }
 
 export const siteConfig = {
-  title: 'Schoole Admin CRM',
-  description: `Isomorphic the ultimate React TypeScript Admin Template. Streamline your admin dashboard development with our feature-rich, responsive, and highly customizable solution. Boost productivity and create stunning admin interfaces effortlessly.`,
+  title: 'Vayu instant and accurate',
+  description: `Vayu is a IOT based mobile platform which monitor real time air quality index (AQI) of real time location.`,
   logo: logoImg,
   icon: logoIconImg,
   mode: MODE.LIGHT,
@@ -23,13 +23,13 @@ export const metaObject = (
   description: string = siteConfig.description
 ): Metadata => {
   return {
-    title: title ? `${title} - Schoole Admin CRM` : siteConfig.title,
+    title: title ? `${title} - Vayu instant and accurate` : siteConfig.title,
     description,
     openGraph: openGraph ?? {
-      title: title ? `${title} - Schoole Admin CRM` : title,
+      title: title ? `${title} - Vayu instant and accurate` : title,
       description,
-      url: 'https://isomorphic-furyroad.vercel.app',
-      siteName: 'Schoole Admin CRM', // https://developers.google.com/search/docs/appearance/site-names
+      url: 'https://vayuweb.vercel.app',
+      siteName: 'Vayu instant and accurate', // https://developers.google.com/search/docs/appearance/site-names
       images: {
         url: 'https://s3.amazonaws.com/redqteam.com/isomorphic-furyroad/itemdep/isobanner.png',
         width: 1200,
