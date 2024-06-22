@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   description: "Basic dashboard with Next.js and Shadcn",
 };
 
+const userData = {
+  name: "Suman Sharma",
+  email: "whysumancode@gmail.com",
+}
+
 export default function DashboardLayout({
   children,
 }: {
@@ -15,7 +20,7 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <Header />
+      <Header userData={userData} />
       <div className="flex h-screen overflow-hidden">
         <UserSidebar />
         <main className="w-full pt-16">{children}

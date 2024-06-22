@@ -33,9 +33,10 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "../ui/label"
-import { inputLead, labelLead } from "./SignupForm"
 
+import { Label } from "../ui/label"
+import { Separator } from "../ui/separator"
+import { inputLead, labelLead } from "./SignupForm"
 
 const Login: React.FC = () => {
   const router = useRouter()
@@ -75,7 +76,6 @@ const Login: React.FC = () => {
 
       router.push("/admindash")
       console.log("ONE")
-      
     },
     onError: (error) => {
       toast("Failed to logged in", {
@@ -103,7 +103,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="28 w-96 items-center rounded-lg border border-slate-300 bg-slate-950 p-10 drop-shadow-2xl">
+      <div className="28 w-[26rem] items-center rounded-lg border border-slate-300 bg-slate-950 p-10 drop-shadow-2xl">
         <div className="text-center">
           <Image
             src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/logo-symbol.svg"
@@ -114,8 +114,7 @@ const Login: React.FC = () => {
           />
           <h1 className="mt-8 text-3xl font-bold text-green-600">Login</h1>
           <p className="mt-4 text-sm font-medium text-gray-500">
-            Vayu Is A Creative Agency that builds custom CRM solutions and
-            Websites.
+            Vayu - City Air Quality Monitoring System. Instant and Accurate!
           </p>
         </div>
 
@@ -200,17 +199,31 @@ const Login: React.FC = () => {
             </Button>
           </form>
         </Form>
-        <div className="mt-6 text-center">
-          <p className="text-sm font-medium text-gray-300">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/auth/signup"
-              passHref
-              className="font-bold hover:underline"
-            >
-              Sign up now
-            </Link>
-          </p>
+
+        <div className="flex flex-col items-center text-center text-slate-300">
+          <div className="mt-6 text-center">
+            <p className="text-sm font-medium text-gray-300">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/auth/signup"
+                passHref
+                className="font-bold hover:underline"
+              >
+                Sign up now
+              </Link>
+            </p>
+          </div>
+          <div className="flex w-full gap-1 my-2 text-primary items-center">
+            <Separator className="w-36" />
+            OR <Separator className="w-36" />
+          </div>
+          <Link
+            href="/auth/forgot-ps"
+            passHref
+            className="text-sm font-medium hover:underline"
+          >
+            Forgot Password ?
+          </Link>
         </div>
       </div>
     </div>

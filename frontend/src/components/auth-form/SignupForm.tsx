@@ -79,9 +79,10 @@ export default function SignupForm() {
     onSuccess: (data) => {
       toast({
         variant: "default",
-        title: "Signup Successful.",
+        title: "Success ✅",
+        description: "Please check your phone for the OTP."
       })
-      router.push("/auth/login")
+      router.push("/auth/input-otp")
     },
 
     // Define error handling
