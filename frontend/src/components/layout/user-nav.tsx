@@ -74,7 +74,7 @@ export function UserNav({userData}:Props) {
             onClick={() => {
               LocalStore.remove('jwt');
               clearCookie("accessToken");
-              router.replace('/login');
+              router.replace('/');
             }}
           >
             Logout

@@ -68,14 +68,20 @@ const Login: React.FC = () => {
       })
 
       setIsLoggedIn(true)
-      console.log(data.data, "data")
-      const decoded: { exp: number } = jwtDecode(data.data.jwt)
+
+      const decoded: { exp: number; role?: string } = jwtDecode(data.data.jwt)
       const exp = decoded.exp
+      const role = decoded.role // work on it hai
+      console.log(role, "rolelellel")
+
       setCookie("accessToken", data.data.jwt, exp)
       LocalStore.setAccessToken(data.data.jwt)
 
-      router.push("/admindash")
-      console.log("ONE")
+      if (role === "Admin") {
+        router.push("/admindash")
+      } else {
+        router.push("/userdash")
+      }
     },
     onError: (error) => {
       toast("Failed to logged in", {
@@ -213,7 +219,7 @@ const Login: React.FC = () => {
               </Link>
             </p>
           </div>
-          <div className="flex w-full gap-1 my-2 text-primary items-center">
+          <div className="my-2 flex w-full items-center gap-1 text-primary">
             <Separator className="w-36" />
             OR <Separator className="w-36" />
           </div>
