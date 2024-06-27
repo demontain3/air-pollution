@@ -50,9 +50,28 @@ export class SensorDatasController {
   @ApiBadRequestResponse({ description: 'Invalid input.' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
-  async create(@Body() createSensorDataDto: CreateSensorDataDto) {
+  async createByDevice(@Body() createSensorDataDto: CreateSensorDataDto) {
     return this.sensorDatasService.create(createSensorDataDto);
   }
+
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  // @Roles('Admin')
+  @ApiOperation({ summary: 'Create a new sensorData' })
+  @ApiBearerAuth()
+  @ApiBody({ type: CreateSensorDataDto })
+  @ApiCreatedResponse({
+    description: 'The sensorData has been successfully created.',
+  })
+  @ApiBadRequestResponse({ description: 'Invalid input.' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  async createByMobile(@Body() createSensorDataDto: CreateSensorDataDto, @CurrentUser() user: User) {
+    return this.sensorDatasService.createMobile(createSensorDataDto, user);
+  }
+
+
+  
 
   @Get()
   // @UseGuards(JwtAuthGuard)
@@ -139,6 +158,81 @@ export class SensorDatasController {
     return this.sensorDatasService.remove(id);
   }
 
+  // @Get('list/filter')
+  // @ApiOperation({
+  //   summary: 'Retrieve all sensorDatas with filters and pagination',
+  // })
+  // @ApiQuery({
+  //   name: 'page',
+  //   required: false,
+  //   type: Number,
+  //   description: 'Page number for pagination',
+  //   example: 1,
+  // })
+  // @ApiQuery({
+  //   name: 'limit',
+  //   required: false,
+  //   type: Number,
+  //   description: 'Number of items per page for pagination',
+  //   example: 10,
+  // })
+  // @ApiQuery({
+  //   name: 'sortBy',
+  //   required: false,
+  //   type: String,
+  //   description: 'Field to sort the results by',
+  //   example: 'createdAt',
+  // })
+  // @ApiQuery({
+  //   name: 'sortOrder',
+  //   required: false,
+  //   type: String,
+  //   enum: ['asc', 'desc'],
+  //   description: 'Order to sort the results in',
+  //   example: 'desc',
+  // })
+  // @ApiQuery({
+  //   name: 'filters',
+  //   required: false,
+  //   type: [String],
+  //   description: 'Additional query params as filters',
+  // })
+  // @ApiQuery({
+  //   name: 'filterObject',
+  //   required: false,
+  //   type: String,
+  //   description: 'Additional query params as filters',
+  // })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'The sensorDatas have been successfully retrieved.',
+  //   type: [SensorDataDocument],
+  // })
+  // @ApiNotFoundResponse({ description: 'Failed to retrieve sensorDatas.' })
+  // async getAllSensorDatas(
+  //   @Query('page') page?: number,
+  //   @Query('limit') limit?: number,
+  //   @Query('sortBy') sortBy?: string,
+  //   @Query('sortOrder') sortOrder?: 'asc' | 'desc',
+  //   @Query('filters') filters?: string[],
+  //   // @Query('filterObject') filterObject?: string ,
+  // ): Promise<{ data: SensorDataDocument[]; total: number }> {
+  //   const queryParams = {
+  //     page,
+  //     limit,
+  //     sortBy,
+  //     sortOrder,
+  //     filters,
+  //     // filterObject
+  //   };
+  //   const { data, total } =
+  //     await this.sensorDatasService.findAllWithFilters(queryParams);
+  //   return { data, total };
+  // }
+  // catch(error) {
+  //   throw new NotFoundException('Failed to retrieve sensorDatas');
+  // }
+
   @Get('list/filter')
   @ApiOperation({
     summary: 'Retrieve all sensorDatas with filters and pagination',
@@ -178,12 +272,6 @@ export class SensorDatasController {
     type: [String],
     description: 'Additional query params as filters',
   })
-  @ApiQuery({
-    name: 'filterObject',
-    required: false,
-    type: String,
-    description: 'Additional query params as filters',
-  })
   @ApiResponse({
     status: 200,
     description: 'The sensorDatas have been successfully retrieved.',
@@ -196,23 +284,22 @@ export class SensorDatasController {
     @Query('sortBy') sortBy?: string,
     @Query('sortOrder') sortOrder?: 'asc' | 'desc',
     @Query('filters') filters?: string[],
-    // @Query('filterObject') filterObject?: string ,
   ): Promise<{ data: SensorDataDocument[]; total: number }> {
-    const queryParams = {
-      page,
-      limit,
-      sortBy,
-      sortOrder,
-      filters,
-      // filterObject
-    };
-    const { data, total } =
-      await this.sensorDatasService.findAllWithFilters(queryParams);
-    return { data, total };
+    try {
+      const queryParams = {
+        page,
+        limit,
+        sortBy,
+        sortOrder,
+        filters,
+      };
+      const { data, total } = await this.sensorDatasService.findAllWithFilters(queryParams);
+      return { data, total };
+    } catch (error) {
+      throw new NotFoundException('Failed to retrieve sensorDatas');
+    }
   }
-  catch(error) {
-    throw new NotFoundException('Failed to retrieve sensorDatas');
   }
 
+
   
-}

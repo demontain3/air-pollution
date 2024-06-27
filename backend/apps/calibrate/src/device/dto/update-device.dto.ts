@@ -7,6 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 import { DeviceType } from '../dto/enum/device-type.enum';
+import { CreatePositionDto } from '../../positions/dto/create-position.dto';
 
 export class UpdateDeviceDto {
   @ApiProperty({
@@ -32,6 +33,10 @@ export class UpdateDeviceDto {
   @IsNumber({},{ message: 'Calibrate Value must be a number' })
   @IsOptional({ message: 'Calibrate Value is optional' })
   calibrateValue: number;
+
+  @ApiProperty({ description: 'The position data of the sensor' })
+  @IsOptional({ message: 'Position data is required' })
+  positionDto: CreatePositionDto;
 }
 
 export class UpdateDeviceOwnerDto {

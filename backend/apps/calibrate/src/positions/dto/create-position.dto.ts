@@ -25,7 +25,13 @@ export class CreatePositionDto {
 }
 
 export class CreatePositionWithSensorDataDto extends CreatePositionDto {
-  @ApiProperty({ description: 'The sensor data of the position' })
+  @ApiProperty({ description: 'The sensor data of the position' ,  example: {
+    kei: '00',
+    timestamp: '2022-03-01T10:00:00Z',
+    deviceId: 'device123',
+    userId: 1,
+    value: 25.6,
+  }})
   @IsNotEmpty({ message: 'Sensor data is required' })
   sensorData: CreateSensorDataDto;
 }

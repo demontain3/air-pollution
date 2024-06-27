@@ -27,7 +27,8 @@ export function applyCustomFilters(query: any, customFilters?: any): any {
   if (customFilters) {
     for (const key in customFilters) {
       if (customFilters.hasOwnProperty(key)) {
-        query = query.where(key).equals(customFilters[key]);
+        const filterValue = customFilters[key];
+        query = query.where(key).equals(filterValue);
       }
     }
   }

@@ -7,6 +7,7 @@ import { SensorDatasRepository } from '../sensor_datas/sensor_datas.repository';
 import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
 import { DevicesService } from '../device/device.service';
 import { DeviceType } from '../device/dto/enum/device-type.enum';
+import { User } from '@app/common';
 // import { PositionDocument } from '../positions/entities/position.entity';
 // import { Types } from 'mongoose';
 
@@ -25,24 +26,40 @@ export class SensorDatasService extends BaseService<
   async create(
     createSensorDataDto: CreateSensorDataDto,
   ): Promise<SensorDataDocument> {
-    const { deviceId, ...rest } = createSensorDataDto;
-    const device = await this.devicesService.findOneBySerialNo(deviceId);
-    if (!device) {
-      throw new NotFoundException(`Device with serialNo ${deviceId} not found`);
-    }
+    const { deviceId, userId, ...rest } = createSensorDataDto;
+
     const sensorData = new SensorDataDocument();
     Object.assign(sensorData, rest);
-    sensorData.device = device;
-    //If device is stationery set timestamp to current time
-    if (device.type === DeviceType.STATIONERY) {
-      sensorData.timestamp === new Date();
+    if (deviceId) {
+      const device = await this.devicesService.findOneBySerialNo(deviceId);
+      if (!device) {
+        throw new NotFoundException(
+          `Device with serialNo ${deviceId} not found`,
+        );
+      }
+      sensorData.device = device;
+      //If device is stationery set timestamp to current time
+      if (device.type === DeviceType.STATIONERY) {
+        sensorData.timestamp === new Date();
+      }
     }
     return this.sensorDatasRepository.create(sensorData);
   }
 
+  async createMobile(
+    createSensorDataDto: CreateSensorDataDto,
+    user: User
+  ): Promise<SensorDataDocument> {
+    const { deviceId, userId, ...rest } = createSensorDataDto;
+
+    const sensorData = new SensorDataDocument();
+    Object.assign(sensorData, rest);
+    sensorData.userId = user.id;
+    return this.sensorDatasRepository.create(sensorData);
+  }
+
   async findAll(): Promise<{ data: SensorDataDocument[]; total: number }> {
-    const result = await this.sensorDatasRepository.find({
-    });
+    const result = await this.sensorDatasRepository.find({});
     const data = result;
     const total = result.length;
     return { data, total };

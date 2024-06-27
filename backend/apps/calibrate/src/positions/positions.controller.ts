@@ -254,7 +254,7 @@ export class PositionsController {
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   async createPositionWithSensorData(
     @Body() createPositionWithSensorDataDto: CreatePositionWithSensorDataDto,
-  ): Promise<{ sensorData: SensorDataDocument }> {
+  ): Promise<{ sensorData: SensorData }> {
     try {
       return await this.positionsService.createPositionWithSensorData(
         createPositionWithSensorDataDto,

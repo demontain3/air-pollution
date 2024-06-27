@@ -120,10 +120,12 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
   async getAll(
     filterQuery: FilterQuery<any> = {},
-    options: FindOptions = {},
-  ): Promise<{ data: TDocument[]; total: number }> {
+    options: FindOptions = {}
+  ): Promise<{ data: TDocument[], total: number }> {
     try {
-      console.log('here', filterQuery, options);
+      console.log('Filter Query:', filterQuery);
+      console.log('Options:', options);
+
       let query = this.model.find(filterQuery);
       query = applyProjection(query, options.projection);
       query = applyCustomFilters(query, options.customFilters);
@@ -137,6 +139,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       query = applyPopulation(query, options.populate);
 
       const results = await query.lean<TDocument[]>(true);
+      console.log('Query Results:', results); // Enhanced logging
       return { data: results, total };
     } catch (error) {
       console.log('Error finding documents', error);

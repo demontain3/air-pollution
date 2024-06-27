@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { DeviceType } from '../dto/enum/device-type.enum';
+import { CreatePositionDto } from '../../positions/dto/create-position.dto';
 
 export class CreateDeviceDto {
   @ApiProperty({
@@ -33,4 +34,8 @@ export class CreateDeviceDto {
   @IsNumber({},{ message: 'Calibrate Value must be a number' })
   @IsOptional({ message: 'Calibrate Value is optional' })
   calibrateValue: number;
+
+  @ApiProperty({ description: 'The position data of the sensor' })
+  @IsOptional({ message: 'Position data is required' })
+  positionDto: CreatePositionDto;
 }

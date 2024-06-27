@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { AbstractDocument } from 'apps/calibrate/database/abstract.schema';
 import { DeviceType } from '../dto/enum/device-type.enum';
+import { Types } from 'mongoose';
+import { PositionDocument } from '../../positions/entities/position.entity';
 
 @Schema()
 export class DeviceDocument extends AbstractDocument {
@@ -15,6 +17,9 @@ export class DeviceDocument extends AbstractDocument {
 
   @Prop({ type: Number })
   calibrateValue: number;
+
+  @Prop([{ type: Types.ObjectId, ref: 'Position' }])
+  positions: PositionDocument[];
 }
 
 export const DeviceSchema = SchemaFactory.createForClass(DeviceDocument);

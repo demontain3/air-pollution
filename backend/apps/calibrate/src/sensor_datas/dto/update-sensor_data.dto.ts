@@ -1,12 +1,13 @@
-import { IsNumber, IsString, IsOptional, IsDate } from 'class-validator';
+import { IsNumber, IsString, IsOptional, IsDate, IsEnum } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Types } from 'mongoose';
+import { KeiType } from './enums/kei.enum';
 
 export class UpdateSensorDataDto {
-    @ApiPropertyOptional({ description: 'The key of the sensor data' })
-    @IsString({ message: 'Key must be a string' })
-    @IsOptional()
-    kei?: string;
+    @ApiProperty({ description: 'The key of the sensor data', example: KeiType.Type00 })
+    @IsEnum(KeiType, { message: 'Key must be a valid KeiType' })
+    @IsOptional({ message: 'Key is optional' }) // Key is optional based on the schema
+    kei: KeiType;
 
     @ApiProperty({ description: 'The value of the sensor' })
     @IsNumber({},{ message: 'Value must be a number' })

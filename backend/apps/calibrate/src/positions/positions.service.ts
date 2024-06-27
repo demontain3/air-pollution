@@ -97,7 +97,7 @@ export class PositionsService extends BaseService<
 
   async createPositionWithSensorData(
     createPositionWithSensorDataDto: CreatePositionWithSensorDataDto,
-  ): Promise<{ sensorData: SensorDataDocument }> {
+  ): Promise<{ sensorData: sensorData }> {
     const session = await this.connection.startSession();
     session.startTransaction();
     try {
@@ -122,7 +122,7 @@ export class PositionsService extends BaseService<
         session,
       });
 
-      const sensorDataDoc = new SensorDataDocument();
+      const sensorDataDoc = new SensorDataDocument(createPositionWithSensorDataDto.sensorData);
       Object.assign(sensorDataDoc, sensorData);
       sensorDataDoc.position = createdPosition;
 
