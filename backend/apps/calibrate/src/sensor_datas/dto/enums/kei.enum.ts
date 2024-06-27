@@ -1,5 +1,5 @@
 export enum KeiType {
-    Type00 = '00',
-    Type01 = '01',
-    Type02 = '02'
+    PM = '00',
+    Humidity = '01',
+    Temperature = '10'
 }
