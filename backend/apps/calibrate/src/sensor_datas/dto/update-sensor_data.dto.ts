@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 import { KeiType } from './enums/kei.enum';
 
 export class UpdateSensorDataDto {
-    @ApiProperty({ description: 'The key of the sensor data', example: KeiType.Type00 })
+    @ApiProperty({ description: 'The key of the sensor data', example: KeiType.PM })
     @IsEnum(KeiType, { message: 'Key must be a valid KeiType' })
     @IsOptional({ message: 'Key is optional' }) // Key is optional based on the schema
     kei: KeiType;
