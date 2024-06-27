@@ -69,19 +69,22 @@ const Login: React.FC = () => {
 
       setIsLoggedIn(true)
 
-      const decoded: { exp: number; role?: string } = jwtDecode(data.data.jwt)
+      // Decode JWT to get expiration time and user info
+      const decoded: { exp: number } = jwtDecode(data.data.jwt)
+
       const exp = decoded.exp
-      const role = decoded.role // work on it hai
-      console.log(role, "rolelellel")
 
       setCookie("accessToken", data.data.jwt, exp)
       LocalStore.setAccessToken(data.data.jwt)
 
-      if (role === "Admin") {
+      const isAdmin = data.data.user.roles[0].name === "Admin"
+
+      if (isAdmin) {
         router.push("/admindash")
       } else {
         router.push("/userdash")
       }
+      
     },
     onError: (error) => {
       toast("Failed to logged in", {
