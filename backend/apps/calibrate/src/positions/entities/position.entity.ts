@@ -18,8 +18,8 @@ export class PositionDocument extends AbstractDocument {
   @Prop({ type: Types.ObjectId, ref: 'Route', required: false })
   route?: RouteDocument;
 
-  @Prop({ type: Types.ObjectId, ref: 'SensorData', required: false })
-  sensorData: SensorDataDocument;
+  @Prop({ type: [Types.ObjectId], ref: 'SensorData', required: false })
+  sensorData: SensorDataDocument[];
 }
 
 export const PositionSchema = SchemaFactory.createForClass(PositionDocument);

@@ -95,15 +95,61 @@ export class PositionsService extends BaseService<
     await this.positionsRepository.findOneAndDelete({ id });
   }
 
+  // async createPositionWithSensorData(
+  //   createPositionWithSensorDataDto: CreatePositionWithSensorDataDto,
+  // ): Promise<{ sensorData: sensorData }> {
+  //   const session = await this.connection.startSession();
+  //   session.startTransaction();
+  //   try {
+  //     const { routeId, sensorData, ...positionDto } =
+  //       createPositionWithSensorDataDto;
+
+  //     let route = null;
+  //     if (routeId) {
+  //       route = await this.routesService.findOne(routeId);
+  //       if (!route) {
+  //         throw new BadRequestException(`Route with ID ${routeId} not found`);
+  //       }
+  //     }
+
+  //     const position = new PositionDocument();
+  //     Object.assign(position, positionDto);
+  //     if (route) {
+  //       position.route = route;
+  //     }
+
+  //     const createdPosition = await this.positionsRepository.create(position, {
+  //       session,
+  //     });
+
+  //     const sensorDataDoc = new SensorDataDocument(createPositionWithSensorDataDto.sensorData);
+  //     Object.assign(sensorDataDoc, sensorData);
+  //     sensorDataDoc.position = createdPosition;
+
+  //     const createdSensorData = await this.sensorDatasRepository.create(
+  //       sensorDataDoc,
+  //       { session },
+  //     );
+
+  //     await session.commitTransaction();
+  //     return { sensorData: createdSensorData };
+  //   } catch (error) {
+  //     await session.abortTransaction();
+  //     throw error;
+  //   } finally {
+  //     session.endSession();
+  //   }
+  // }
+
   async createPositionWithSensorData(
     createPositionWithSensorDataDto: CreatePositionWithSensorDataDto,
-  ): Promise<{ sensorData: sensorData }> {
+  ): Promise<{ sensorData: SensorDataDocument[] }> {
     const session = await this.connection.startSession();
     session.startTransaction();
     try {
       const { routeId, sensorData, ...positionDto } =
         createPositionWithSensorDataDto;
-
+  
       let route = null;
       if (routeId) {
         route = await this.routesService.findOne(routeId);
@@ -111,26 +157,29 @@ export class PositionsService extends BaseService<
           throw new BadRequestException(`Route with ID ${routeId} not found`);
         }
       }
-
+  
       const position = new PositionDocument();
       Object.assign(position, positionDto);
       if (route) {
         position.route = route;
       }
-
+  
       const createdPosition = await this.positionsRepository.create(position, {
         session,
       });
-
-      const sensorDataDoc = new SensorDataDocument(createPositionWithSensorDataDto.sensorData);
-      Object.assign(sensorDataDoc, sensorData);
-      sensorDataDoc.position = createdPosition;
-
-      const createdSensorData = await this.sensorDatasRepository.create(
-        sensorDataDoc,
-        { session },
+  
+      const createdSensorData = await Promise.all(
+        createPositionWithSensorDataDto.sensorData.map(async (data) => {
+          console.log("data",data)
+          data.position = createdPosition;
+          const sensorDataDoc = await this.sensorDatasRepository.create(data, {
+            session,
+          });
+          console.log(sensorDataDoc,'doc')
+          return sensorDataDoc;
+        }),
       );
-
+  
       await session.commitTransaction();
       return { sensorData: createdSensorData };
     } catch (error) {

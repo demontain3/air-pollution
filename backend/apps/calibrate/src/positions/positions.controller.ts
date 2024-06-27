@@ -248,13 +248,14 @@ export class PositionsController {
     description: 'The position and sensor data have been successfully created.',
     type: () => ({
       position: PositionDocument,
-      sensorData: SensorDataDocument,
+      sensorData: [SensorDataDocument], // Updated to array
     }),
   })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   async createPositionWithSensorData(
     @Body() createPositionWithSensorDataDto: CreatePositionWithSensorDataDto,
-  ): Promise<{ sensorData: SensorData }> {
+  ): Promise<{ sensorData: SensorDataDocument[] }> {
+    // Updated to array
     try {
       return await this.positionsService.createPositionWithSensorData(
         createPositionWithSensorDataDto,
