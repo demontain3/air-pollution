@@ -170,9 +170,11 @@ export class PositionsService extends BaseService<
   
       const createdSensorData = await Promise.all(
         createPositionWithSensorDataDto.sensorData.map(async (data) => {
-          console.log("data",data)
-          data.position = createdPosition;
-          const sensorDataDoc = await this.sensorDatasRepository.create(data, {
+          const sensorData = new SensorDataDocument();
+          Object.assign(sensorData, data);
+          sensorData.position = createdPosition;
+
+          const sensorDataDoc = await this.sensorDatasRepository.create(sensorData, {
             session,
           });
           console.log(sensorDataDoc,'doc')
