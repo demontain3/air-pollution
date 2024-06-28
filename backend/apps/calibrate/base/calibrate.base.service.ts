@@ -1,8 +1,11 @@
+import { KafkaProducerService } from '@app/common/config/kafka/kafka-producer.service';
 import { processOperator } from '../shared/filterProcessor';
 import { QueryParams, FindOptions } from '../src/types';
 
 export class BaseService<T, R> {
-  constructor(private repository: R) {}
+  constructor(
+    private repository: R,
+  ) {}
 
   async findAllWithFilters(
     queryParams: QueryParams = {},
@@ -18,7 +21,7 @@ export class BaseService<T, R> {
     let customFilters: any = {};
     const filtersArray = typeof filters === 'string' ? [filters] : filters;
 
-    filtersArray.forEach((filter) => {
+    filtersArray.forEach((filter: any) => {
       const [key, operatorValue] = filter.split('=');
       let operator: string;
       let value: string;

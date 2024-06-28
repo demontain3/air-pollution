@@ -8,6 +8,8 @@ import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
 import { DevicesService } from '../device/device.service';
 import { DeviceType } from '../device/dto/enum/device-type.enum';
 import { User } from '@app/common';
+import { KafkaProducerService } from '@app/common/config/kafka/kafka-producer.service';
+import startSparkStream from '@app/common/config/spark/spark-stream';
 // import { PositionDocument } from '../positions/entities/position.entity';
 // import { Types } from 'mongoose';
 
@@ -19,13 +21,13 @@ export class SensorDatasService extends BaseService<
   constructor(
     private readonly sensorDatasRepository: SensorDatasRepository,
     private readonly devicesService: DevicesService,
+    private readonly kafkaProducerService: KafkaProducerService,
+
   ) {
     super(sensorDatasRepository);
   }
 
-  async create(
-    createSensorDataDto: CreateSensorDataDto,
-  ): Promise<SensorDataDocument> {
+  async create(createSensorDataDto: CreateSensorDataDto): Promise<SensorDataDocument> {
     const { deviceId, userId, ...rest } = createSensorDataDto;
 
     const sensorData = new SensorDataDocument();
@@ -33,17 +35,19 @@ export class SensorDatasService extends BaseService<
     if (deviceId) {
       const device = await this.devicesService.findOneBySerialNo(deviceId);
       if (!device) {
-        throw new NotFoundException(
-          `Device with serialNo ${deviceId} not found`,
-        );
+        throw new NotFoundException(`Device with serialNo ${deviceId} not found`);
       }
       sensorData.device = device;
-      //If device is stationery set timestamp to current time
       if (device.type === DeviceType.STATIONERY) {
-        sensorData.timestamp === new Date();
+        sensorData.timestamp = new Date();
       }
     }
-    return this.sensorDatasRepository.create(sensorData);
+
+    const createdSensorData = await this.sensorDatasRepository.create(sensorData);
+    await this.kafkaProducerService.send('sensor_data_topic', createdSensorData); // Kafka event
+    startSparkStream('sensor_data');
+
+    return createdSensorData;
   }
 
   async createMobile(
@@ -51,7 +55,6 @@ export class SensorDatasService extends BaseService<
     user: User
   ): Promise<SensorDataDocument> {
     const { deviceId, userId, ...rest } = createSensorDataDto;
-
     const sensorData = new SensorDataDocument();
     Object.assign(sensorData, rest);
     sensorData.userId = user.id;

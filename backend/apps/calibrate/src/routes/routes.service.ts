@@ -9,13 +9,18 @@ import { RouteDocument } from './entities/route.entity';
 import { RoutesRepository } from './routes.repository';
 import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
 import { PopulateOptions } from 'apps/calibrate/database/abstract.repository';
+import { KafkaProducerService } from '@app/common/config/kafka/kafka-producer.service';
+import startSparkStream from '@app/common/config/spark/spark-stream';
 
 @Injectable()
 export class RoutesService extends BaseService<
   RouteDocument,
   RoutesRepository
 > {
-  constructor(private readonly routesRepository: RoutesRepository) {
+  constructor(
+    private readonly routesRepository: RoutesRepository,
+    private readonly kafkaProducerService: KafkaProducerService,
+  ) {
     super(routesRepository);
   }
 
@@ -37,8 +42,14 @@ export class RoutesService extends BaseService<
   async create(createRouteDto: CreateRouteDto, user: User): Promise<RouteDocument> {
     const route = new RouteDocument();
     Object.assign(route, createRouteDto);
-    route.owner = user ? user.id : 1; // Default to 1 if no user provided (for testing)
-    return await this.routesRepository.create(route);
+    route.owner = user ? user.id : 1;
+    const createdRoute = await this.routesRepository.create(route);
+    await this.kafkaProducerService.send('routes_topic', createdRoute); // Kafka event
+
+    // Trigger Spark Streaming for Processing
+    startSparkStream('routes');
+
+    return createdRoute;
   }
 
   async findAll(

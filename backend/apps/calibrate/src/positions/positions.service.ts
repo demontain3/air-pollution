@@ -17,6 +17,8 @@ import { BaseService } from 'apps/calibrate/base/calibrate.base.service';
 import { SensorDatasRepository } from '../sensor_datas/sensor_datas.repository';
 import { Connection } from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
+import { KafkaProducerService } from '@app/common/config/kafka/kafka-producer.service';
+import startSparkStream from '@app/common/config/spark/spark-stream';
 
 @Injectable()
 export class PositionsService extends BaseService<
@@ -28,13 +30,13 @@ export class PositionsService extends BaseService<
     private readonly positionsRepository: PositionsRepository,
     private readonly sensorDatasRepository: SensorDatasRepository,
     private readonly routesService: RoutesService,
+    private readonly kafkaProducerService: KafkaProducerService,
+
   ) {
     super(positionsRepository);
   }
 
-  async create(
-    createPositionDto: CreatePositionDto,
-  ): Promise<PositionDocument> {
+  async create(createPositionDto: CreatePositionDto): Promise<PositionDocument> {
     const { routeId, ...rest } = createPositionDto;
     const position = new PositionDocument();
     Object.assign(position, rest);
@@ -45,7 +47,12 @@ export class PositionsService extends BaseService<
       }
       position.route = route;
     }
-    return await this.positionsRepository.create(position);
+    const createdPosition = await this.positionsRepository.create(position);
+    await this.kafkaProducerService.send('positions_topic', createdPosition); // Kafka event
+
+    // Trigger Spark Streaming for Processing
+    startSparkStream('positions');
+    return createdPosition;
   }
 
   async findAll(): Promise<{ data: PositionDocument[]; total: number }> {
@@ -141,15 +148,12 @@ export class PositionsService extends BaseService<
   //   }
   // }
 
-  async createPositionWithSensorData(
-    createPositionWithSensorDataDto: CreatePositionWithSensorDataDto,
-  ): Promise<{ sensorData: SensorDataDocument[] }> {
+  async createPositionWithSensorData(createPositionWithSensorDataDto: CreatePositionWithSensorDataDto): Promise<{ sensorData: SensorDataDocument[] }> {
     const session = await this.connection.startSession();
     session.startTransaction();
     try {
-      const { routeId, sensorData, ...positionDto } =
-        createPositionWithSensorDataDto;
-  
+      const { routeId, sensorData, ...positionDto } = createPositionWithSensorDataDto;
+
       let route = null;
       if (routeId) {
         route = await this.routesService.findOne(routeId);
@@ -157,17 +161,17 @@ export class PositionsService extends BaseService<
           throw new BadRequestException(`Route with ID ${routeId} not found`);
         }
       }
-  
+
       const position = new PositionDocument();
       Object.assign(position, positionDto);
       if (route) {
         position.route = route;
       }
-  
+
       const createdPosition = await this.positionsRepository.create(position, {
         session,
       });
-  
+
       const createdSensorData = await Promise.all(
         createPositionWithSensorDataDto.sensorData.map(async (data) => {
           const sensorData = new SensorDataDocument();
@@ -177,12 +181,16 @@ export class PositionsService extends BaseService<
           const sensorDataDoc = await this.sensorDatasRepository.create(sensorData, {
             session,
           });
-          console.log(sensorDataDoc,'doc')
+          await this.kafkaProducerService.send('sensor_data_topic', sensorDataDoc); // Kafka event for sensor data
           return sensorDataDoc;
         }),
       );
-  
+
       await session.commitTransaction();
+      await this.kafkaProducerService.send('positions_topic', createdPosition); // Kafka event for position
+
+      // Trigger Spark Streaming for Processing
+      startSparkStream('positions');
       return { sensorData: createdSensorData };
     } catch (error) {
       await session.abortTransaction();
@@ -191,4 +199,5 @@ export class PositionsService extends BaseService<
       session.endSession();
     }
   }
+
 }
