@@ -11,7 +11,11 @@ const nextConfig = {
       { hostname: "images.pexels.com" },
       { hostname: "unsplash.com" },
       { hostname: "plus.unsplash.com" },
+      { hostname: "landingfoliocom.imgix.net" },
     ],
+  },
+  env: {
+      BACKEND_URL: "http://localhost:8000",
   },
 };
 
