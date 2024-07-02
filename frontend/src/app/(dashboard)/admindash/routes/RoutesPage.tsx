@@ -104,7 +104,7 @@
 
 import React, { useEffect, useRef } from "react"
 import "leaflet/dist/leaflet.css"
-import "leaflet-routing-machine/dist/leaflet-routing-machine.css"
+// import "leaflet-routing-machine/dist/leaflet-routing-machine.css"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { renderToString } from "react-dom/server"
 import { Flag, MapPin } from "lucide-react"
